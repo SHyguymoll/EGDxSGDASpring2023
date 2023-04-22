@@ -1,0 +1,80 @@
+[gd_scene load_steps=14 format=3 uid="uid://0bavrro8i47e"]
+
+[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_5c7uq"]
+[ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_gixma"]
+[ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_3u5du"]
+[ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_qit2p"]
+[ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_3.png" id="5_xiito"]
+[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="6_0d2q3"]
+[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_mjptp"]
+[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_go1ni"]
+[ext_resource type="Texture2D" uid="uid://dbtb1cl104h6m" path="res://art/YourTeam/BeeCommander/Idle/Idle_0.png" id="9_5op45"]
+[ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="12_g00ef"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ggquk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_gixma")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3u5du")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qit2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_xiito")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_0d2q3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_mjptp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_go1ni")
+}],
+"loop": true,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_5op45")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 24.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwus8"]
+radius = 40.0
+height = 80.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
+size = Vector2(53, 55)
+
+[node name="Bee_Lead_Normal" type="CharacterBody2D"]
+script = ExtResource("1_5c7uq")
+
+[node name="Animate" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_ggquk")
+animation = &"Idle"
+script = ExtResource("12_g00ef")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="EffectArea" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CapsuleShape2D_qwus8")
+
+[node name="PhysicsBox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3gs5l")

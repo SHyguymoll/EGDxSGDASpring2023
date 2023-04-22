@@ -1,4 +1,3 @@
-@tool
 extends AnimatedSprite2D
 
 @export var anim_state = "Idle"

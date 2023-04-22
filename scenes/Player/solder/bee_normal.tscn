@@ -71,15 +71,20 @@ height = 38.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(20, 24)
 
-[node name="Bee_Normal" type="CharacterBody2D"]
+[node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
 script = ExtResource("1_xdqvc")
+health = 1.0
+atk = 0.35
+atk_speed = 35.0
+speed = 0.5
+leader = NodePath("")
+formation_closeness = 500.0
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 5)
+position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_ggquk")
-animation = &""
+animation = &"Idle"
 script = ExtResource("8_4ydvr")
-anim_state = null
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 2
