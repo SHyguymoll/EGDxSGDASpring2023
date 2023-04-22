@@ -5,6 +5,7 @@ extends Node2D
 var player_bee_lead_base : PackedScene = preload("res://scenes/Player/commander/bee_leader_base.tscn")
 var player_hive : PackedScene = preload("res://scenes/Player/building/Hive.tscn")
 var target_ret = preload("res://scenes/TargetPosition.tscn")
+var explosion_effect = preload("res://scenes/Effects/explosion.tscn")
 #@export var player_bee_base : CharacterBody2D
 
 @onready var Message = $GUI/Message
@@ -25,7 +26,7 @@ var message_bank = [
 	"First place a hive.",
 	"Next, click on the hive.",
 	"Now click 'Do Building Action' to spawn your first Commander Bee.",
-	"Each hive can only have one Commander Bee, but each Commander Bee generates bees of their own.\nClick on the Commander Bee.",
+	"Each hive can only have one Commander Bee per levelup, but each Commander Bee generates bees of their own.\nClick on the Commander Bee.",
 	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears.",
 	"Now you have a Soldier Bee. Commander Bees automatically use these to fight.\nFighting gets you HP which can be used to level up your Hive and Commander Bee.\nSoldier Bees can perish, but Commander Bees teleport back to their Hive when their health is depleted.\nNow click 'Move Commander'.",
 	"Move the Commander Bee however you want.\nYou can't control the Soldiers directly, but Commanders can be maneuvered.\nDestroy the target to finish this tutorial and start the game."
@@ -64,6 +65,16 @@ func create(new_thing : PackedScene, leader, pos : Vector2, texture : String):
 	$GameplayContainer.add_child(new_thing_inst)
 	return new_thing_inst
 
+func explosion(pos: Vector2):
+	var new_boom = explosion_effect.instantiate()
+	new_boom.global_position = pos
+	$GameplayContainer.add_child(new_boom)
+	pass
+
+func game_over():
+	Message.text = "Your Hive was destroyed. Game Over."
+	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if mode == "Start Game":
@@ -71,7 +82,12 @@ func _process(_delta):
 		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."
 		mode = "View"
 	Bee_Controls.visible = (selected_leader != null) and (mode == "View")
-	Hive_Controls.visible = (selected_building != null) and (mode == "View")
+	if selected_building != null:
+		Hive_Controls.visible = (mode == "View")
+		Hive_Controls.get_node("LevelBuilding").text = "Level Up Building (cost: {0})".format([selected_building.level_cost])
+		Hive_Controls.get_node("LevelBuilding").visible = (selected_building.level_cost != 9223372036854775807)
+		Hive_Controls.get_node("DestroyBuilding").visible = (selected_building.building_name != "Hive")
+	
 	Position_Controls.visible = (mode == "Movement Marker") or (mode == "Building Place")
 	if mode == "Movement Marker":
 		if current_target.used:
@@ -128,4 +144,7 @@ func _on_destroy_building_pressed():
 		selected_building.destroy()
 
 func _on_level_building_pressed():
-	pass # Replace with function body.
+	if level_points >= selected_building.level_cost:
+		level_points -= selected_building.level_cost
+		selected_building.level_building(selected_building.level + 1)
+		

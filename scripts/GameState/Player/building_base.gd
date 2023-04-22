@@ -3,6 +3,8 @@ class_name Building
 extends StaticBody2D
 
 @onready var level = 0
+const level_costs = [50, 100, 9223372036854775807] #lmao
+var level_cost
 @export var spawn_time : int
 @export var spawn_timer : int
 @export var health : float
@@ -14,7 +16,13 @@ extends StaticBody2D
 var placed = false
 var hovered = false
 var selected = false
-var building_data = []
+var building_data = {
+	"bees":[],
+	"other":[]
+}
+
+func random_pos():
+	return Vector2(randf() - 0.5, randf() - 0.5) * 100
 
 func tickTimers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
@@ -35,9 +43,12 @@ func _process(_delta):
 	$ActionBar.value = float(spawn_time)/spawn_timer * 100
 	$ActionBar.visible = ($ActionBar.value < 100)
 	$SelectLight.visible = hovered or selected
+	level_cost = level_costs[level]
 
 func destroy():
-	pass
+	for bee in building_data.bees: bee.pain(bee.health, 1)
+	for _n in range(4): worldspace.explosion(global_position + random_pos())
+	worldspace.game_over()
 
 func pain(dmg: float, _accuracy: float):
 	health -= dmg

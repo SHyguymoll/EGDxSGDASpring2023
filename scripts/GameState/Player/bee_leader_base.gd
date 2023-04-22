@@ -6,6 +6,8 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 @export var spawn_timer : int
 @export var ability_time : int
 @export var ability_timer : int
+@export var resp_time : int
+@export var resp_timer : int
 @export var encounter_move : String
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 var target_icon = preload("res://scenes/TargetPosition.tscn")
@@ -24,9 +26,13 @@ func tickTimers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
 	ability_time = min(ability_time + 1, ability_timer)
 
-func handle_death(): #Legends never die
+func handle_death(): #Legends never die, they just respawn
 	if $Animate.is_playing() == false:
 		position = start.position
+		resp_time = 0
+	if resp_time == resp_timer:
+		mode = "hover"
+	resp_time = min(resp_time + 1, resp_timer)
 
 func _on_detect_box_area_entered(area):
 	match encounter_move:
