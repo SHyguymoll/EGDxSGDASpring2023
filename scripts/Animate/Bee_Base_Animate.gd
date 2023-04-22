@@ -20,7 +20,7 @@ func _physics_process(delta):
 		"Attack":
 			timer += dir
 			if abs(timer) > MAX_CIRC:
-				timer
+				timer = 0
 			position.y = sin(timer)
 			position.x = cos(timer)
 		"Death":

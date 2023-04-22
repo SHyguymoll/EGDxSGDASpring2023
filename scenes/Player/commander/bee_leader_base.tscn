@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://0bavrro8i47e"]
+[gd_scene load_steps=20 format=3 uid="uid://0bavrro8i47e"]
 
-[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_5c7uq"]
+[ext_resource type="Script" path="res://scenes/Player/commander/bee_leader_base.gd" id="1_2bq6c"]
+[ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/solder/bee_normal.tscn" id="2_g27me"]
 [ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_gixma"]
 [ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_3u5du"]
 [ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_qit2p"]
@@ -9,7 +10,12 @@
 [ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_mjptp"]
 [ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_go1ni"]
 [ext_resource type="Texture2D" uid="uid://dbtb1cl104h6m" path="res://art/YourTeam/BeeCommander/Idle/Idle_0.png" id="9_5op45"]
+[ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="11_a6jey"]
 [ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="12_g00ef"]
+[ext_resource type="Texture2D" uid="uid://cbyrg5q6q3xdt" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Under.png" id="13_o8g2g"]
+[ext_resource type="Texture2D" uid="uid://cpcw88qrfws71" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Progress.png" id="14_2uj2u"]
+[ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="15_3n1e0"]
+[ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="16_wc7hc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ggquk"]
 animations = [{
@@ -61,7 +67,14 @@ height = 80.0
 size = Vector2(53, 55)
 
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
-script = ExtResource("1_5c7uq")
+input_pickable = true
+script = ExtResource("1_2bq6c")
+solder = ExtResource("2_g27me")
+health = 15.0
+atk = 3.0
+atk_speed = 70.0
+speed = 0.25
+formation_closeness = 1000.0
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)
@@ -71,10 +84,42 @@ script = ExtResource("12_g00ef")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 8
 
 [node name="EffectArea" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CapsuleShape2D_qwus8")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3gs5l")
+
+[node name="SelectLight" type="Sprite2D" parent="."]
+texture = ExtResource("11_a6jey")
+
+[node name="BeeCreateBar" type="TextureProgressBar" parent="."]
+offset_left = -64.0
+offset_top = 34.0
+offset_right = 64.0
+offset_bottom = 50.0
+texture_under = ExtResource("13_o8g2g")
+texture_progress = ExtResource("14_2uj2u")
+metadata/_edit_use_anchors_ = true
+
+[node name="AttackBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 4
+texture_under = ExtResource("15_3n1e0")
+texture_progress = ExtResource("16_wc7hc")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

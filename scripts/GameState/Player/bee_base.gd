@@ -11,7 +11,7 @@ extends CharacterBody2D
 
 var mode = "hover"
 var target_position : Vector2 = Vector2.ZERO
-var last_atk = 0
+var last_atk = atk_speed
 var death_timer = 10
 
 var active = false
@@ -25,6 +25,7 @@ func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5)*(1000 - formation_closeness)
 
 func attack():
+	last_atk = 0
 	$Animate.anim_state = "Attack"
 	var candidates = $Hurtbox.get_overlapping_bodies()
 	candidates[randi_range(0, len(candidates) - 1)].pain(atk, speed)
@@ -34,6 +35,10 @@ func pain(dmg: float, accuracy: float):
 		health -= dmg
 	if health <= 0:
 		$Animate.anim_state = "Die"
+
+func _process(delta):
+	$AttackBar.value = (last_atk/atk_speed) * 100
+	$AttackBar.visible = true if $AttackBar.value < 100 else false
 
 func _physics_process(delta):
 	match mode:
@@ -53,9 +58,9 @@ func _physics_process(delta):
 				target_position + random_pos(),
 				speed)
 		"attack":
-			if last_atk == 0:
+			if last_atk == atk_speed:
 				attack()
-				last_atk = atk_speed
+				
 		"death":
 			if death_timer == 0:
 				queue_free()

@@ -1,6 +1,6 @@
 extends Node2D
-@export var player_bee_base : CharacterBody2D
-@export var player_bee_lead_base : CharacterBody2D
+
+var player_bee_lead_base : PackedScene = preload("res://scenes/Player/commander/bee_leader_base.tscn")
 #@export var player_bee_base : CharacterBody2D
 
 
@@ -10,8 +10,9 @@ func _ready():
 	
 
 
-func create_bee(type, leader):
-	
+func create_bee(soldier : PackedScene, leader):
+	var new_bee = soldier.instantiate()
+	new_bee
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

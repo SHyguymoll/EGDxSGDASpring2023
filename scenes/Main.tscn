@@ -1,10 +1,33 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://bfortnc847ow4"]
 
-[ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/solder/bee_normal.tscn" id="1_0i7kw"]
 [ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
+[ext_resource type="PackedScene" uid="uid://0bavrro8i47e" path="res://scenes/Player/commander/bee_leader_base.tscn" id="2_oy126"]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
 
-[node name="Bee_Normal" parent="." instance=ExtResource("1_0i7kw")]
-position = Vector2(520, 282)
+[node name="Bee_Lead_Normal" parent="." instance=ExtResource("2_oy126")]
+position = Vector2(482, 268)
+
+[node name="GUI" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Control" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -74.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TryToSpawn" type="Button" parent="GUI/Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_right = 8.0
+offset_bottom = 4.0
+grow_vertical = 2
