@@ -18,13 +18,16 @@ var mode = "View"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-	create(player_bee_lead_base, true, null, get_viewport_rect().position + get_viewport_rect().size / 2 - Vector2(40, 0))
-	create(player_bee_lead_base, true, null, get_viewport_rect().position + get_viewport_rect().size / 2 - Vector2(-40, 0))
+	selected_building = player_hive.instantiate()
+	$GameplayContainer.add_child(selected_building)
+	mode = "Building Place"
+	$GUI/Position_Controls/Label.text = "Press Mouse1 to place."
+	#create(player_hive, null, get_viewport_rect().position + get_viewport_rect().size / 2)
 
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
 
-func create(new_thing : PackedScene, is_lead : bool, leader : Bee_Leader, pos : Vector2):
+func create(new_thing : PackedScene, leader : Bee_Leader, pos : Vector2):
 	var new_thing_inst = new_thing.instantiate()
 	if new_thing_inst is Bee:
 		new_thing_inst.leader = leader
@@ -37,12 +40,16 @@ func create(new_thing : PackedScene, is_lead : bool, leader : Bee_Leader, pos : 
 		new_thing_inst.position = pos
 		new_thing_inst.level = 0
 	$GameplayContainer.add_child(new_thing_inst)
+	return new_thing_inst
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if mode == "Start Game":
+		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."
+		mode = "View"
 	Bee_Controls.visible = (selected_leader != null) and (mode == "View")
 	Hive_Controls.visible = (selected_building != null) and (mode == "View")
-	Position_Controls.visible = (mode == "Movement Marker")
+	Position_Controls.visible = (mode == "Movement Marker") or (mode == "Building Place")
 	if mode == "Movement Marker":
 		if current_target.used:
 			current_target = null
@@ -52,12 +59,9 @@ func _process(_delta):
 			current_target.queue_free()
 			mode = "View"
 	if mode == "Building Place":
-		if selected_building.used:
-			current_target = null
-			mode = "View"
 		if Input.is_action_pressed("Cancel"):
-			selected_leader.mode = "hover"
-			current_target.queue_free()
+			selected_building.queue_free()
+			selected_building = null
 			mode = "View"
 
 func _on_move_commander_pressed():
@@ -72,7 +76,7 @@ func _on_move_commander_pressed():
 func _on_try_to_spawn_pressed():
 	if selected_leader.spawn_time == selected_leader.spawn_timer:
 		selected_leader.spawn_time = 0
-		create_bee(selected_leader.solder, false, selected_leader, Vector2.ZERO)
+		create(selected_leader.spawn, selected_leader, Vector2.ZERO)
 
 func _on_use_ability_pressed():
 	if selected_leader.ability_time == selected_leader.ability_timer:
@@ -80,10 +84,13 @@ func _on_use_ability_pressed():
 		selected_leader.use_ability()
 
 func _on_building_action_pressed():
-	if selected_building.ability_time == selected_building.ability_timer:
-		selected_building.ability_time = 0
+	if selected_building.spawn_time == selected_building.spawn_timer:
+		selected_building.spawn_time = 0
 		selected_building.use_ability()
 
 func _on_destroy_building_pressed():
 	if selected_building.building_name != "Hive":
 		selected_building.destroy()
+
+func _on_level_building_pressed():
+	pass # Replace with function body.

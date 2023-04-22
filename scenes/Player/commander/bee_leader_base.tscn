@@ -97,8 +97,9 @@ size = Vector2(53, 55)
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_2bq6c")
-solder = ExtResource("2_g27me")
-spawn_time = 125
+spawn = ExtResource("2_g27me")
+spawn_time = 45
+spawn_timer = 125
 ability_time = 300
 ability_timer = 200
 health = 15.0

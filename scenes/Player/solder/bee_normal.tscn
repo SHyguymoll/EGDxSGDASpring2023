@@ -77,6 +77,7 @@ size = Vector2(20, 24)
 script = ExtResource("1_xdqvc")
 health = 1.0
 atk = 0.35
+atk_timer = 35.0
 speed = 0.5
 leader = NodePath("")
 formation_closeness = 50.0

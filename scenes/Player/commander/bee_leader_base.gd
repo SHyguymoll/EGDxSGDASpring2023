@@ -2,7 +2,7 @@ class_name Bee_Leader
 
 extends "res://scripts/GameState/Player/bee_base.gd"
 
-@export var solder : PackedScene
+@export var spawn : PackedScene
 @export var spawn_time : int
 @export var spawn_timer : int
 @export var ability_time : int
@@ -45,6 +45,9 @@ func _on_input_event(_viewport, event, _shape_idx):
 			if selected:
 				if worldspace.selected_leader != self and worldspace.selected_leader != null:
 					worldspace.selected_leader.selected = false
+				if worldspace.selected_building != null:
+					worldspace.selected_building.selected = false
+					worldspace.selected_building = null
 				worldspace.selected_leader = self
 			else:
 				if worldspace.selected_leader != self:

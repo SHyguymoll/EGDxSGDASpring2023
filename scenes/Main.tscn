@@ -84,6 +84,19 @@ offset_right = 106.56
 offset_bottom = 41.476
 text = "Do Building Action"
 
+[node name="LevelBuilding" type="Button" parent="GUI/Hive_Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.098
+anchor_top = 0.426
+anchor_right = 0.098
+anchor_bottom = 0.426
+offset_left = 349.56
+offset_top = -37.524
+offset_right = 578.56
+offset_bottom = 39.476
+text = "Level Up Building"
+
 [node name="DestroyBuilding" type="Button" parent="GUI/Hive_Controls"]
 layout_mode = 1
 anchors_preset = 6
@@ -114,7 +127,7 @@ layout_mode = 0
 offset_right = 408.0
 offset_bottom = 59.0
 theme_override_font_sizes/font_size = 30
-text = "Press Backspace to cancel movement."
+text = "Press Mouse1 to place, or press Backspace to cancel."
 horizontal_alignment = 1
 
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
@@ -123,4 +136,5 @@ horizontal_alignment = 1
 [connection signal="pressed" from="GUI/Bee_Controls/TryToSpawn" to="." method="_on_try_to_spawn_pressed"]
 [connection signal="pressed" from="GUI/Bee_Controls/UseAbility" to="." method="_on_use_ability_pressed"]
 [connection signal="pressed" from="GUI/Hive_Controls/BuildingAction" to="." method="_on_building_action_pressed"]
+[connection signal="pressed" from="GUI/Hive_Controls/LevelBuilding" to="." method="_on_level_building_pressed"]
 [connection signal="pressed" from="GUI/Hive_Controls/DestroyBuilding" to="." method="_on_destroy_building_pressed"]
