@@ -1,6 +1,4 @@
-class_name Bee_Leader
-
-extends Bee
+class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 
 @export var start : Building
 @export var spawn : PackedScene
@@ -10,6 +8,7 @@ extends Bee
 @export var ability_timer : int
 @export var encounter_move : String
 @onready var worldspace = get_tree().get_root().get_node("Stage")
+var target_icon = preload("res://scenes/TargetPosition.tscn")
 
 var leader_data : Dictionary = {
 	"bee": [],
@@ -27,11 +26,12 @@ func handle_death(): #Legends never die
 	if $Animate.is_playing() == false:
 		position = start.position
 
-func _on_detect_box_body_entered(body):
+func _on_detect_box_area_entered(area):
 	match encounter_move:
 		"rushdown":
+			var new_target = worldspace.create(target_icon, null, area.global_position, "bee_lead_attack")
 			for bee in leader_data.bee:
-				bee.target_position = body.position
+				bee.target = new_target
 				bee.mode = "directed"
 
 func use_ability():
@@ -67,4 +67,3 @@ func _on_input_event(_viewport, event, _shape_idx):
 				if worldspace.selected_leader != self:
 					worldspace.selected_leader.selected = false
 				worldspace.selected_leader = null
-

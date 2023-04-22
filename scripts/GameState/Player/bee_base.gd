@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var speed : float
 @export var accuracy : float
 @export var leader : Bee_Leader
-@export var target : Target
+
 @export var formation_closeness : float
 @export var team : String
 
@@ -20,6 +20,8 @@ const COMPLETION_RANGE = 10
 @onready var atk_time = atk_timer
 @onready var sfx = $Effects
 @onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
+
+var target : Target
 
 func try_sfx(node_name : String):
 	if sfx.get_node_or_null(node_name) != null:
@@ -87,6 +89,7 @@ func _physics_process(_delta):
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:
 					target.movement_completed = true
+					target.queue_free()
 					target = null
 					mode = "hover"
 		"attack":

@@ -2,15 +2,15 @@ class_name Target
 
 extends Node2D
 
-@onready var worldspace = get_tree().get_root().get_node("Stage")
-@onready var used = false
+@onready var worldspace : world = get_tree().get_root().get_node("Stage")
+var used = false
 @onready var movement_completed = false
 @export var textures = {
 	"move" : "res://art/GUI/Reticles/SelectionReticle.png",
 	"bee_lead_attack" : "res://art/GUI/Reticles/AttackReticle.png",
 	"bee_solder_attack" : "res://art/GUI/Reticles/SmallAttackReticle.png"
 }
-@onready var texture : String
+@export var texture : String = "move"
 
 func _ready():
 	$Sprite2D.texture = load(textures[texture])
@@ -18,8 +18,6 @@ func _ready():
 func _process(_delta):
 	if !used:
 		position = get_global_mouse_position()
-	if used and movement_completed:
-		queue_free()
 
 func _input(event):
 	if event is InputEventMouseButton:

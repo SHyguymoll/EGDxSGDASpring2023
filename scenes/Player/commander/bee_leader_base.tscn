@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bypmvk7jp3inx"]
+[gd_scene load_steps=28 format=3 uid="uid://bp8g40lewk4mc"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Player/bee_leader_base.gd" id="1_drkjj"]
 [ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/solder/bee_normal.tscn" id="2_g27me"]
@@ -115,13 +115,15 @@ spawn_time = 45
 spawn_timer = 125
 ability_time = 200
 ability_timer = 300
+encounter_move = "rushdown"
 health = 5.0
 health_max = 5.0
 atk = 3.0
 atk_timer = 70.0
-speed = 0.25
+speed = 0.5
 accuracy = 1.0
-formation_closeness = 100.0
+formation_closeness = 50.0
+team = "Player"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)
@@ -204,4 +206,4 @@ shape = SubResource("CapsuleShape2D_mv86k")
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
-[connection signal="body_entered" from="DetectBox" to="." method="_on_detect_box_body_entered"]
+[connection signal="area_entered" from="DetectBox" to="." method="_on_detect_box_area_entered"]

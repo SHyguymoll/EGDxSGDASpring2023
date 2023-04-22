@@ -46,7 +46,7 @@ func pain(dmg: float, _accuracy: float):
 
 func use_ability():
 	if building_data == null:
-		building_data = worldspace.create(create, self, get_global_position())
+		building_data = worldspace.create(create, self, get_global_position(), "")
 
 func level_building(new_val : int):
 	level = new_val

@@ -35,6 +35,7 @@ speed = 0.5
 accuracy = 0.2
 leader = NodePath("")
 formation_closeness = 50.0
+team = "Player"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)

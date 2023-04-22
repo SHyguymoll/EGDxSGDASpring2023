@@ -1,3 +1,5 @@
+class_name world
+
 extends Node2D
 
 var player_bee_lead_base : PackedScene = preload("res://scenes/Player/commander/bee_leader_base.tscn")
@@ -43,7 +45,7 @@ func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
 
 #leader could be Bee_Leader or Building
-func create(new_thing : PackedScene, leader, pos : Vector2):
+func create(new_thing : PackedScene, leader, pos : Vector2, texture : String):
 	var new_thing_inst = new_thing.instantiate()
 	if new_thing_inst is Bee_Leader:
 		new_thing_inst.position = pos
@@ -55,6 +57,10 @@ func create(new_thing : PackedScene, leader, pos : Vector2):
 	elif new_thing_inst is Building:
 		new_thing_inst.position = pos
 		new_thing_inst.level = 0
+	elif new_thing_inst is Target:
+		new_thing_inst.position = pos
+		new_thing_inst.used = true
+		new_thing_inst.texture = texture
 	$GameplayContainer.add_child(new_thing_inst)
 	return new_thing_inst
 
@@ -105,7 +111,7 @@ func _on_move_commander_pressed():
 func _on_try_to_spawn_pressed():
 	if selected_leader.spawn_time == selected_leader.spawn_timer:
 		selected_leader.spawn_time = 0
-		selected_leader.leader_data.bee.append(create(selected_leader.spawn, selected_leader, Vector2.ZERO))
+		selected_leader.leader_data.bee.append(create(selected_leader.spawn, selected_leader, Vector2.ZERO, ""))
 
 func _on_use_ability_pressed():
 	if selected_leader.ability_time == selected_leader.ability_timer:
