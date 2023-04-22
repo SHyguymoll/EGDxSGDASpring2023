@@ -22,6 +22,10 @@ const COMPLETION_RANGE = 10
 @onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 
+var can_see = []
+var can_hurt = []
+
+
 var target : Target
 
 func try_sfx(node_name : String):
@@ -44,11 +48,17 @@ func reduce_candidates(candidates):
 				new_list.append(cand.get_parent())
 	return new_list
 
+func leader_action(): #for Commanders
+	pass
+
+func leader_on_attack(): #ditto
+	pass
+
 func attack():
+	leader_on_attack()
 	atk_time = 0
 	$Animate.anim_state = "Attack"
-	var candidates = reduce_candidates($Hurtbox.get_overlapping_areas())
-	candidates[max(randi_range(0, len(candidates) - 1), 0)].pain(atk, accuracy)
+	can_hurt[max(randi_range(0, len(can_hurt) - 1), 0)].pain(atk, accuracy)
 	mode = "post_attack"
 
 func post_attack():
@@ -86,7 +96,11 @@ func _physics_process(_delta):
 		"hover", "follow", "directed":
 			$Animate.anim_state = "Idle"
 			$Animate.play()
-			if $Hurtbox.has_overlapping_areas():
+			can_see = reduce_candidates($DetectBox.get_overlapping_areas())
+			if len(can_see) > 0:
+				leader_action()
+			can_hurt = reduce_candidates($HurtBox.get_overlapping_areas())
+			if len(can_hurt) > 0:
 				mode = "attack"
 			#yo dog I heard you liked match statements
 			match mode:
@@ -100,7 +114,6 @@ func _physics_process(_delta):
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:
 					target.movement_completed = true
-					target = null
 					mode = "hover"
 		"attack":
 			if atk_time == atk_timer:

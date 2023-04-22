@@ -66,6 +66,7 @@ func attach_target(thing : Node2D, texture : String):
 	var new_target := target_ret.instantiate()
 	new_target.texture = texture
 	new_target.target = thing
+	new_target.used = true
 	$GameplayContainer.add_child(new_target)
 	return new_target
 

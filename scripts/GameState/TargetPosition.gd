@@ -12,7 +12,7 @@ var used
 }
 @export var texture : String = "move"
 
-var target : Node2D
+var target #assume that this either a Bee, child of Bee, or a Building, as all of these have health.
 
 func _ready():
 	$Sprite2D.texture = load(textures[texture])
@@ -21,10 +21,15 @@ func _process(_delta):
 	if !used:
 		global_position = get_global_mouse_position()
 	else:
-		if movement_completed or target == null:
+		if target.is_queued_for_deletion():
 			queue_free()
-		else:
-			global_position = target.global_position
+#		if (target is Bee) or (target is Building):
+#			if target.health == null:
+#
+#		else:
+#			if movement_completed:
+#				queue_free()
+		global_position = target.global_position
 
 func _input(event):
 	if event is InputEventMouseButton:

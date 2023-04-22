@@ -116,6 +116,7 @@ spawn_time = 45
 spawn_timer = 125
 ability_time = 150
 ability_timer = 300
+resp_time = null
 resp_timer = 300
 encounter_move = "rushdown"
 health = 5.0
@@ -208,5 +209,3 @@ shape = SubResource("CapsuleShape2D_mv86k")
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
-[connection signal="area_entered" from="DetectBox" to="." method="_on_detect_box_area_entered"]
-[connection signal="area_exited" from="DetectBox" to="." method="_on_detect_box_area_exited"]

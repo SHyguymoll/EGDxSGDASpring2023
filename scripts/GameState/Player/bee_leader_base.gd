@@ -35,17 +35,20 @@ func handle_death(): #Legends never die, they just respawn
 		visible = true
 	resp_time = min(resp_time + 1, resp_timer)
 
-func _on_detect_box_area_entered(area):
+func leader_action(): #for Commanders
 	match encounter_move:
 		"rushdown":
-			current_target = worldspace.attach_target(area.get_parent(), "bee_lead_attack")
+			if current_target != null:
+				current_target.queue_free()
+				current_target = null
+			var pick_enemy = can_see[max(randi_range(0, len(can_see) - 1), 0)]
+			current_target = worldspace.attach_target(pick_enemy, "bee_lead_attack")
 			for bee in leader_data.bee:
 				bee.target = current_target
 				bee.mode = "directed"
 
-func _on_detect_box_area_exited(area):
-	if current_target.global_position == area.global_position:
-		current_target = null
+func leader_on_attack(): #ditto
+	pass
 
 func use_ability():
 	pass
