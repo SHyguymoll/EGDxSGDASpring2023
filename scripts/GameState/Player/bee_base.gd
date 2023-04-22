@@ -69,7 +69,7 @@ func handle_death():
 		leader.leader_data.bee.erase(self)
 		leader = null
 	if $Animate.is_playing() == false:
-		worldspace.explosion(global_position + random_pos())
+		worldspace.explosion(global_position + random_pos(), 0.0)
 		queue_free()
 
 func _process(_delta):
@@ -100,7 +100,6 @@ func _physics_process(_delta):
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:
 					target.movement_completed = true
-					target.queue_free()
 					target = null
 					mode = "hover"
 		"attack":

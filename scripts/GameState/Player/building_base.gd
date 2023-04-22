@@ -16,10 +16,7 @@ var level_cost
 var placed = false
 var hovered = false
 var selected = false
-var building_data = {
-	"bees":[],
-	"other":[]
-}
+var building_data = { "bees": [], "other": [] }
 
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
@@ -44,14 +41,19 @@ func _process(_delta):
 	$ActionBar.visible = ($ActionBar.value < 100)
 	$SelectLight.visible = hovered or selected
 	level_cost = level_costs[level]
+	if Input.is_action_just_pressed("debugKILL"):
+		pain(health, 1)
 
-func destroy():
+func destroy_action():
 	for lead in building_data.bees:
 		for bee in lead.leader_data.bee:
 			bee.pain(bee.health, 1)
 		lead.pain(lead.health, 1)
-	for _n in range(4): worldspace.explosion(global_position + random_pos())
 	worldspace.game_over()
+
+func destroy():
+	for n in range(4): worldspace.explosion(global_position + random_pos(), 0.15 * n)
+	destroy_action()
 
 func pain(dmg: float, _accuracy: float):
 	health -= dmg
@@ -59,20 +61,23 @@ func pain(dmg: float, _accuracy: float):
 		destroy()
 
 func use_ability():
-	if len(building_data.bees) <= level: building_data.bees.append(worldspace.create(create, self, get_global_position(), ""))
+	if len(building_data.bees) <= level: building_data.bees.append(worldspace.create(create, self, get_global_position()))
 
 func level_building(new_val : int):
 	level = new_val
 	$Sprite2D.frame = new_val
+
+func placed_action():
+	worldspace.hive_placed = true
+	worldspace.mode = "Start Game"
 
 func _input(event):
 	if !placed:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 				placed = true
-				worldspace.hive_placed = true
 				worldspace.selected_building = null
-				worldspace.mode = "Start Game"
+				placed_action()
 	else:
 		if event is InputEventMouseButton and hovered:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

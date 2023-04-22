@@ -27,17 +27,18 @@ func tickTimers():
 
 func handle_death(): #Legends never die, they just respawn
 	if $Animate.is_playing() == false:
-		position = start.position
+		visible = false
+		global_position = start.global_position
 		resp_time = 0
 	if resp_time == resp_timer:
 		mode = "hover"
+		visible = true
 	resp_time = min(resp_time + 1, resp_timer)
 
 func _on_detect_box_area_entered(area):
 	match encounter_move:
 		"rushdown":
-			current_target = worldspace.create(target_icon, null, area.global_position, "bee_lead_attack")
-			#worldspace.attach(current_target, area.get_parent())
+			current_target = worldspace.attach_target(area.get_parent(), "bee_lead_attack")
 			for bee in leader_data.bee:
 				bee.target = current_target
 				bee.mode = "directed"

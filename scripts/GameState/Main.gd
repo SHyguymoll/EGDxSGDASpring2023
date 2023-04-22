@@ -18,7 +18,7 @@ var current_target : Target
 var selected_building : Building
 var level_points : int = 0
 var hive_placed : bool = false
-var modes = ["View", "Movement Marker", "Building Place"]
+var modes = ["View", "Movement Marker", "Building Place", "Game Over"]
 var mode = "View"
 
 var tutorial : int = 0
@@ -46,10 +46,11 @@ func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
 
 #leader could be Bee_Leader or Building
-func create(new_thing : PackedScene, leader, pos : Vector2, texture : String):
+func create(new_thing : PackedScene, leader, pos : Vector2):
 	var new_thing_inst = new_thing.instantiate()
 	if new_thing_inst is Bee_Leader:
 		new_thing_inst.position = pos
+		new_thing_inst.start = selected_building
 		new_thing_inst.mode = "hover"
 	elif new_thing_inst is Bee:
 		new_thing_inst.leader = leader
@@ -58,20 +59,24 @@ func create(new_thing : PackedScene, leader, pos : Vector2, texture : String):
 	elif new_thing_inst is Building:
 		new_thing_inst.position = pos
 		new_thing_inst.level = 0
-	elif new_thing_inst is Target:
-		new_thing_inst.position = pos
-		new_thing_inst.used = true
-		new_thing_inst.texture = texture
 	$GameplayContainer.add_child(new_thing_inst)
 	return new_thing_inst
 
-func explosion(pos: Vector2):
+func attach_target(thing : Node2D, texture : String):
+	var new_target := target_ret.instantiate()
+	new_target.texture = texture
+	new_target.target = thing
+	$GameplayContainer.add_child(new_target)
+	return new_target
+
+func explosion(pos: Vector2, time : float):
 	var new_boom = explosion_effect.instantiate()
+	new_boom.start = time
 	new_boom.global_position = pos
 	$GameplayContainer.add_child(new_boom)
-	pass
 
 func game_over():
+	mode = "Game Over"
 	Message.text = "Your Hive was destroyed. Game Over."
 	pass
 
@@ -127,7 +132,7 @@ func _on_move_commander_pressed():
 func _on_try_to_spawn_pressed():
 	if selected_leader.spawn_time == selected_leader.spawn_timer:
 		selected_leader.spawn_time = 0
-		selected_leader.leader_data.bee.append(create(load(selected_leader.spawn), selected_leader, Vector2.ZERO, ""))
+		selected_leader.leader_data.bee.append(create(load(selected_leader.spawn), selected_leader, Vector2.ZERO))
 
 func _on_use_ability_pressed():
 	if selected_leader.ability_time == selected_leader.ability_timer:
