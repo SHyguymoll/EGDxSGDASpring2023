@@ -63,7 +63,7 @@ func create(new_thing : PackedScene, leader, pos : Vector2):
 	return new_thing_inst
 
 func attach_target(thing : Node2D, texture : String):
-	var new_target := target_ret.instantiate()
+	var new_target : Target = target_ret.instantiate()
 	new_target.texture = texture
 	new_target.target = thing
 	new_target.used = true

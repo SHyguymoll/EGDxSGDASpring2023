@@ -27,7 +27,6 @@ const COMPLETION_RANGE = 10
 var can_see = []
 var can_hurt = []
 
-
 var target : Target
 
 func try_sfx(node_name : String):
@@ -93,6 +92,9 @@ func _process(_delta):
 func tickTimers():
 	atk_time = min(atk_time + 1, atk_timer)
 
+func debug():
+	print(target.global_position)
+
 func _physics_process(_delta):
 	match mode:
 		"hover", "follow", "directed":
@@ -111,7 +113,8 @@ func _physics_process(_delta):
 				"follow":
 					target_position = leader.global_position + random_pos() + target_position_randomize
 				"directed":
-					target_position = target.global_position + target_position_randomize if target.used else target_position
+					debug()
+					target_position = target.global_position + target_position_randomize if target.used else global_position
 			global_position += global_position.direction_to(target_position) * speed
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:

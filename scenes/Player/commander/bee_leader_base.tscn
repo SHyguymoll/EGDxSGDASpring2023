@@ -116,7 +116,6 @@ spawn_time = 45
 spawn_timer = 125
 ability_time = 150
 ability_timer = 300
-resp_time = null
 resp_timer = 300
 encounter_move = "rushdown"
 health = 5.0

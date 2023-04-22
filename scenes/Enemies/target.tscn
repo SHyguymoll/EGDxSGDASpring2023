@@ -35,11 +35,11 @@ frame = 17
 frame_progress = 1.0
 script = ExtResource("3_wb78r")
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 6
 
-[node name="EffectArea" type="CollisionShape2D" parent="Hurtbox"]
+[node name="EffectArea" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CapsuleShape2D_qwus8")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]

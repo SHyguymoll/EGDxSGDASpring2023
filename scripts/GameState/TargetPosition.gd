@@ -17,22 +17,17 @@ var target #assume that this either a Bee, child of Bee, or a Building, as all o
 func _ready():
 	$Sprite2D.texture = load(textures[texture])
 
-func _process(_delta):
+func _physics_process(_delta):
 	if !used:
 		global_position = get_global_mouse_position()
 	else:
-		if target.is_queued_for_deletion():
+		if movement_completed or !is_instance_valid(target):
 			queue_free()
-#		if (target is Bee) or (target is Building):
-#			if target.health == null:
-#
-#		else:
-#			if movement_completed:
-#				queue_free()
-		global_position = target.global_position
+		else: global_position = target.global_position
 
 func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			used = true
-			target = self
+	if !used:
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+				used = true
+				target = self

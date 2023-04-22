@@ -20,6 +20,9 @@ var leader_data : Dictionary = {
 var hovered = false
 var selected = false
 
+func debug():
+	pass
+
 func tickTimers():
 	atk_time = min(atk_time + 1, atk_timer)
 	spawn_time = min(spawn_time + 1, spawn_timer)
@@ -38,19 +41,17 @@ func handle_death(): #Legends never die, they just respawn
 func leader_action(): #for Commanders
 	match encounter_move:
 		"rushdown":
-			if current_target != null:
-				current_target.queue_free()
-				current_target = null
-			var pick_enemy = can_see[max(randi_range(0, len(can_see) - 1), 0)]
-			current_target = worldspace.attach_target(pick_enemy, "bee_lead_attack")
-			for bee in leader_data.bee:
-				bee.target = current_target
-				bee.mode = "directed"
+			if current_target == null or current_target.is_queued_for_deletion():
+				var pick_enemy = can_see[max(randi_range(0, len(can_see) - 1), 0)]
+				current_target = worldspace.attach_target(pick_enemy, "bee_lead_attack")
+				for bee in leader_data.bee:
+					bee.target = current_target
+					bee.mode = "directed"
 
 func leader_on_attack(): #ditto
 	pass
 
-func use_ability():
+func use_ability(): #ditthree
 	pass
 
 func _on_mouse_entered():
