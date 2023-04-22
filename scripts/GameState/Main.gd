@@ -15,6 +15,7 @@ var target_ret = preload("res://scenes/TargetPosition.tscn")
 var selected_leader : Bee_Leader
 var current_target : Target
 var selected_building : Building
+var level_points : int = 0
 var hive_placed : bool = false
 var modes = ["View", "Movement Marker", "Building Place"]
 var mode = "View"
@@ -27,7 +28,7 @@ var message_bank = [
 	"Each hive can only have one Commander Bee, but each Commander Bee generates bees of their own.\nClick on the Commander Bee.",
 	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears.",
 	"Now you have a Soldier Bee. Commander Bees automatically use these to fight.\nFighting gets you HP which can be used to level up your Hive and Commander Bee.\nSoldier Bees can perish, but Commander Bees teleport back to their Hive when their health is depleted.\nNow click 'Move Commander'.",
-	"Move the Commander Bee however you want.\nYou can't control the Soldiers directly, but Commanders can be maneuvered.\nComplete (or cancel) the movement order to finish this tutorial and start the game."
+	"Move the Commander Bee however you want.\nYou can't control the Soldiers directly, but Commanders can be maneuvered.\nDestroy the target to finish this tutorial and start the game."
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -64,6 +65,7 @@ func create(new_thing : PackedScene, leader, pos : Vector2, texture : String):
 	$GameplayContainer.add_child(new_thing_inst)
 	return new_thing_inst
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if mode == "Start Game":
@@ -91,11 +93,11 @@ func _process(_delta):
 		match tutorial:
 			0: if hive_placed: tutorial = 1
 			1: if selected_building != null: tutorial = 2
-			2: if selected_building.building_data != null: tutorial = 3
+			2: if len(selected_building.building_data) != 0: tutorial = 3
 			3: if selected_leader != null: tutorial = 4
 			4: if len(selected_leader.leader_data.bee) > 0: tutorial = 5
 			5: if mode == "Movement Marker": tutorial = 6
-			6: if mode == "View": tutorial = -1; Message.text = ""
+			6: if $GameplayContainer.get_node_or_null("Target") == null: tutorial = -1; Message.text = ""
 			
 
 func _on_move_commander_pressed():

@@ -108,6 +108,8 @@ radius = 130.0
 height = 260.0
 
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
+collision_layer = 7
+collision_mask = 7
 input_pickable = true
 script = ExtResource("1_drkjj")
 spawn = ExtResource("2_g27me")
@@ -122,7 +124,7 @@ atk = 3.0
 atk_timer = 70.0
 speed = 0.5
 accuracy = 1.0
-formation_closeness = 50.0
+formation_closeness = 100.0
 team = "Player"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
@@ -197,8 +199,8 @@ process_material = SubResource("ParticleProcessMaterial_qqxdp")
 one_shot = true
 
 [node name="DetectBox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 8
+collision_layer = 16
+collision_mask = 32
 
 [node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
 shape = SubResource("CapsuleShape2D_mv86k")
@@ -207,3 +209,4 @@ shape = SubResource("CapsuleShape2D_mv86k")
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="area_entered" from="DetectBox" to="." method="_on_detect_box_area_entered"]
+[connection signal="area_exited" from="DetectBox" to="." method="_on_detect_box_area_exited"]

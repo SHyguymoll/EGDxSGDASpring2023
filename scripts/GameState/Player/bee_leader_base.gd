@@ -10,6 +10,8 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
+var current_target
+
 var leader_data : Dictionary = {
 	"bee": [],
 	"other": []
@@ -29,10 +31,15 @@ func handle_death(): #Legends never die
 func _on_detect_box_area_entered(area):
 	match encounter_move:
 		"rushdown":
-			var new_target = worldspace.create(target_icon, null, area.global_position, "bee_lead_attack")
+			current_target = worldspace.create(target_icon, null, area.global_position, "bee_lead_attack")
+			worldspace.attach(current_target, area.get_parent())
 			for bee in leader_data.bee:
-				bee.target = new_target
+				bee.target = current_target
 				bee.mode = "directed"
+
+func _on_detect_box_area_exited(area):
+	if current_target.global_position == area.global_position:
+		current_target = null
 
 func use_ability():
 	pass
@@ -67,3 +74,4 @@ func _on_input_event(_viewport, event, _shape_idx):
 				if worldspace.selected_leader != self:
 					worldspace.selected_leader.selected = false
 				worldspace.selected_leader = null
+

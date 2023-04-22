@@ -14,7 +14,7 @@ extends StaticBody2D
 var placed = false
 var hovered = false
 var selected = false
-var building_data = null
+var building_data = []
 
 func tickTimers():
 	spawn_time = min(spawn_time + 1, spawn_timer)

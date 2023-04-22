@@ -35,16 +35,25 @@ func _ready():
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5)*(100 - formation_closeness)
 
+func reduce_candidates(candidates):
+	var new_list = []
+	for cand in candidates:
+		if cand.get_parent() is Bee:
+			if cand.get_parent().team != team:
+				new_list.append(cand.get_parent())
+	return new_list
+
 func attack():
 	atk_time = 0
 	$Animate.anim_state = "Attack"
-	var candidates = $Hurtbox.get_overlapping_bodies()
-	candidates[randi_range(0, len(candidates) - 1)].pain(atk, accuracy)
+	var candidates = reduce_candidates($Hurtbox.get_overlapping_areas())
+	candidates[max(randi_range(0, len(candidates) - 1), 0)].pain(atk, accuracy)
 	mode = "post_attack"
 
 func post_attack():
 	if (atk_time > ((atk_timer / 5) - 1)):
-		mode = "hover"
+		if leader: mode = "follow"
+		else: mode = "hover"
 		if $Animate.is_playing() == false:
 			$Animate.anim_state = "Idle"
 
@@ -52,7 +61,7 @@ func pain(dmg: float, dmg_accuracy: float):
 	if randf() > (accuracy - dmg_accuracy)/accuracy:
 		health -= dmg
 	if health <= 0:
-		$Animate.anim_state = "Die"
+		mode = "death"
 
 func handle_death():
 	if leader != null:
@@ -75,6 +84,8 @@ func _physics_process(_delta):
 		"hover", "follow", "directed":
 			$Animate.anim_state = "Idle"
 			$Animate.play()
+			if $Hurtbox.has_overlapping_areas():
+				mode = "attack"
 			#yo dog I heard you liked match statements
 			match mode:
 				"hover":
@@ -83,8 +94,6 @@ func _physics_process(_delta):
 					target_position = leader.position + random_pos() + target_position_randomize
 				"directed":
 					target_position = target.position + target_position_randomize if target.used else target_position
-			if $Hurtbox.has_overlapping_bodies():
-				mode = "attack"
 			position += position.direction_to(target_position) * speed
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:
@@ -95,7 +104,6 @@ func _physics_process(_delta):
 		"attack":
 			if atk_time == atk_timer:
 				attack()
-				
 		"post_attack":
 			post_attack()
 		"death":

@@ -49,6 +49,8 @@ Place={
 2d_physics/layer_2="friendly_bee_lead"
 2d_physics/layer_3="friendly_bee"
 2d_physics/layer_4="enemy_bee"
+2d_physics/layer_5="friend_bee_det"
+2d_physics/layer_6="enemy_bee_det"
 
 [rendering]
 
