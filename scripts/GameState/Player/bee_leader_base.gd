@@ -11,6 +11,10 @@ extends "res://scripts/GameState/Player/bee_base.gd"
 
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 
+var leader_data : Dictionary = {
+	"bee": [],
+	"other": []
+}
 var hovered = false
 var selected = false
 
@@ -33,6 +37,7 @@ func _on_mouse_exited():
 	hovered = false
 
 func _process(_delta):
+	
 	@warning_ignore("integer_division")
 	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = ($AttackBar.value < 100)

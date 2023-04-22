@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cv17u7blhk7m4"
-path="res://.godot/imported/SelectionReticle.png-88fb9afd90dbd9d64e5ff781176e8f86.ctex"
+uid="uid://0vdi3rp7h84x"
+path="res://.godot/imported/Attack_3.png-3e98c357a8a8d56c4e44c76c53239669.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/GUI/SelectionReticle.png"
-dest_files=["res://.godot/imported/SelectionReticle.png-88fb9afd90dbd9d64e5ff781176e8f86.ctex"]
+source_file="res://art/Enemies/BeeSoldier/Base/Attack/Attack_3.png"
+dest_files=["res://.godot/imported/Attack_3.png-3e98c357a8a8d56c4e44c76c53239669.ctex"]
 
 [params]
 

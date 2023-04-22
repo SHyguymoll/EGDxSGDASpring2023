@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://c40ca1atp833e"]
+[gd_scene load_steps=8 format=3 uid="uid://c40ca1atp833e"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_xdqvc"]
-[ext_resource type="SpriteFrames" uid="uid://d2wvxjoaedrd8" path="res://art/YourTeam/BeeSoldier/Base/bee_normal.tres" id="2_46hi2"]
+[ext_resource type="SpriteFrames" uid="uid://cxnh7aaba7f58" path="res://art/Enemies/BeeSoldier/Base/bee_evil.tres" id="2_scf8n"]
 [ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="8_4ydvr"]
 [ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="13_kecy0"]
 [ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="14_xt1id"]
@@ -13,31 +13,26 @@ height = 38.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(20, 24)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q0y2o"]
-particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-
 [node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
 script = ExtResource("1_xdqvc")
 health = 1.0
-atk = 0.35
-atk_timer = 35.0
+atk = 0.25
+atk_timer = 40.0
 speed = 0.5
 accuracy = 0.2
 leader = NodePath("")
 formation_closeness = 50.0
+team = "Evil"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
-sprite_frames = ExtResource("2_46hi2")
-animation = &"Idle"
+sprite_frames = ExtResource("2_scf8n")
+animation = &"Attack"
 script = ExtResource("8_4ydvr")
 
 [node name="Hurtbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 8
+collision_layer = 8
+collision_mask = 6
 
 [node name="EffectArea" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CapsuleShape2D_qwus8")
@@ -66,5 +61,4 @@ texture_progress = ExtResource("14_xt1id")
 
 [node name="Spawn" type="GPUParticles2D" parent="Effects"]
 emitting = false
-process_material = SubResource("ParticleProcessMaterial_q0y2o")
 one_shot = true

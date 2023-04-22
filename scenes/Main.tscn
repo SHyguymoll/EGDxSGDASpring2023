@@ -133,6 +133,13 @@ theme_override_font_sizes/font_size = 30
 text = "Press Mouse1 to place, or press Backspace to cancel."
 horizontal_alignment = 1
 
+[node name="Message" type="Label" parent="GUI"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 513.0
+grow_horizontal = 2
+horizontal_alignment = 1
+
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bypmvk7jp3inx"]
+[gd_scene load_steps=25 format=3 uid="uid://bypmvk7jp3inx"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Player/bee_leader_base.gd" id="1_drkjj"]
 [ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/solder/bee_normal.tscn" id="2_g27me"]
@@ -94,6 +94,13 @@ height = 80.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(53, 55)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qqxdp"]
+particle_flag_disable_z = true
+direction = Vector3(1, 1, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_drkjj")
@@ -154,6 +161,13 @@ value = 41.0
 fill_mode = 4
 texture_under = ExtResource("15_3n1e0")
 texture_progress = ExtResource("16_wc7hc")
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="Spawn" type="GPUParticles2D" parent="Effects"]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_qqxdp")
+one_shot = true
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

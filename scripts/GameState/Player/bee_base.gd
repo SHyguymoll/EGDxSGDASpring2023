@@ -6,21 +6,27 @@ extends CharacterBody2D
 @export var atk : float
 @export var atk_timer : float
 @export var speed : float
+@export var accuracy : float
 @export var leader : Bee_Leader
 @export var target : Target
 @export var formation_closeness : float
-@export var team = "Player"
+@export var team : String
 
 const COMPLETION_RANGE = 10
 @onready var mode : String
 @onready var target_position : Vector2
 @onready var target_position_randomize : Vector2 = random_pos()
 @onready var atk_time = atk_timer
+@onready var sfx = $Effects
+@onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
 
-@onready var modes = ["hover", "follow", "directed", "death"]
+func try_sfx(node_name : String):
+	if sfx.get_node_or_null(node_name) != null:
+		sfx.get_node(node_name).emitting = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	try_sfx("Spawn")
 	pass # Replace with function body.
 
 func random_pos():
@@ -30,15 +36,24 @@ func attack():
 	atk_time = 0
 	$Animate.anim_state = "Attack"
 	var candidates = $Hurtbox.get_overlapping_bodies()
-	candidates[randi_range(0, len(candidates) - 1)].pain(atk, speed)
-	
-func pain(dmg: float, accuracy: float):
-	if randf() > (speed - accuracy)/speed:
+	candidates[randi_range(0, len(candidates) - 1)].pain(atk, accuracy)
+
+func post_attack():
+	if (atk_time > ((atk_timer / 5) - 1)):
+		mode = "hover"
+		if $Animate.is_playing() == false:
+			$Animate.anim_state = "Idle"
+
+func pain(dmg: float, dmg_accuracy: float):
+	if randf() > (accuracy - dmg_accuracy)/accuracy:
 		health -= dmg
 	if health <= 0:
 		$Animate.anim_state = "Die"
 
 func handle_death():
+	if leader != null:
+		leader.leader_data.bee.erase(self)
+		leader = null
 	if $Animate.is_playing() == false:
 		queue_free()
 
@@ -52,6 +67,7 @@ func tickTimers():
 func _physics_process(_delta):
 	match mode:
 		"hover", "follow", "directed":
+			$Animate.anim_state = "Idle"
 			#yo dog I heard you liked match statements
 			match mode:
 				"hover":
@@ -71,8 +87,9 @@ func _physics_process(_delta):
 		"attack":
 			if atk_time == atk_timer:
 				attack()
-			if atk_time > atk_timer / 5 - 1:
-				mode = "hover"
+		"post_attack":
+			post_attack()
 		"death":
+			$Animate.anim_state = "Death"
 			handle_death()
 	tickTimers()

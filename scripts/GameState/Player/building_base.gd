@@ -19,7 +19,7 @@ var building_data = null
 func tickTimers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	tickTimers()
 
 func _on_mouse_entered():
@@ -46,7 +46,7 @@ func pain(dmg: float, _accuracy: float):
 
 func use_ability():
 	if building_data == null:
-		var building_data = worldspace.create(create, self, get_global_position())
+		building_data = worldspace.create(create, self, get_global_position())
 
 func level_building(new_val : int):
 	level = new_val
@@ -57,6 +57,7 @@ func _input(event):
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 				placed = true
+				worldspace.hive_placed = true
 				worldspace.selected_building = null
 				worldspace.mode = "Start Game"
 	else:
