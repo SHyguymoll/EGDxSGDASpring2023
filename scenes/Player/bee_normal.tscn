@@ -1,13 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://d1m5l6xy1eucm"]
+[gd_scene load_steps=14 format=3 uid="uid://c40ca1atp833e"]
 
 [ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="1_f114o"]
 [ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_0.png" id="1_l1x6x"]
+[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_xdqvc"]
 [ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="2_1bfnl"]
 [ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_1.png" id="2_mexcr"]
 [ext_resource type="Texture2D" uid="uid://byphyt14fgj4o" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_2.png" id="3_0r3sp"]
 [ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="3_o7e57"]
 [ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_3.png" id="4_5acif"]
-[ext_resource type="Script" path="res://scripts/Animate/Bee_Hover.gd" id="4_dba7t"]
+[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="6_5jmma"]
+[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_s61e5"]
+[ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="8_4ydvr"]
+[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_tkcc3"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ggquk"]
 animations = [{
@@ -28,7 +32,16 @@ animations = [{
 "name": &"Attack",
 "speed": 20.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5jmma")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_s61e5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_tkcc3")
+}],
 "loop": true,
 "name": &"Death",
 "speed": 5.0
@@ -52,9 +65,13 @@ animations = [{
 }]
 
 [node name="Bee_Normal" type="Node2D"]
+script = ExtResource("1_xdqvc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
 sprite_frames = SubResource("SpriteFrames_ggquk")
-animation = &"Attack"
-frame_progress = 0.757314
-script = ExtResource("4_dba7t")
+animation = &"Idle"
+frame_progress = 0.915976
+script = ExtResource("8_4ydvr")
+
+[node name="Hurtbox" type="Area2D" parent="."]

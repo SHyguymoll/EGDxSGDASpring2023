@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3wnb8lihp2ns"]
+[gd_scene load_steps=3 format=3 uid="uid://b3wnb8lihp2ns"]
 
-[ext_resource type="PackedScene" uid="uid://d1m5l6xy1eucm" path="res://scenes/Player/bee_normal.tscn" id="1_0i7kw"]
+[ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/bee_normal.tscn" id="1_0i7kw"]
+[ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_cthxf")
 
 [node name="Bee_Normal" parent="." instance=ExtResource("1_0i7kw")]
 position = Vector2(520, 282)
