@@ -44,9 +44,9 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_tkcc3")
 }],
-"loop": true,
+"loop": false,
 "name": &"Death",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -80,12 +80,14 @@ atk = 0.35
 atk_speed = 35.0
 speed = 0.5
 leader = NodePath("")
-formation_closeness = 500.0
+formation_closeness = 50.0
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_ggquk")
-animation = &"Idle"
+animation = &"Death"
+frame = 2
+frame_progress = 1.0
 script = ExtResource("8_4ydvr")
 
 [node name="Hurtbox" type="Area2D" parent="."]

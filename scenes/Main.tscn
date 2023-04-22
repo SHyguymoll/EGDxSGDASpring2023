@@ -19,15 +19,40 @@ offset_top = -74.0
 grow_horizontal = 2
 grow_vertical = 0
 
+[node name="MoveCommander" type="Button" parent="GUI/Bee_Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.098
+anchor_top = 0.426
+anchor_right = 0.098
+anchor_bottom = 0.426
+offset_left = -122.44
+offset_top = -35.524
+offset_right = 106.56
+offset_bottom = 41.476
+text = "Move Commander"
+
 [node name="TryToSpawn" type="Button" parent="GUI/Bee_Controls"]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -4.0
-offset_right = 8.0
-offset_bottom = 4.0
+anchors_preset = -1
+anchor_left = 0.265
+anchor_top = 0.439
+anchor_right = 0.265
+anchor_bottom = 0.439
+offset_left = -89.2
+offset_top = -35.486
+offset_right = 73.8
+offset_bottom = 41.514
 grow_vertical = 2
 text = "Spawn Bee"
 
+[node name="Position_Controls" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
+
+[connection signal="pressed" from="GUI/Bee_Controls/MoveCommander" to="." method="_on_move_commander_pressed"]
+[connection signal="pressed" from="GUI/Bee_Controls/TryToSpawn" to="." method="_on_try_to_spawn_pressed"]

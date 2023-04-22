@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwg4kpuqbhjwo"]
+
+[ext_resource type="Texture2D" uid="uid://cv17u7blhk7m4" path="res://art/GUI/SelectionReticle.png" id="1_hvarg"]
+[ext_resource type="Script" path="res://scripts/GameState/TargetPosition.gd" id="1_ipkvh"]
+
+[node name="TargetPosition" type="Node2D"]
+script = ExtResource("1_ipkvh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hvarg")

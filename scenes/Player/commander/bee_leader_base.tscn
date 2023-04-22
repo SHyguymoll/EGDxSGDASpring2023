@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://scenes/Player/commander/bee_leader_base.gd" id="1_2bq6c"]
 [ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/solder/bee_normal.tscn" id="2_g27me"]
-[ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_gixma"]
-[ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_3u5du"]
-[ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_qit2p"]
-[ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_3.png" id="5_xiito"]
+[ext_resource type="Texture2D" uid="uid://o64lctrty1yi" path="res://art/YourTeam/BeeCommander/Attack/Attack_0.png" id="3_dkddi"]
+[ext_resource type="Texture2D" uid="uid://ce2ytyr5jd1wb" path="res://art/YourTeam/BeeCommander/Attack/Attack_1.png" id="4_22oqi"]
+[ext_resource type="Texture2D" uid="uid://cyvwxonps6m77" path="res://art/YourTeam/BeeCommander/Attack/Attack_2.png" id="5_1jgsa"]
 [ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="6_0d2q3"]
+[ext_resource type="Texture2D" uid="uid://bgskxcjcvdaho" path="res://art/YourTeam/BeeCommander/Attack/Attack_3.png" id="6_ty7xm"]
 [ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_mjptp"]
 [ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_go1ni"]
 [ext_resource type="Texture2D" uid="uid://dbtb1cl104h6m" path="res://art/YourTeam/BeeCommander/Idle/Idle_0.png" id="9_5op45"]
@@ -21,18 +21,18 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_gixma")
+"texture": ExtResource("3_dkddi")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_3u5du")
+"texture": ExtResource("4_22oqi")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_qit2p")
+"texture": ExtResource("5_1jgsa")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_xiito")
+"texture": ExtResource("6_ty7xm")
 }],
-"loop": true,
+"loop": false,
 "name": &"Attack",
 "speed": 20.0
 }, {
@@ -48,7 +48,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Death",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -80,7 +80,8 @@ formation_closeness = 1000.0
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_ggquk")
-animation = &"Idle"
+animation = &"Death"
+frame_progress = 0.0651478
 script = ExtResource("12_g00ef")
 
 [node name="Hurtbox" type="Area2D" parent="."]

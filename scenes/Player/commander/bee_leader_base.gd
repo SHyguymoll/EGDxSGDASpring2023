@@ -6,15 +6,11 @@ extends "res://scripts/GameState/Player/bee_base.gd"
 @export var spawn_time : int
 @export var spawn_timer : int
 
-var worldspace = get_tree().get_root().get_node("Stage")
+@onready var worldspace = get_tree().get_root().get_node("Stage")
 
-func _physics_process(delta):
+func tickTimers():
+	last_atk = min(last_atk + 1, atk_speed)
 	spawn_timer = min(spawn_timer + 1, spawn_time)
-
-func spawn_soldier():
-	if spawn_timer == spawn_time:
-		spawn_timer = 0
-		
 
 var hovered = false
 var selected = false
