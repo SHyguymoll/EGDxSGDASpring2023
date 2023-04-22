@@ -1,7 +1,7 @@
 class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 
 @export var start : Building
-@export var spawn : PackedScene
+@export var spawn : String
 @export var spawn_time : int
 @export var spawn_timer : int
 @export var ability_time : int

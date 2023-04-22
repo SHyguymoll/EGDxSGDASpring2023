@@ -127,7 +127,7 @@ func _on_move_commander_pressed():
 func _on_try_to_spawn_pressed():
 	if selected_leader.spawn_time == selected_leader.spawn_timer:
 		selected_leader.spawn_time = 0
-		selected_leader.leader_data.bee.append(create(selected_leader.spawn, selected_leader, Vector2.ZERO, ""))
+		selected_leader.leader_data.bee.append(create(load(selected_leader.spawn), selected_leader, Vector2.ZERO, ""))
 
 func _on_use_ability_pressed():
 	if selected_leader.ability_time == selected_leader.ability_timer:
