@@ -19,6 +19,8 @@ const COMPLETION_RANGE = 10
 @onready var target_position_randomize : Vector2 = random_pos()
 @onready var atk_time = atk_timer
 @onready var sfx = $Effects
+@onready var throw_hands = $HurtBox
+@onready var detect = $DetectBox
 @onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 
@@ -96,21 +98,21 @@ func _physics_process(_delta):
 		"hover", "follow", "directed":
 			$Animate.anim_state = "Idle"
 			$Animate.play()
-			can_see = reduce_candidates($DetectBox.get_overlapping_areas())
+			can_see = reduce_candidates(detect.get_overlapping_areas())
 			if len(can_see) > 0:
 				leader_action()
-			can_hurt = reduce_candidates($HurtBox.get_overlapping_areas())
+			can_hurt = reduce_candidates(throw_hands.get_overlapping_areas())
 			if len(can_hurt) > 0:
 				mode = "attack"
 			#yo dog I heard you liked match statements
 			match mode:
 				"hover":
-					target_position = position
+					target_position = global_position
 				"follow":
-					target_position = leader.position + random_pos() + target_position_randomize
+					target_position = leader.global_position + random_pos() + target_position_randomize
 				"directed":
-					target_position = target.position + target_position_randomize if target.used else target_position
-			position += position.direction_to(target_position) * speed
+					target_position = target.global_position + target_position_randomize if target.used else target_position
+			global_position += global_position.direction_to(target_position) * speed
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:
 					target.movement_completed = true

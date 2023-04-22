@@ -49,8 +49,8 @@ func random_pos():
 func create(new_thing : PackedScene, leader, pos : Vector2):
 	var new_thing_inst = new_thing.instantiate()
 	if new_thing_inst is Bee_Leader:
-		new_thing_inst.position = pos
 		new_thing_inst.start = selected_building
+		new_thing_inst.position = pos
 		new_thing_inst.mode = "hover"
 	elif new_thing_inst is Bee:
 		new_thing_inst.leader = leader

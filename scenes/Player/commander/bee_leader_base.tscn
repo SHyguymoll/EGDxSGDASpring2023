@@ -92,6 +92,10 @@ animations = [{
 radius = 40.0
 height = 80.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mv86k"]
+radius = 130.0
+height = 260.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(53, 55)
 
@@ -101,10 +105,6 @@ direction = Vector3(1, 1, 0)
 gravity = Vector3(0, 0, 0)
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mv86k"]
-radius = 130.0
-height = 260.0
 
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
 collision_layer = 7
@@ -136,28 +136,22 @@ frame = 3
 frame_progress = 1.0
 script = ExtResource("12_g00ef")
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 8
 
-[node name="EffectArea" type="CollisionShape2D" parent="Hurtbox"]
+[node name="EffectArea" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CapsuleShape2D_qwus8")
+
+[node name="DetectBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
+shape = SubResource("CapsuleShape2D_mv86k")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3gs5l")
-
-[node name="SelectLight" type="Sprite2D" parent="."]
-texture = ExtResource("11_a6jey")
-
-[node name="BeeCreateBar" type="TextureProgressBar" parent="."]
-offset_left = -64.0
-offset_top = 34.0
-offset_right = 64.0
-offset_bottom = 50.0
-value = 29.0
-texture_under = ExtResource("13_o8g2g")
-texture_progress = ExtResource("14_2uj2u")
-metadata/_edit_use_anchors_ = true
 
 [node name="AttackBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8
@@ -199,12 +193,18 @@ emitting = false
 process_material = SubResource("ParticleProcessMaterial_qqxdp")
 one_shot = true
 
-[node name="DetectBox" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 32
+[node name="BeeCreateBar" type="TextureProgressBar" parent="."]
+offset_left = -64.0
+offset_top = 34.0
+offset_right = 64.0
+offset_bottom = 50.0
+value = 29.0
+texture_under = ExtResource("13_o8g2g")
+texture_progress = ExtResource("14_2uj2u")
+metadata/_edit_use_anchors_ = true
 
-[node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
-shape = SubResource("CapsuleShape2D_mv86k")
+[node name="SelectLight" type="Sprite2D" parent="."]
+texture = ExtResource("11_a6jey")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
