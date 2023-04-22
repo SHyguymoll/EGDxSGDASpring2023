@@ -10,6 +10,7 @@ layer = 5
 follow_viewport_enabled = true
 
 [node name="Bee_Controls" type="Control" parent="GUI"]
+visible = false
 layout_mode = 3
 anchors_preset = 12
 anchor_top = 1.0
@@ -46,13 +47,80 @@ offset_bottom = 41.514
 grow_vertical = 2
 text = "Spawn Bee"
 
-[node name="Position_Controls" type="Control" parent="GUI"]
+[node name="UseAbility" type="Button" parent="GUI/Bee_Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.265
+anchor_top = 0.439
+anchor_right = 0.265
+anchor_bottom = 0.439
+offset_left = 91.8
+offset_top = -36.486
+offset_right = 269.8
+offset_bottom = 40.514
+grow_vertical = 2
+text = "Use Ability"
+
+[node name="Hive_Controls" type="Control" parent="GUI"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -74.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BuildingAction" type="Button" parent="GUI/Hive_Controls"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.098
+anchor_top = 0.426
+anchor_right = 0.098
+anchor_bottom = 0.426
+offset_left = -122.44
+offset_top = -35.524
+offset_right = 106.56
+offset_bottom = 41.476
+text = "Do Building Action"
+
+[node name="DestroyBuilding" type="Button" parent="GUI/Hive_Controls"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -38.5
+offset_bottom = 38.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "Destroy Building"
+
+[node name="Position_Controls" type="Control" parent="GUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -74.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="GUI/Position_Controls"]
+layout_mode = 0
+offset_right = 408.0
+offset_bottom = 59.0
+theme_override_font_sizes/font_size = 30
+text = "Press Backspace to cancel movement."
+horizontal_alignment = 1
 
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
 
 [connection signal="pressed" from="GUI/Bee_Controls/MoveCommander" to="." method="_on_move_commander_pressed"]
 [connection signal="pressed" from="GUI/Bee_Controls/TryToSpawn" to="." method="_on_try_to_spawn_pressed"]
+[connection signal="pressed" from="GUI/Bee_Controls/UseAbility" to="." method="_on_use_ability_pressed"]
+[connection signal="pressed" from="GUI/Hive_Controls/BuildingAction" to="." method="_on_building_action_pressed"]
+[connection signal="pressed" from="GUI/Hive_Controls/DestroyBuilding" to="." method="_on_destroy_building_pressed"]

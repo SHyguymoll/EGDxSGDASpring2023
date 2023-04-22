@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cujyawvn7vwcu"]
+
+[ext_resource type="Texture2D" uid="uid://dhtit5eqgk5w7" path="res://art/YourTeam/BeeBuildings/HomeBase.png" id="1_3mg38"]
+[ext_resource type="Script" path="res://scripts/GameState/Player/building_base.gd" id="1_mop8b"]
+[ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="3_5y5ex"]
+[ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="4_e0k3p"]
+[ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="5_e8274"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_psmdc"]
+size = Vector2(128, 129)
+
+[node name="Base" type="StaticBody2D"]
+script = ExtResource("1_mop8b")
+spawn_time = 1000000000000000
+spawn_timer = 1000000000000000
+building_name = "Hive"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3mg38")
+hframes = 3
+
+[node name="SelectLight" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("3_5y5ex")
+
+[node name="ActionBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 41.0
+fill_mode = 4
+texture_under = ExtResource("4_e0k3p")
+texture_progress = ExtResource("5_e8274")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_psmdc")

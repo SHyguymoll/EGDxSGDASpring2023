@@ -1,17 +1,21 @@
-[gd_scene load_steps=20 format=3 uid="uid://0bavrro8i47e"]
+[gd_scene load_steps=24 format=3 uid="uid://0bavrro8i47e"]
 
 [ext_resource type="Script" path="res://scenes/Player/commander/bee_leader_base.gd" id="1_2bq6c"]
 [ext_resource type="PackedScene" uid="uid://c40ca1atp833e" path="res://scenes/Player/solder/bee_normal.tscn" id="2_g27me"]
 [ext_resource type="Texture2D" uid="uid://o64lctrty1yi" path="res://art/YourTeam/BeeCommander/Attack/Attack_0.png" id="3_dkddi"]
 [ext_resource type="Texture2D" uid="uid://ce2ytyr5jd1wb" path="res://art/YourTeam/BeeCommander/Attack/Attack_1.png" id="4_22oqi"]
 [ext_resource type="Texture2D" uid="uid://cyvwxonps6m77" path="res://art/YourTeam/BeeCommander/Attack/Attack_2.png" id="5_1jgsa"]
-[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="6_0d2q3"]
 [ext_resource type="Texture2D" uid="uid://bgskxcjcvdaho" path="res://art/YourTeam/BeeCommander/Attack/Attack_3.png" id="6_ty7xm"]
-[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_mjptp"]
-[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_go1ni"]
+[ext_resource type="Texture2D" uid="uid://tbs3vwg7r1e2" path="res://art/YourTeam/BeeCommander/Down/Down_0.png" id="7_kd303"]
+[ext_resource type="Texture2D" uid="uid://dyw7fnu7l2opw" path="res://art/YourTeam/BeeCommander/Down/Down_1.png" id="8_btv2b"]
 [ext_resource type="Texture2D" uid="uid://dbtb1cl104h6m" path="res://art/YourTeam/BeeCommander/Idle/Idle_0.png" id="9_5op45"]
+[ext_resource type="Texture2D" uid="uid://bqeh1p0pis2n8" path="res://art/YourTeam/BeeCommander/Down/Down_2.png" id="9_f16wt"]
+[ext_resource type="Texture2D" uid="uid://blf3et6pmt720" path="res://art/YourTeam/BeeCommander/Down/Down_3.png" id="10_m2ijw"]
 [ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="11_a6jey"]
+[ext_resource type="Texture2D" uid="uid://k5qv20md7tau" path="res://art/YourTeam/BeeCommander/Down/Down_4.png" id="11_ysnth"]
+[ext_resource type="Texture2D" uid="uid://hsrsxwyhtqab" path="res://art/YourTeam/BeeCommander/Down/Down_5.png" id="12_4wvki"]
 [ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="12_g00ef"]
+[ext_resource type="Texture2D" uid="uid://c4wd86cwkxwqh" path="res://art/YourTeam/BeeCommander/Down/Down_6.png" id="13_ip26d"]
 [ext_resource type="Texture2D" uid="uid://cbyrg5q6q3xdt" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Under.png" id="13_o8g2g"]
 [ext_resource type="Texture2D" uid="uid://cpcw88qrfws71" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Progress.png" id="14_2uj2u"]
 [ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="15_3n1e0"]
@@ -38,15 +42,39 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("6_0d2q3")
+"texture": ExtResource("7_kd303")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_mjptp")
+"texture": ExtResource("7_kd303")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_go1ni")
+"texture": ExtResource("7_kd303")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_btv2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_btv2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_btv2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_f16wt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_m2ijw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ysnth")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_4wvki")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ip26d")
 }],
-"loop": true,
+"loop": false,
 "name": &"Death",
 "speed": 15.0
 }, {
@@ -71,17 +99,19 @@ input_pickable = true
 script = ExtResource("1_2bq6c")
 solder = ExtResource("2_g27me")
 spawn_time = 125
+ability_time = 300
+ability_timer = 200
 health = 15.0
 atk = 3.0
-atk_speed = 70.0
 speed = 0.25
 formation_closeness = 1000.0
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_ggquk")
-animation = &"Death"
-frame_progress = 0.0651478
+animation = &"Attack"
+frame = 3
+frame_progress = 1.0
 script = ExtResource("12_g00ef")
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -102,6 +132,7 @@ offset_left = -64.0
 offset_top = 34.0
 offset_right = 64.0
 offset_bottom = 50.0
+value = 99.0
 texture_under = ExtResource("13_o8g2g")
 texture_progress = ExtResource("14_2uj2u")
 metadata/_edit_use_anchors_ = true
@@ -118,6 +149,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
+value = 41.0
 fill_mode = 4
 texture_under = ExtResource("15_3n1e0")
 texture_progress = ExtResource("16_wc7hc")

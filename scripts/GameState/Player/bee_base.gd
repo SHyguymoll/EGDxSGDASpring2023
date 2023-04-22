@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 @export var health : float
 @export var atk : float
-@export var atk_speed : float
+@export var atk_timer : float
 @export var speed : float
 @export var leader : Bee_Leader
 @export var target : Target
@@ -12,9 +12,10 @@ extends CharacterBody2D
 @export var team = "Player"
 
 const COMPLETION_RANGE = 10
-@onready var mode = "hover"
-@onready var target_position : Vector2 = Vector2.ZERO
-@onready var last_atk = atk_speed
+@onready var mode : String
+@onready var target_position : Vector2
+@onready var target_position_randomize : Vector2 = random_pos()
+@onready var atk_time = atk_timer
 @onready var death_timer = 10
 
 @onready var modes = ["hover", "follow", "directed", "death"]
@@ -27,7 +28,7 @@ func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5)*(100 - formation_closeness)
 
 func attack():
-	last_atk = 0
+	atk_time = 0
 	$Animate.anim_state = "Attack"
 	var candidates = $Hurtbox.get_overlapping_bodies()
 	candidates[randi_range(0, len(candidates) - 1)].pain(atk, speed)
@@ -38,14 +39,17 @@ func pain(dmg: float, accuracy: float):
 	if health <= 0:
 		$Animate.anim_state = "Die"
 
-func _process(delta):
-	$AttackBar.value = (last_atk/atk_speed) * 100
+func handle_death():
+	queue_free()
+
+func _process(_delta):
+	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = true if $AttackBar.value < 100 else false
 
 func tickTimers():
-	last_atk = min(last_atk + 1, atk_speed)
+	atk_time = min(atk_time + 1, atk_timer)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	match mode:
 		"hover", "follow", "directed":
 			#yo dog I heard you liked match statements
@@ -53,9 +57,9 @@ func _physics_process(delta):
 				"hover":
 					target_position = position
 				"follow":
-					target_position = leader.position + random_pos()
+					target_position = leader.position + random_pos() + target_position_randomize
 				"directed":
-					target_position = target.position if target.used else target_position
+					target_position = target.position + target_position_randomize if target.used else target_position
 			if $Hurtbox.has_overlapping_bodies():
 				mode = "attack"
 			position += (target_position - position).normalized() * speed
@@ -65,12 +69,12 @@ func _physics_process(delta):
 					target = null
 					mode = "hover"
 		"attack":
-			if last_atk == atk_speed:
+			if atk_time == atk_timer:
 				attack()
-			if last_atk > atk_speed / 5 - 1:
+			if atk_time > atk_timer / 5 - 1:
 				mode = "hover"
 		"death":
 			if death_timer == 0:
-				queue_free()
+				handle_death()
 			death_timer -= 1
 	tickTimers()

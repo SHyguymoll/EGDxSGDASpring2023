@@ -9,7 +9,7 @@ const MAX_CIRC = 10
 func _ready():
 	play()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	animation = anim_state
 	match anim_state:
 		"Idle":

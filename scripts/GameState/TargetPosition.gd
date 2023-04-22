@@ -6,7 +6,7 @@ extends Node2D
 @onready var used = false
 @onready var movement_completed = false
 
-func _process(delta):
+func _process(_delta):
 	if !used:
 		position = get_global_mouse_position()
 	if used and movement_completed:

@@ -5,15 +5,24 @@ extends "res://scripts/GameState/Player/bee_base.gd"
 @export var solder : PackedScene
 @export var spawn_time : int
 @export var spawn_timer : int
+@export var ability_time : int
+@export var ability_timer : int
 
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 
-func tickTimers():
-	last_atk = min(last_atk + 1, atk_speed)
-	spawn_timer = min(spawn_timer + 1, spawn_time)
-
 var hovered = false
 var selected = false
+
+func tickTimers():
+	atk_time = min(atk_time + 1, atk_timer)
+	spawn_time = min(spawn_time + 1, spawn_timer)
+	ability_time = min(ability_time + 1, ability_timer)
+
+func handle_death(): #Legends never die
+	pass
+
+func use_ability():
+	pass
 
 func _on_mouse_entered():
 	hovered = true
@@ -21,20 +30,24 @@ func _on_mouse_entered():
 func _on_mouse_exited():
 	hovered = false
 
-func _process(delta):
-	$AttackBar.value = (last_atk/atk_speed) * 100
-	$AttackBar.visible = true if $AttackBar.value < 100 else false
+func _process(_delta):
+	$AttackBar.value = (spawn_time/spawn_timer) * 100
+	$AttackBar.visible = ($AttackBar.value < 100)
 	$SelectLight.visible = hovered or selected
+	@warning_ignore("integer_division")
 	$BeeCreateBar.value = (spawn_timer/spawn_time) * 100
-	$BeeCreateBar.visible = true if $BeeCreateBar.value < 100 else false
+	$BeeCreateBar.visible = ($BeeCreateBar.value < 100)
 
-func _on_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
+func _on_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and hovered:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			selected = !selected
 			if selected:
+				if worldspace.selected_leader != self and worldspace.selected_leader != null:
+					worldspace.selected_leader.selected = false
 				worldspace.selected_leader = self
 			else:
-				if worldspace.selected_leader == self:
-					worldspace.selected_leader = null
+				if worldspace.selected_leader != self:
+					worldspace.selected_leader.selected = false
+				worldspace.selected_leader = null
 
