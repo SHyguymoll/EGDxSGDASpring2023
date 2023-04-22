@@ -9,6 +9,7 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 @export var resp_time : int
 @export var resp_timer : int
 @export var encounter_move : String
+@export var soldier_limit : int
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
 var current_target
@@ -64,6 +65,8 @@ func _process(_delta):
 	@warning_ignore("integer_division")
 	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = ($AttackBar.value < 100)
+	$HealthBar.value = (health/health_max) * 100
+	$HealthBar.visible = ($HealthBar.value < 100)
 	$SelectLight.visible = hovered or selected
 	@warning_ignore("integer_division")
 	$BeeCreateBar.value = (float(spawn_time)/spawn_timer) * 100

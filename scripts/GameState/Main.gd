@@ -12,24 +12,42 @@ var explosion_effect = preload("res://scenes/Effects/explosion.tscn")
 @onready var Bee_Controls = $GUI/Bee_Controls
 @onready var Hive_Controls = $GUI/Hive_Controls
 @onready var Position_Controls = $GUI/Position_Controls
+@onready var Wave_HUD = $GUI/Wave_HUD
 
 var selected_leader : Bee_Leader
 var current_target : Target
 var selected_building : Building
-var level_points : int = 0
+var honey_points : int = 0
 var hive_placed : bool = false
 var modes = ["View", "Movement Marker", "Building Place", "Game Over"]
+var game_portions = ["Tutorial", "Pre Wave", "Incoming Enemies", "During Wave", "Game Over"]
+var game_portion = "Tutorial"
+var wave : int = 0
+var enemies_to_spawn : int = 0
+var enemies_here = []
 var mode = "View"
 
 var tutorial : int = 0
 var message_bank = [
 	"First place a hive.",
+	
 	"Next, click on the hive.",
+	
 	"Now click 'Do Building Action' to spawn your first Commander Bee.",
-	"Each hive can only have one Commander Bee per levelup, but each Commander Bee generates bees of their own.\nClick on the Commander Bee.",
-	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears.",
-	"Now you have a Soldier Bee. Commander Bees automatically use these to fight.\nFighting gets you HP which can be used to level up your Hive and Commander Bee.\nSoldier Bees can perish, but Commander Bees teleport back to their Hive when their health is depleted.\nNow click 'Move Commander'.",
-	"Move the Commander Bee however you want.\nYou can't control the Soldiers directly, but Commanders can be maneuvered.\nDestroy the target to finish this tutorial and start the game."
+	
+	"Each hive can only have one Commander Bee per levelup, but each Commander Bee generates a number of Soldier bees to lead.
+	Click on the Commander Bee.",
+	
+	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears to spawn a Soldier Bee on the Commander.",
+	
+	"Now you have a Soldier Bee. Commander Bees automatically use these to fight.
+	Winning fights gets you Honey Points which can be used to level up your Hive and Commander Bee.
+	Soldier Bees can perish, but Commander Bees teleport back to their Hive when their health is depleted for a small Honey Point fee.
+	Now click 'Move Commander'.",
+	
+	"Move the Commander Bee however you want.
+	You can't control the Soldiers directly, but Commanders can be maneuvered.
+	Destroy the target to finish this tutorial and start the game."
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -78,8 +96,23 @@ func explosion(pos: Vector2, time : float):
 
 func game_over():
 	mode = "Game Over"
-	Message.text = "Your Hive was destroyed. Game Over."
+	Message.message("Your Hive was destroyed. Game Over.", 5)
 	pass
+
+func _physics_process(_delta):
+	match game_portion:
+		"Tutorial":
+			Wave_HUD.hide()
+		"Pre Wave":
+			Wave_HUD.show()
+			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
+			Wave_HUD.get_node("EnemiesLeft").text = "No Enemies, prepare for next wave."
+		"Incoming Enemies", "During Wave":
+			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
+			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemies_here)) + "/" + str(enemies_to_spawn)
+		"Game Over":
+			Wave_HUD.get_node("CurrentWave").text = "Final Wave: " + str(wave)
+			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemies_here)) + "/" + str(enemies_to_spawn)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -95,30 +128,34 @@ func _process(_delta):
 		Hive_Controls.get_node("DestroyBuilding").visible = (Hive_Controls.visible) and (selected_building.building_name != "Hive")
 	
 	Position_Controls.visible = (mode == "Movement Marker") or (mode == "Building Place")
-	if mode == "Movement Marker":
-		if current_target.used:
-			current_target = null
-			mode = "View"
-		if Input.is_action_pressed("Cancel"):
-			selected_leader.mode = "hover"
-			current_target.queue_free()
-			mode = "View"
-	if mode == "Building Place":
-		if Input.is_action_pressed("Cancel"):
-			selected_building.queue_free()
-			selected_building = null
-			mode = "View"
+	
+	match mode:
+		"Movement Marker":
+			if current_target.used:
+				current_target = null
+				mode = "View"
+			if Input.is_action_pressed("Cancel"):
+				selected_leader.mode = "hover"
+				current_target.queue_free()
+				mode = "View"
+		"Building Place":
+			if Input.is_action_pressed("Cancel"):
+				selected_building.queue_free()
+				selected_building = null
+				mode = "View"
+		"Game Over":
+			if !Message.visible:
+				get_tree().reload_current_scene()
 	if tutorial != -1:
-		Message.text = message_bank[tutorial]
+		Message.message(message_bank[tutorial], -1.0)
 		match tutorial:
 			0: if hive_placed: tutorial = 1
 			1: if selected_building != null: tutorial = 2
-			2: if len(selected_building.building_data) != 0: tutorial = 3
+			2: if len(selected_building.building_data.bees) != 0: tutorial = 3
 			3: if selected_leader != null: tutorial = 4
 			4: if selected_leader != null and len(selected_leader.leader_data.bee) > 0: tutorial = 5
 			5: if mode == "Movement Marker": tutorial = 6
-			6: if $GameplayContainer.get_node_or_null("Target") == null: tutorial = -1; Message.text = ""
-			
+			6: if $GameplayContainer.get_node_or_null("Target") == null: tutorial = -1; Message.message("", 0)
 
 func _on_move_commander_pressed():
 	mode = "Movement Marker"
@@ -132,9 +169,15 @@ func _on_move_commander_pressed():
 
 func _on_try_to_spawn_pressed():
 	if selected_leader.spawn_time == selected_leader.spawn_timer:
-		selected_leader.spawn_time = 0
-		selected_leader.leader_data.bee.append(create(load(selected_leader.spawn), selected_leader, Vector2.ZERO))
-
+		if len(selected_leader.leader_data.bee) <= selected_leader.soldier_limit:
+			selected_leader.spawn_time = 0
+			selected_leader.leader_data.bee.append(create(load(selected_leader.spawn), selected_leader, Vector2.ZERO))
+		else:
+			Message.text = "Commander reached bee limit"
+	else:
+		Message.text = "Commander can't create a bee yet"
+		
+	
 func _on_use_ability_pressed():
 	if selected_leader.ability_time == selected_leader.ability_timer:
 		selected_leader.ability_time = 0
@@ -150,7 +193,7 @@ func _on_destroy_building_pressed():
 		selected_building.destroy()
 
 func _on_level_building_pressed():
-	if level_points >= selected_building.level_cost:
-		level_points -= selected_building.level_cost
+	if honey_points >= selected_building.level_cost:
+		honey_points -= selected_building.level_cost
 		selected_building.level_building(selected_building.level + 1)
 		

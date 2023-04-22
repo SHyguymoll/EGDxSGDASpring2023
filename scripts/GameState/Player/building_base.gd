@@ -8,6 +8,7 @@ var level_cost
 @export var spawn_time : int
 @export var spawn_timer : int
 @export var health : float
+@export var health_max : float
 @export var building_name : String
 @export var create : PackedScene
 
@@ -23,6 +24,7 @@ func random_pos():
 
 func tickTimers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
+	health = min(health + 0.1*(level+1), health_max)
 
 func _physics_process(_delta):
 	tickTimers()
@@ -39,6 +41,8 @@ func _process(_delta):
 	@warning_ignore("integer_division")
 	$ActionBar.value = float(spawn_time)/spawn_timer * 100
 	$ActionBar.visible = ($ActionBar.value < 100)
+	$HealthBar.value = float(health)/health_max * 100
+	$HealthBar.visible = ($HealthBar.value < 100)
 	$SelectLight.visible = hovered or selected
 	level_cost = level_costs[level]
 	if Input.is_action_just_pressed("debugKILL"):

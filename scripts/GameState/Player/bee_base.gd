@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var speed : float
 @export var accuracy : float
 @export var leader : Bee_Leader
-
+@export var score_gain : int
 @export var formation_closeness : float
 @export var team : String
 
@@ -85,15 +85,16 @@ func handle_death():
 
 func _process(_delta):
 	$AttackBar.value = (atk_time/atk_timer) * 100
-	$AttackBar.visible = true if $AttackBar.value < 100 else false
+	$AttackBar.visible = ($AttackBar.value < 100)
 	$HealthBar.value = (health/health_max) * 100
-	$HealthBar.visible = true if $HealthBar.value < 100 else false
+	$HealthBar.visible = ($HealthBar.value < 100)
 
 func tickTimers():
 	atk_time = min(atk_time + 1, atk_timer)
 
 func debug():
-	print(target.global_position)
+	pass
+	#print(target.global_position)
 
 func _physics_process(_delta):
 	match mode:
@@ -113,7 +114,6 @@ func _physics_process(_delta):
 				"follow":
 					target_position = leader.global_position + random_pos() + target_position_randomize
 				"directed":
-					debug()
 					target_position = target.global_position + target_position_randomize if target.used else global_position
 			global_position += global_position.direction_to(target_position) * speed
 			if mode == "directed" and target.used:

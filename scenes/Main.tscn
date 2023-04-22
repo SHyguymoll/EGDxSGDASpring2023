@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfortnc847ow4"]
+[gd_scene load_steps=5 format=3 uid="uid://bfortnc847ow4"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="2_wfyw1"]
 [ext_resource type="PackedScene" uid="uid://dpbf8d77055t5" path="res://scenes/Enemies/target.tscn" id="3_1b7p5"]
+[ext_resource type="Script" path="res://scripts/GameState/Message.gd" id="3_vjut1"]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
@@ -137,9 +138,32 @@ horizontal_alignment = 1
 [node name="Message" type="Label" parent="GUI"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 513.0
+offset_left = 207.0
+offset_right = 1.0
+offset_bottom = 348.0
 grow_horizontal = 2
 horizontal_alignment = 1
+script = ExtResource("3_vjut1")
+
+[node name="Wave_HUD" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 213.0
+offset_bottom = 123.0
+
+[node name="CurrentWave" type="Label" parent="GUI/Wave_HUD"]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="EnemiesLeft" type="Label" parent="GUI/Wave_HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
 
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
