@@ -1,7 +1,7 @@
 @tool
 extends AnimatedSprite2D
 
-@export var state = "Idle"
+@export var anim_state = "Idle"
 var timer = 0
 var dir = 1
 const MAX_FLY_POS = 5
@@ -11,8 +11,8 @@ func _ready():
 	play()
 
 func _physics_process(delta):
-	animation = state
-	match state:
+	animation = anim_state
+	match anim_state:
 		"Idle":
 			timer += dir
 			if abs(timer) > MAX_FLY_POS:
