@@ -9,7 +9,6 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 @export var resp_time : int
 @export var resp_timer : int
 @export var encounter_move : String
-@onready var worldspace = get_tree().get_root().get_node("Stage")
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
 var current_target

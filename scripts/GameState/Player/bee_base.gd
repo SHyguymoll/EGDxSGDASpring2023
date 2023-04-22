@@ -20,6 +20,7 @@ const COMPLETION_RANGE = 10
 @onready var atk_time = atk_timer
 @onready var sfx = $Effects
 @onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
+@onready var worldspace = get_tree().get_root().get_node("Stage")
 
 var target : Target
 
@@ -68,6 +69,7 @@ func handle_death():
 		leader.leader_data.bee.erase(self)
 		leader = null
 	if $Animate.is_playing() == false:
+		worldspace.explosion(global_position + random_pos())
 		queue_free()
 
 func _process(_delta):

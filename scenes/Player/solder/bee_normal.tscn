@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=3 uid="uid://c40ca1atp833e"]
+[gd_scene load_steps=11 format=3 uid="uid://c40ca1atp833e"]
 
-[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_xdqvc"]
 [ext_resource type="SpriteFrames" uid="uid://d2wvxjoaedrd8" path="res://art/YourTeam/BeeSoldier/Base/bee_normal.tres" id="2_46hi2"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="6_tuxmh"]
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="7_jua85"]
@@ -25,19 +24,9 @@ gravity = Vector3(0, 0, 0)
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 
-[node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
+[node name="Bee_Normal" type="CharacterBody2D"]
 collision_layer = 7
 collision_mask = 7
-script = ExtResource("1_xdqvc")
-health = 1.0
-health_max = 1.0
-atk = 0.35
-atk_timer = 35.0
-speed = 0.5
-accuracy = 0.2
-leader = NodePath("")
-formation_closeness = 50.0
-team = "Player"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)

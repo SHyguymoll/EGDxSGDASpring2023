@@ -46,7 +46,10 @@ func _process(_delta):
 	level_cost = level_costs[level]
 
 func destroy():
-	for bee in building_data.bees: bee.pain(bee.health, 1)
+	for lead in building_data.bees:
+		for bee in lead.leader_data.bee:
+			bee.pain(bee.health, 1)
+		lead.pain(lead.health, 1)
 	for _n in range(4): worldspace.explosion(global_position + random_pos())
 	worldspace.game_over()
 
@@ -56,8 +59,7 @@ func pain(dmg: float, _accuracy: float):
 		destroy()
 
 func use_ability():
-	if len(building_data) <= level:
-		building_data.append(worldspace.create(create, self, get_global_position(), ""))
+	if len(building_data.bees) <= level: building_data.bees.append(worldspace.create(create, self, get_global_position(), ""))
 
 func level_building(new_val : int):
 	level = new_val

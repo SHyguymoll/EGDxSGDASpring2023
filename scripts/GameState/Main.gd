@@ -82,11 +82,11 @@ func _process(_delta):
 		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."
 		mode = "View"
 	Bee_Controls.visible = (selected_leader != null) and (mode == "View")
+	Hive_Controls.visible = (selected_building != null) and (mode == "View")
 	if selected_building != null:
-		Hive_Controls.visible = (mode == "View")
 		Hive_Controls.get_node("LevelBuilding").text = "Level Up Building (cost: {0})".format([selected_building.level_cost])
-		Hive_Controls.get_node("LevelBuilding").visible = (selected_building.level_cost != 9223372036854775807)
-		Hive_Controls.get_node("DestroyBuilding").visible = (selected_building.building_name != "Hive")
+		Hive_Controls.get_node("LevelBuilding").visible = (Hive_Controls.visible) and (selected_building.level_cost != 9223372036854775807)
+		Hive_Controls.get_node("DestroyBuilding").visible = (Hive_Controls.visible) and (selected_building.building_name != "Hive")
 	
 	Position_Controls.visible = (mode == "Movement Marker") or (mode == "Building Place")
 	if mode == "Movement Marker":
@@ -109,7 +109,7 @@ func _process(_delta):
 			1: if selected_building != null: tutorial = 2
 			2: if len(selected_building.building_data) != 0: tutorial = 3
 			3: if selected_leader != null: tutorial = 4
-			4: if len(selected_leader.leader_data.bee) > 0: tutorial = 5
+			4: if selected_leader != null and len(selected_leader.leader_data.bee) > 0: tutorial = 5
 			5: if mode == "Movement Marker": tutorial = 6
 			6: if $GameplayContainer.get_node_or_null("Target") == null: tutorial = -1; Message.text = ""
 			
