@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfortnc847ow4"]
+[gd_scene load_steps=4 format=3 uid="uid://bfortnc847ow4"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="2_wfyw1"]
+[ext_resource type="PackedScene" uid="uid://dpbf8d77055t5" path="res://scenes/Enemies/target.tscn" id="3_1b7p5"]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
@@ -142,6 +143,9 @@ horizontal_alignment = 1
 
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
+
+[node name="Target" parent="GameplayContainer" instance=ExtResource("3_1b7p5")]
+position = Vector2(1080, 327)
 
 [connection signal="pressed" from="GUI/Bee_Controls/MoveCommander" to="." method="_on_move_commander_pressed"]
 [connection signal="pressed" from="GUI/Bee_Controls/TryToSpawn" to="." method="_on_try_to_spawn_pressed"]

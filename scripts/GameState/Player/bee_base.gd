@@ -3,6 +3,7 @@ class_name Bee
 extends CharacterBody2D
 
 @export var health : float
+@export var health_max : float
 @export var atk : float
 @export var atk_timer : float
 @export var speed : float
@@ -37,6 +38,7 @@ func attack():
 	$Animate.anim_state = "Attack"
 	var candidates = $Hurtbox.get_overlapping_bodies()
 	candidates[randi_range(0, len(candidates) - 1)].pain(atk, accuracy)
+	mode = "post_attack"
 
 func post_attack():
 	if (atk_time > ((atk_timer / 5) - 1)):
@@ -60,6 +62,8 @@ func handle_death():
 func _process(_delta):
 	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = true if $AttackBar.value < 100 else false
+	$HealthBar.value = (health/health_max) * 100
+	$HealthBar.visible = true if $HealthBar.value < 100 else false
 
 func tickTimers():
 	atk_time = min(atk_time + 1, atk_timer)
@@ -68,6 +72,7 @@ func _physics_process(_delta):
 	match mode:
 		"hover", "follow", "directed":
 			$Animate.anim_state = "Idle"
+			$Animate.play()
 			#yo dog I heard you liked match statements
 			match mode:
 				"hover":
@@ -87,6 +92,7 @@ func _physics_process(_delta):
 		"attack":
 			if atk_time == atk_timer:
 				attack()
+				
 		"post_attack":
 			post_attack()
 		"death":

@@ -1,6 +1,6 @@
 class_name Bee_Leader
 
-extends "res://scripts/GameState/Player/bee_base.gd"
+extends Bee
 
 @export var start : Building
 @export var spawn : PackedScene
@@ -8,7 +8,7 @@ extends "res://scripts/GameState/Player/bee_base.gd"
 @export var spawn_timer : int
 @export var ability_time : int
 @export var ability_timer : int
-
+@export var encounter_move : String
 @onready var worldspace = get_tree().get_root().get_node("Stage")
 
 var leader_data : Dictionary = {
@@ -27,6 +27,13 @@ func handle_death(): #Legends never die
 	if $Animate.is_playing() == false:
 		position = start.position
 
+func _on_detect_box_body_entered(body):
+	match encounter_move:
+		"rushdown":
+			for bee in leader_data.bee:
+				bee.target_position = body.position
+				bee.mode = "directed"
+
 func use_ability():
 	pass
 
@@ -37,7 +44,6 @@ func _on_mouse_exited():
 	hovered = false
 
 func _process(_delta):
-	
 	@warning_ignore("integer_division")
 	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = ($AttackBar.value < 100)

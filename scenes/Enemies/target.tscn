@@ -1,10 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c40ca1atp833e"]
+[gd_scene load_steps=7 format=3 uid="uid://dpbf8d77055t5"]
 
-[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_xdqvc"]
-[ext_resource type="SpriteFrames" uid="uid://cxnh7aaba7f58" path="res://art/Enemies/BeeSoldier/Base/bee_evil.tres" id="2_scf8n"]
-[ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="4_vbsev"]
-[ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="5_qkmff"]
-[ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="8_4ydvr"]
+[ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_tc4mg"]
+[ext_resource type="SpriteFrames" uid="uid://bpa1xm08er4fh" path="res://art/Enemies/Target/target.tres" id="2_fddc6"]
+[ext_resource type="Script" path="res://scripts/Animate/Target_Animate.gd" id="3_wb78r"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwus8"]
 radius = 17.0
@@ -17,23 +15,23 @@ size = Vector2(20, 24)
 radius = 129.0
 height = 258.0
 
-[node name="Bee_Evil" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
-script = ExtResource("1_xdqvc")
-health = 1.0
-health_max = 1.0
-atk = 0.25
-atk_timer = 40.0
-speed = 0.5
-accuracy = 0.2
+[node name="Target" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
+script = ExtResource("1_tc4mg")
+health = 0.1
+health_max = 0.1
+atk_timer = 1.0
+accuracy = 0.01
 leader = NodePath("")
 formation_closeness = 50.0
 team = "Evil"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
-sprite_frames = ExtResource("2_scf8n")
-animation = &"Attack"
-script = ExtResource("8_4ydvr")
+sprite_frames = ExtResource("2_fddc6")
+animation = &"Death"
+frame = 17
+frame_progress = 1.0
+script = ExtResource("3_wb78r")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 8
@@ -59,7 +57,7 @@ collision_mask = 8
 [node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
 shape = SubResource("CapsuleShape2D_3cn51")
 
-[node name="HealthBar" type="TextureProgressBar" parent="."]
+[node name="AttackBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -72,10 +70,8 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 fill_mode = 4
-texture_under = ExtResource("4_vbsev")
-texture_progress = ExtResource("5_qkmff")
 
-[node name="AttackBar" type="TextureProgressBar" parent="."]
+[node name="HealthBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

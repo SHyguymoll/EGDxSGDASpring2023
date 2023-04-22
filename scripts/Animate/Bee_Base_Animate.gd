@@ -23,9 +23,3 @@ func _physics_process(_delta):
 				timer = 0
 			position.y = sin(timer)
 			position.x = cos(timer)
-		"Death":
-			timer += dir
-			if abs(timer) > MAX_FLY_POS:
-				dir = -(dir)
-			position.y = timer
-	

@@ -89,7 +89,7 @@ func _process(_delta):
 			3: if selected_leader != null: tutorial = 4
 			4: if len(selected_leader.leader_data.bee) > 0: tutorial = 5
 			5: if mode == "Movement Marker": tutorial = 6
-			6: if mode == "View": tutorial = -1
+			6: if mode == "View": tutorial = -1; Message.text = ""
 			
 
 func _on_move_commander_pressed():
