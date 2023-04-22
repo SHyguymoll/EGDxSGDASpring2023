@@ -38,7 +38,7 @@ func _process(_delta):
 	$AttackBar.visible = ($AttackBar.value < 100)
 	$SelectLight.visible = hovered or selected
 	@warning_ignore("integer_division")
-	$BeeCreateBar.value = (spawn_timer/spawn_time) * 100
+	$BeeCreateBar.value = (float(spawn_time)/spawn_timer) * 100
 	$BeeCreateBar.visible = ($BeeCreateBar.value < 100)
 
 func _on_input_event(_viewport, event, _shape_idx):

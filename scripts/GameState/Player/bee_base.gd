@@ -62,7 +62,7 @@ func _physics_process(_delta):
 					target_position = target.position + target_position_randomize if target.used else target_position
 			if $Hurtbox.has_overlapping_bodies():
 				mode = "attack"
-			position += (target_position - position).normalized() * speed
+			position += position.direction_to(target_position) * speed
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:
 					target.movement_completed = true

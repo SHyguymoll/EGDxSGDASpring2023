@@ -14,7 +14,7 @@ extends StaticBody2D
 var placed = false
 var hovered = false
 var selected = false
-var building_data
+var building_data = null
 
 func tickTimers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
@@ -45,7 +45,8 @@ func pain(dmg: float, _accuracy: float):
 		destroy()
 
 func use_ability():
-	var building_data = worldspace.create(create, self, get_global_position())
+	if building_data == null:
+		var building_data = worldspace.create(create, self, get_global_position())
 
 func level_building(new_val : int):
 	level = new_val

@@ -46,8 +46,6 @@ func create(new_thing : PackedScene, leader, pos : Vector2):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if Input.is_action_pressed("Move Camera"):
-		$Camera.position = get_global_mouse_position()
 	if mode == "Start Game":
 		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."
 		mode = "View"

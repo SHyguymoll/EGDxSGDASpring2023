@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfortnc847ow4"]
+[gd_scene load_steps=3 format=3 uid="uid://bfortnc847ow4"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="2_wfyw1"]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
 
 [node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("2_wfyw1")
 
 [node name="GUI" type="CanvasLayer" parent="."]
 layer = 5
