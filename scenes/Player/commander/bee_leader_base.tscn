@@ -70,6 +70,7 @@ size = Vector2(53, 55)
 input_pickable = true
 script = ExtResource("1_2bq6c")
 solder = ExtResource("2_g27me")
+spawn_time = 125
 health = 15.0
 atk = 3.0
 atk_speed = 70.0

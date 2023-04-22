@@ -1,9 +1,12 @@
+class_name Bee_Leader
+
 extends "res://scripts/GameState/Player/bee_base.gd"
 
 @export var solder : PackedScene
 @export var spawn_time : int
-var spawn_timer : int
+@export var spawn_timer : int
 
+var worldspace = get_tree().get_root().get_node("Stage")
 
 func _physics_process(delta):
 	spawn_timer = min(spawn_timer + 1, spawn_time)
@@ -33,4 +36,9 @@ func _on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			selected = !selected
+			if selected:
+				worldspace.selected_leader = self
+			else:
+				if worldspace.selected_leader == self:
+					worldspace.selected_leader = null
 

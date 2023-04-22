@@ -1,21 +1,22 @@
+class_name Bee
+
 extends CharacterBody2D
 
 @export var health : float
 @export var atk : float
 @export var atk_speed : float
 @export var speed : float
-@export var leader : CharacterBody2D
+@export var leader : Bee_Leader
 @export var target : Node2D
 @export var formation_closeness : float
 @export var team = "Player"
 
-var mode = "hover"
-var target_position : Vector2 = Vector2.ZERO
-var last_atk = atk_speed
-var death_timer = 10
+@onready var mode = "hover"
+@onready var target_position : Vector2 = Vector2.ZERO
+@onready var last_atk = atk_speed
+@onready var death_timer = 10
 
-var active = false
-var modes = ["hover", "follow", "directed", "death"]
+@onready var modes = ["hover", "follow", "directed", "death"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -65,5 +66,4 @@ func _physics_process(delta):
 			if death_timer == 0:
 				queue_free()
 			death_timer -= 1
-	
-	last_atk = max(last_atk - 1, 0)
+	last_atk = min(last_atk + 1, atk_speed)
