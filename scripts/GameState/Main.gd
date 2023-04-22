@@ -38,7 +38,6 @@ func _ready():
 	selected_building = player_hive.instantiate()
 	$GameplayContainer.add_child(selected_building)
 	mode = "Building Place"
-	Message.text = "First place a hive"
 	Position_Controls.get_node("Label").text = "Press Mouse1 to place."
 	#create(player_hive, null, get_viewport_rect().position + get_viewport_rect().size / 2)
 
@@ -64,7 +63,6 @@ func create(new_thing : PackedScene, leader, pos : Vector2, texture : String):
 		new_thing_inst.texture = texture
 	$GameplayContainer.add_child(new_thing_inst)
 	return new_thing_inst
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

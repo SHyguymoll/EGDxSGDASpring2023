@@ -32,7 +32,7 @@ func _on_detect_box_area_entered(area):
 	match encounter_move:
 		"rushdown":
 			current_target = worldspace.create(target_icon, null, area.global_position, "bee_lead_attack")
-			worldspace.attach(current_target, area.get_parent())
+			#worldspace.attach(current_target, area.get_parent())
 			for bee in leader_data.bee:
 				bee.target = current_target
 				bee.mode = "directed"
