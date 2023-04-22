@@ -2,6 +2,7 @@ class_name Bee_Leader
 
 extends "res://scripts/GameState/Player/bee_base.gd"
 
+@export var start : Building
 @export var spawn : PackedScene
 @export var spawn_time : int
 @export var spawn_timer : int
@@ -19,7 +20,8 @@ func tickTimers():
 	ability_time = min(ability_time + 1, ability_timer)
 
 func handle_death(): #Legends never die
-	pass
+	if $Animate.is_playing() == false:
+		position = start.position
 
 func use_ability():
 	pass
@@ -31,7 +33,8 @@ func _on_mouse_exited():
 	hovered = false
 
 func _process(_delta):
-	$AttackBar.value = (spawn_time/spawn_timer) * 100
+	@warning_ignore("integer_division")
+	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = ($AttackBar.value < 100)
 	$SelectLight.visible = hovered or selected
 	@warning_ignore("integer_division")

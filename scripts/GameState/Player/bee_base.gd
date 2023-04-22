@@ -16,7 +16,6 @@ const COMPLETION_RANGE = 10
 @onready var target_position : Vector2
 @onready var target_position_randomize : Vector2 = random_pos()
 @onready var atk_time = atk_timer
-@onready var death_timer = 10
 
 @onready var modes = ["hover", "follow", "directed", "death"]
 
@@ -40,7 +39,8 @@ func pain(dmg: float, accuracy: float):
 		$Animate.anim_state = "Die"
 
 func handle_death():
-	queue_free()
+	if $Animate.is_playing() == false:
+		queue_free()
 
 func _process(_delta):
 	$AttackBar.value = (atk_time/atk_timer) * 100
@@ -74,7 +74,5 @@ func _physics_process(_delta):
 			if atk_time > atk_timer / 5 - 1:
 				mode = "hover"
 		"death":
-			if death_timer == 0:
-				handle_death()
-			death_timer -= 1
+			handle_death()
 	tickTimers()

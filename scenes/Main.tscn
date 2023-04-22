@@ -5,9 +5,10 @@
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
 
+[node name="Camera" type="Camera2D" parent="."]
+
 [node name="GUI" type="CanvasLayer" parent="."]
 layer = 5
-follow_viewport_enabled = true
 
 [node name="Bee_Controls" type="Control" parent="GUI"]
 visible = false
@@ -131,6 +132,7 @@ text = "Press Mouse1 to place, or press Backspace to cancel."
 horizontal_alignment = 1
 
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [connection signal="pressed" from="GUI/Bee_Controls/MoveCommander" to="." method="_on_move_commander_pressed"]
 [connection signal="pressed" from="GUI/Bee_Controls/TryToSpawn" to="." method="_on_try_to_spawn_pressed"]

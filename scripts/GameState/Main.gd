@@ -18,6 +18,7 @@ var mode = "View"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	$Camera.position = get_viewport_rect().size / 2
 	selected_building = player_hive.instantiate()
 	$GameplayContainer.add_child(selected_building)
 	mode = "Building Place"
@@ -27,15 +28,16 @@ func _ready():
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
 
-func create(new_thing : PackedScene, leader : Bee_Leader, pos : Vector2):
+#leader could be Bee_Leader or Building
+func create(new_thing : PackedScene, leader, pos : Vector2):
 	var new_thing_inst = new_thing.instantiate()
-	if new_thing_inst is Bee:
+	if new_thing_inst is Bee_Leader:
+		new_thing_inst.position = pos
+		new_thing_inst.mode = "hover"
+	elif new_thing_inst is Bee:
 		new_thing_inst.leader = leader
 		new_thing_inst.position = leader.position + random_pos()
 		new_thing_inst.mode = "follow"
-	elif new_thing_inst is Bee_Leader:
-		new_thing_inst.position = pos
-		new_thing_inst.mode = "hover"
 	elif new_thing_inst is Building:
 		new_thing_inst.position = pos
 		new_thing_inst.level = 0
@@ -44,6 +46,8 @@ func create(new_thing : PackedScene, leader : Bee_Leader, pos : Vector2):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if Input.is_action_pressed("Move Camera"):
+		$Camera.position = get_global_mouse_position()
 	if mode == "Start Game":
 		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."
 		mode = "View"

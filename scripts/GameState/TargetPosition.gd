@@ -16,3 +16,4 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			used = true
+			print(get_global_mouse_position())
