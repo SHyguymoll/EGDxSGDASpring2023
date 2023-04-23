@@ -31,6 +31,9 @@ func handle_death(): #Legends never die, they just respawn
 	worldspace.effect("player_bee_lead_leave", global_position, 0.0)
 	if is_instance_valid(current_target):
 		current_target.target = null
+	if start != null:
+		start.commanders.erase(self)
+		start = null
 	queue_free()
 
 func change_enemy(): #for Commanders
