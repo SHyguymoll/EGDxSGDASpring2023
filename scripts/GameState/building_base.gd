@@ -1,5 +1,4 @@
 class_name Building
-
 extends StaticBody2D
 
 @onready var level = 0

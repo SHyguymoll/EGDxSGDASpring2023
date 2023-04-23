@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://c40ca1atp833e"]
 
-[ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_1lsrh"]
+[ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_0bqa1"]
 [ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_avcdq"]
 [ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_es08p"]
 [ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_4n04y"]
@@ -92,15 +92,14 @@ color = Color(0, 0.647059, 0.129412, 0.419608)
 radius = 22.0
 height = 44.0
 
-[node name="Bee_Evil" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
-script = ExtResource("1_1lsrh")
+[node name="Bee_Evil" type="CharacterBody2D"]
+script = ExtResource("1_0bqa1")
 health = 1.0
 health_max = 1.0
 atk = 0.2
 atk_timer = 40.0
 speed = 1.0
 accuracy = 0.2
-leader = NodePath("")
 score_gain = 3
 formation_closeness = 75.0
 team = "Evil"

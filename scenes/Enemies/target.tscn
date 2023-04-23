@@ -31,9 +31,7 @@ team = "Evil"
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
 sprite_frames = ExtResource("2_fddc6")
-animation = &"Death"
-frame = 17
-frame_progress = 1.0
+animation = &"Idle"
 script = ExtResource("3_wb78r")
 
 [node name="HurtBox" type="Area2D" parent="."]
