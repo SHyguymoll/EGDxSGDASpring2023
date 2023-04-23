@@ -1,7 +1,7 @@
 extends Bee
 #Evil bee goes directly towards your hive, no need to hover or follow
 func handle_death():
-	$Animate.anim_state = "Death"
+	worldspace.effect("enemy_bee_death", global_position, 0.0)
 	if leader != null:
 		leader.leader_data.bee.erase(self)
 		leader = null

@@ -1,0 +1,184 @@
+[gd_scene load_steps=25 format=3 uid="uid://cutd1exuf0dd6"]
+
+[ext_resource type="Script" path="res://scripts/GameState/bee_base.gd" id="1_hgam2"]
+[ext_resource type="PackedScene" uid="uid://dnt181m45c005" path="res://scenes/Effects/player_bee_death.tscn" id="2_pgvwc"]
+[ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="3_2sohi"]
+[ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="4_lt6nu"]
+[ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="5_pu4a7"]
+[ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_3.png" id="6_5bsdq"]
+[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="7_cqu4j"]
+[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="8_yhlrk"]
+[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="9_msgbd"]
+[ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_0.png" id="10_a4xkb"]
+[ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_1.png" id="11_nem4a"]
+[ext_resource type="Texture2D" uid="uid://byphyt14fgj4o" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_2.png" id="12_jo7h8"]
+[ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="13_0gl6d"]
+[ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="14_5jdy0"]
+[ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="15_s1atb"]
+[ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="16_ojytt"]
+[ext_resource type="AudioStream" uid="uid://da0u1mc3ovvuo" path="res://sound/poof_bee_spawn.mp3" id="17_1joye"]
+[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="18_h2ot4"]
+[ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="19_ff3cn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d8bdl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2sohi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lt6nu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pu4a7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5bsdq")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_cqu4j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_yhlrk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_msgbd")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_a4xkb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_nem4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_jo7h8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_nem4a")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 15.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwus8"]
+radius = 17.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_48aif"]
+radius = 37.0
+height = 74.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
+size = Vector2(20, 24)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q0y2o"]
+emission_shape = 1
+emission_sphere_radius = 13.32
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 11.68
+scale_max = 11.68
+color = Color(1, 1, 0, 0.4)
+
+[node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
+script = ExtResource("1_hgam2")
+health = 1.0
+health_max = 1.0
+atk = 0.35
+atk_timer = 35.0
+speed = 1.1
+accuracy = 0.5
+leader = NodePath("")
+formation_closeness = 50.0
+team = "Player"
+
+[node name="Animate" parent="." instance=ExtResource("2_pgvwc")]
+sprite_frames = SubResource("SpriteFrames_d8bdl")
+animation = &"Idle"
+frame_progress = 0.730427
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="EffectArea" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CapsuleShape2D_qwus8")
+
+[node name="DetectBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
+shape = SubResource("CapsuleShape2D_48aif")
+
+[node name="PhysicsBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_3gs5l")
+
+[node name="AttackBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 4
+texture_under = ExtResource("13_0gl6d")
+texture_progress = ExtResource("14_5jdy0")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 4
+texture_under = ExtResource("15_s1atb")
+texture_progress = ExtResource("16_ojytt")
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="Spawn" type="GPUParticles2D" parent="Effects"]
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_q0y2o")
+lifetime = 0.25
+one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Spawn" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("17_1joye")
+volume_db = -14.857
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("18_h2ot4")
+volume_db = -14.857
+
+[node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("19_ff3cn")
+volume_db = -14.857

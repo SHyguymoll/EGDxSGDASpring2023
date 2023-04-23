@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_1lsrh"]
 [ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_avcdq"]
+[ext_resource type="PackedScene" uid="uid://curqexktubt43" path="res://scenes/Effects/enemy_bee_death.tscn" id="2_c2knt"]
 [ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_es08p"]
 [ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_4n04y"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="4_vbsev"]
@@ -9,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="5_qkmff"]
 [ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="6_ncqfp"]
 [ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_thdoa"]
-[ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="8_4ydvr"]
 [ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_slf1o"]
 [ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_0.png" id="9_7dejx"]
 [ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_1.png" id="10_qrc1t"]
@@ -18,7 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="14_eodcg"]
 [ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="15_wfpag"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_o8kac"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_vfosr"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -105,11 +105,11 @@ score_gain = 3
 formation_closeness = 75.0
 team = "Evil"
 
-[node name="Animate" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -2)
-sprite_frames = SubResource("SpriteFrames_o8kac")
-animation = &"Attack"
-script = ExtResource("8_4ydvr")
+[node name="Animate" parent="." instance=ExtResource("2_c2knt")]
+sprite_frames = SubResource("SpriteFrames_vfosr")
+animation = &"Idle"
+frame = 0
+frame_progress = 0.0
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 8

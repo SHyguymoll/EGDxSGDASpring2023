@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://degfpqi3kwn47"]
+
+[ext_resource type="Texture2D" uid="uid://tbs3vwg7r1e2" path="res://art/YourTeam/BeeCommander/Down/Down_0.png" id="5_h08x6"]
+[ext_resource type="Texture2D" uid="uid://dyw7fnu7l2opw" path="res://art/YourTeam/BeeCommander/Down/Down_1.png" id="6_d8mkm"]
+[ext_resource type="Texture2D" uid="uid://bqeh1p0pis2n8" path="res://art/YourTeam/BeeCommander/Down/Down_2.png" id="7_xdoop"]
+[ext_resource type="Texture2D" uid="uid://blf3et6pmt720" path="res://art/YourTeam/BeeCommander/Down/Down_3.png" id="8_543bm"]
+[ext_resource type="Texture2D" uid="uid://k5qv20md7tau" path="res://art/YourTeam/BeeCommander/Down/Down_4.png" id="9_codam"]
+[ext_resource type="AudioStream" uid="uid://xwl62kn7al3y" path="res://sound/steve_oof.mp3" id="9_v8g4l"]
+[ext_resource type="Texture2D" uid="uid://hsrsxwyhtqab" path="res://art/YourTeam/BeeCommander/Down/Down_5.png" id="10_ua4oi"]
+[ext_resource type="Texture2D" uid="uid://c4wd86cwkxwqh" path="res://art/YourTeam/BeeCommander/Down/Down_6.png" id="11_b0ves"]
+[ext_resource type="Script" path="res://scripts/Animate/SpriteEffect.gd" id="13_a8m48"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aosk1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_h08x6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_h08x6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_h08x6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_d8mkm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_d8mkm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_d8mkm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_xdoop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_543bm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_codam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ua4oi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_b0ves")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 15.0
+}]
+
+[node name="Animate" type="AnimatedSprite2D" node_paths=PackedStringArray("sound_effect")]
+sprite_frames = SubResource("SpriteFrames_aosk1")
+animation = &"Death"
+script = ExtResource("13_a8m48")
+sound_effect = NodePath("Ouch")
+
+[node name="Ouch" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_v8g4l")
+volume_db = -80.0

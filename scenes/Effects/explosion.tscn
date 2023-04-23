@@ -79,11 +79,12 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="Explosion" type="AnimatedSprite2D"]
+[node name="Explosion" type="AnimatedSprite2D" node_paths=PackedStringArray("sound_effect")]
 sprite_frames = SubResource("SpriteFrames_hb5ce")
 frame = 16
 frame_progress = 1.0
 script = ExtResource("18_wq3dp")
+sound_effect = NodePath("Boom")
 
 [node name="Boom" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("19_vlp5q")

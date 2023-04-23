@@ -26,7 +26,7 @@ var can_see = []
 var can_hurt = []
 
 var current_enemy #refers to a Bee or Building
-var current_target #refers to a Target
+var current_target : Target #refers to a Target
 
 func try_sfx(node_name : String):
 	if sfx.get_node_or_null(node_name) != null:
@@ -50,7 +50,6 @@ func _process(_delta):
 	$AttackBar.visible = ($AttackBar.value < 100)
 	$HealthBar.value = (health/health_max) * 100
 	$HealthBar.visible = ($HealthBar.value < 100)
-	
 
 func pick_location():
 	match mode:
@@ -121,6 +120,7 @@ func pain(dmg: float, dmg_accuracy: float):
 		try_sound("Miss")
 
 func handle_death():
+	worldspace.effect("player_bee_death", global_position, 0.0)
 	if leader != null:
 		leader.squad.erase(self)
 		leader = null

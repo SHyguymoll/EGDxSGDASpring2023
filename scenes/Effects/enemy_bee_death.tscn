@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://curqexktubt43"]
+
+[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/Enemies/BeeSoldier/Base/Death/Death_0.png" id="1_v1mxj"]
+[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/Enemies/BeeSoldier/Base/Death/Death_1.png" id="2_h4ho1"]
+[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/Enemies/BeeSoldier/Base/Death/Death_2.png" id="3_cd0ct"]
+[ext_resource type="Script" path="res://scripts/Animate/SpriteEffect.gd" id="11_w2tmd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsy0g"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v1mxj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_h4ho1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cd0ct")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 15.0
+}]
+
+[node name="Animate" type="AnimatedSprite2D"]
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_fsy0g")
+animation = &"Death"
+frame = 2
+frame_progress = 1.0
+script = ExtResource("11_w2tmd")

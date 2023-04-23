@@ -2,13 +2,19 @@ class_name world
 
 extends Node2D
 
-var player_bee_lead_base : PackedScene = preload("res://scenes/Player/commander/bee_leader_base.tscn")
-var player_hive : PackedScene = preload("res://scenes/Player/building/Hive.tscn")
+var player_bee_lead_base : PackedScene = preload("res://scenes/Player/bee_leader_base.tscn")
+var player_hive : PackedScene = preload("res://scenes/Player/Hive.tscn")
 
 var enemy_base : PackedScene = preload("res://scenes/Enemies/evil_bee_normal.tscn")
 
 var target_ret = preload("res://scenes/TargetPosition.tscn")
-var explosion_effect = preload("res://scenes/Effects/explosion.tscn")
+
+var effects = {
+	"explosion": preload("res://scenes/Effects/explosion.tscn"),
+	"player_bee_lead_leave": preload("res://scenes/Effects/leader_bee_base_knockout.tscn"),
+	"enemy_bee_death": preload("res://scenes/Effects/enemy_bee_death.tscn"),
+	"player_bee_death": preload("res://scenes/Effects/player_bee_death.tscn")
+}
 
 var game_started = false
 
@@ -104,6 +110,16 @@ func spawn_enemy_bee(bee_scene : PackedScene, pos : Vector2):
 	new_bee.global_position = pos
 	new_bee.target_position = player_builds[0].global_position #always the hive
 	new_bee.mode = "directed"
+	
+	#values here determined at 5:37 AM, 4/23/23
+	new_bee.health *= 1 + (float(wave)/5)
+	new_bee.health_max *= 1 + (float(wave)/5)
+	new_bee.atk *= 1 + (float(wave)/6)
+	new_bee.atk_timer /= 1 + (float(wave)/10)
+	new_bee.speed *= 1 + (float(wave)/3)
+	new_bee.accuracy *= 1 + (float(wave)/2)
+	new_bee.point_gain *= 1 + (float(wave)/5)
+	
 	enemy_bees.append(new_bee)
 	$GameplayContainer.add_child(new_bee)
 
@@ -129,11 +145,11 @@ func attach_target(to_target : Node2D, from_source : Node2D, texture : String):
 	$GameplayContainer.add_child(new_target)
 	return new_target
 
-func explosion(pos: Vector2, time : float):
-	var new_boom = explosion_effect.instantiate()
-	new_boom.start = time
-	new_boom.global_position = pos
-	$GameplayContainer.add_child(new_boom)
+func effect(effect_name : String, pos: Vector2, time : float):
+	var new_effect = effects[effect_name].instantiate()
+	new_effect.start = time
+	new_effect.global_position = pos
+	$GameplayContainer.add_child(new_effect)
 
 func game_over():
 	mode = "Game Over"
@@ -223,7 +239,7 @@ func deaths(bees : Array[Bee]):
 		if bee.health > 0:
 			new_bees.append(bee)
 			continue
-		explosion(bee.global_position, 0.0)
+		effect("explosion", bee.global_position, 0.0)
 		bee.handle_death()
 	return new_bees
 
@@ -252,16 +268,16 @@ func passives(bees):
 func player_turn():
 	movement(player_bees)
 	attacks(player_bees)
-	enemy_bees = deaths(enemy_bees)
 	enemy_builds = destroys(enemy_builds)
+	enemy_bees = deaths(enemy_bees)
 	buildings(player_builds)
 	passives(player_bees)
 
 func enemy_turn():
 	movement(enemy_bees)
 	attacks(enemy_bees)
-	player_bees = deaths(player_bees)
 	player_builds = destroys(player_builds)
+	player_bees = deaths(player_bees)
 	buildings(enemy_builds)
 	passives(enemy_bees)
 
@@ -276,7 +292,7 @@ func handle_targets():
 			tar.global_position = get_global_mouse_position()
 			continue
 		else:
-			if is_instance_valid(tar.target):
+			if is_instance_valid(tar.target) and tar.target != null:
 				tar.source.mode = "directed"
 				tar.global_position = tar.target.global_position
 			else:
@@ -364,6 +380,7 @@ func _on_move_commander_pressed():
 
 func _on_use_ability_pressed():
 	if selected_leader.ability_available():
+		Bee_Controls.get_node("UseAbility/Success").play()
 		selected_leader.use_ability()
 	else:
 		Bee_Controls.get_node("UseAbility/Denied").play()
@@ -381,6 +398,7 @@ func _on_destroy_building_pressed():
 func _on_level_building_pressed():
 	if honey_points >= selected_building.level_cost:
 		honey_points -= selected_building.level_cost
+		Hive_Controls.get_node("LevelBuilding/Success").play()
 		selected_building.level_building(selected_building.level + 1)
 	else:
 		Hive_Controls.get_node("LevelBuilding/Denied").play()

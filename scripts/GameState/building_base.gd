@@ -48,16 +48,15 @@ func _process(_delta):
 	$HealthBar.visible = ($HealthBar.value < 100)
 	$SelectLight.visible = hovered or selected
 	level_cost = level_costs[level]
-	if Input.is_action_just_pressed("debugKILL"):
-		pain(health, 1)
 
 func handle_destroy():
-	for n in range(4): worldspace.explosion(global_position + random_pos(), 0.15 * n)
+	for n in range(3): worldspace.effect("explosion", global_position + random_pos(), 0.15 * n)
 	for lead in commanders:
 		for bee in lead.squad:
-			bee.pain(bee.health, 1)
-		lead.pain(lead.health, 1)
+			bee.health = -10
+		lead.health = -10
 	worldspace.game_over()
+	queue_free()
 
 func pain(dmg: float, _accuracy: float):
 	try_sound("Hit")
@@ -71,7 +70,8 @@ func use_ability():
 	spawn_time = 0
 
 func use_passive():
-	pass
+	if Input.is_action_just_pressed("debugKILL"):
+		pain(2 * health, 1)
 
 func level_building(new_val : int):
 	try_sound("LevelUp")

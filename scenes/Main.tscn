@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfortnc847ow4"]
+[gd_scene load_steps=8 format=3 uid="uid://bfortnc847ow4"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
 [ext_resource type="Texture2D" uid="uid://c3wx78o53pisx" path="res://art/Main Menu.png" id="2_a4bg3"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dpbf8d77055t5" path="res://scenes/Enemies/target.tscn" id="3_1b7p5"]
 [ext_resource type="Script" path="res://scripts/GameState/Message.gd" id="3_vjut1"]
 [ext_resource type="AudioStream" uid="uid://s2cdym2lhluv" path="res://sound/denied.mp3" id="4_02r1f"]
+[ext_resource type="AudioStream" uid="uid://eo5gqjbvs6w4" path="res://sound/power_up.mp3" id="5_qopw0"]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
@@ -19,8 +20,8 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="Menu/Node2D"]
-position = Vector2(640, 380)
-scale = Vector2(0.666667, 0.703704)
+position = Vector2(640, 360)
+scale = Vector2(0.666667, 0.666667)
 texture = ExtResource("2_a4bg3")
 
 [node name="StartGame" type="Button" parent="Menu/Node2D"]
@@ -72,6 +73,10 @@ alignment = 2
 stream = ExtResource("4_02r1f")
 volume_db = -7.428
 
+[node name="Success" type="AudioStreamPlayer2D" parent="GUI/Bee_Controls/UseAbility"]
+stream = ExtResource("5_qopw0")
+volume_db = -15.919
+
 [node name="Hive_Controls" type="Control" parent="GUI"]
 layout_mode = 3
 anchors_preset = 12
@@ -110,6 +115,10 @@ text = "Level Up Building"
 stream = ExtResource("4_02r1f")
 volume_db = -7.428
 
+[node name="Success" type="AudioStreamPlayer2D" parent="GUI/Hive_Controls/LevelBuilding"]
+stream = ExtResource("5_qopw0")
+volume_db = -15.919
+
 [node name="DestroyBuilding" type="Button" parent="GUI/Hive_Controls"]
 layout_mode = 1
 anchors_preset = 11
@@ -127,7 +136,8 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -74.0
+offset_top = -75.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 0
 

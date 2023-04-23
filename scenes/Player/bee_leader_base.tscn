@@ -1,0 +1,243 @@
+[gd_scene load_steps=33 format=3 uid="uid://c53pblehghkug"]
+
+[ext_resource type="Script" path="res://scripts/GameState/bee_leader_base.gd" id="1_bwlkk"]
+[ext_resource type="PackedScene" uid="uid://degfpqi3kwn47" path="res://scenes/Effects/leader_bee_base_knockout.tscn" id="2_w5xwc"]
+[ext_resource type="Texture2D" uid="uid://o64lctrty1yi" path="res://art/YourTeam/BeeCommander/Attack/Attack_0.png" id="3_adkm2"]
+[ext_resource type="Texture2D" uid="uid://ce2ytyr5jd1wb" path="res://art/YourTeam/BeeCommander/Attack/Attack_1.png" id="4_cbld1"]
+[ext_resource type="Texture2D" uid="uid://cyvwxonps6m77" path="res://art/YourTeam/BeeCommander/Attack/Attack_2.png" id="5_v3l8u"]
+[ext_resource type="Texture2D" uid="uid://bgskxcjcvdaho" path="res://art/YourTeam/BeeCommander/Attack/Attack_3.png" id="6_upavp"]
+[ext_resource type="Texture2D" uid="uid://tbs3vwg7r1e2" path="res://art/YourTeam/BeeCommander/Down/Down_0.png" id="7_7d6kh"]
+[ext_resource type="Texture2D" uid="uid://dyw7fnu7l2opw" path="res://art/YourTeam/BeeCommander/Down/Down_1.png" id="8_soome"]
+[ext_resource type="Texture2D" uid="uid://bqeh1p0pis2n8" path="res://art/YourTeam/BeeCommander/Down/Down_2.png" id="9_syhl2"]
+[ext_resource type="Texture2D" uid="uid://blf3et6pmt720" path="res://art/YourTeam/BeeCommander/Down/Down_3.png" id="10_imoqb"]
+[ext_resource type="Texture2D" uid="uid://k5qv20md7tau" path="res://art/YourTeam/BeeCommander/Down/Down_4.png" id="11_3oib0"]
+[ext_resource type="Texture2D" uid="uid://hsrsxwyhtqab" path="res://art/YourTeam/BeeCommander/Down/Down_5.png" id="12_blbxf"]
+[ext_resource type="Texture2D" uid="uid://c4wd86cwkxwqh" path="res://art/YourTeam/BeeCommander/Down/Down_6.png" id="13_ewqbj"]
+[ext_resource type="Texture2D" uid="uid://dbtb1cl104h6m" path="res://art/YourTeam/BeeCommander/Idle/Idle_0.png" id="14_hdip4"]
+[ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="15_ejhla"]
+[ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="16_wsryt"]
+[ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="17_houj3"]
+[ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="18_e8pb4"]
+[ext_resource type="AudioStream" uid="uid://da0u1mc3ovvuo" path="res://sound/poof_bee_spawn.mp3" id="19_2isk7"]
+[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="20_ka0rm"]
+[ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="21_qb4xy"]
+[ext_resource type="Texture2D" uid="uid://cbyrg5q6q3xdt" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Under.png" id="22_u4r80"]
+[ext_resource type="Texture2D" uid="uid://cpcw88qrfws71" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Progress.png" id="23_x04gl"]
+[ext_resource type="Texture2D" uid="uid://etvfejfmcfe6" path="res://art/GUI/BeeBars/Commander/GenericAbility/GenericAbility_Under.png" id="24_w86xq"]
+[ext_resource type="Texture2D" uid="uid://chjd3c7474a8s" path="res://art/GUI/BeeBars/Commander/GenericAbility/GenericAbility_Progress.png" id="25_w5m6o"]
+[ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="26_fs46d"]
+[ext_resource type="Texture2D" uid="uid://hbwunywr1eaj" path="res://art/YourTeam/BeeCommander/DetectCircle.png" id="27_3kj6h"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wi2d6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_adkm2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cbld1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_v3l8u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_upavp")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_7d6kh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7d6kh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7d6kh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_soome")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_soome")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_soome")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_syhl2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_imoqb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_3oib0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_blbxf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ewqbj")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_hdip4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwus8"]
+radius = 40.0
+height = 80.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mv86k"]
+radius = 130.0
+height = 260.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
+size = Vector2(53, 55)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qqxdp"]
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 42.75
+direction = Vector3(1, 1, 0)
+gravity = Vector3(0, -98, 0)
+scale_min = 11.69
+scale_max = 11.69
+color = Color(1, 1, 0.254902, 0.627451)
+
+[node name="Bee_Lead_Normal" type="CharacterBody2D"]
+input_pickable = true
+script = ExtResource("1_bwlkk")
+spawn = "res://scenes/Player/bee_normal.tscn"
+spawn_time = 45
+spawn_timer = 125
+ability_time = 150
+ability_timer = 300
+ability_desc = "Speed Up, Health Down"
+encounter_move = "rushdown"
+health = 5.0
+health_max = 5.0
+atk = 3.0
+atk_timer = 3.0
+speed = 1.1
+accuracy = 1.0
+formation_closeness = 100.0
+team = "Player"
+
+[node name="Animate" parent="." instance=ExtResource("2_w5xwc")]
+sprite_frames = SubResource("SpriteFrames_wi2d6")
+animation = &"Idle"
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 8
+
+[node name="EffectArea" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CapsuleShape2D_qwus8")
+
+[node name="DetectBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
+shape = SubResource("CapsuleShape2D_mv86k")
+
+[node name="PhysicsBox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3gs5l")
+
+[node name="AttackBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 41.0
+fill_mode = 4
+texture_under = ExtResource("15_ejhla")
+texture_progress = ExtResource("16_wsryt")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 4
+texture_under = ExtResource("17_houj3")
+texture_progress = ExtResource("18_e8pb4")
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="Spawn" type="GPUParticles2D" parent="Effects"]
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_qqxdp")
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Spawn" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("19_2isk7")
+volume_db = -14.857
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("20_ka0rm")
+volume_db = -14.857
+
+[node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("21_qb4xy")
+volume_db = -14.857
+
+[node name="BeeCreateBar" type="TextureProgressBar" parent="."]
+offset_left = -64.0
+offset_top = 34.0
+offset_right = 64.0
+offset_bottom = 50.0
+value = 29.0
+texture_under = ExtResource("22_u4r80")
+texture_progress = ExtResource("23_x04gl")
+metadata/_edit_use_anchors_ = true
+
+[node name="BeeAbilityBar" type="TextureProgressBar" parent="."]
+offset_left = -64.0
+offset_top = 53.0
+offset_right = 64.0
+offset_bottom = 69.0
+value = 29.0
+texture_under = ExtResource("24_w86xq")
+texture_progress = ExtResource("25_w5m6o")
+metadata/_edit_use_anchors_ = true
+
+[node name="SelectLight" type="Sprite2D" parent="."]
+texture = ExtResource("26_fs46d")
+
+[node name="DetectionCircle" type="Sprite2D" parent="."]
+texture = ExtResource("27_3kj6h")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

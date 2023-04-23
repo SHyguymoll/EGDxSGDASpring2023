@@ -7,8 +7,6 @@ class_name Bee_Leader extends Bee
 @export var ability_time : int
 @export var ability_timer : int
 @export var ability_desc : String
-@export var resp_time : int
-@export var resp_timer : int
 @export var encounter_move : String
 @export var soldier_limit : int
 
@@ -30,17 +28,9 @@ func tick_timers():
 	ability_time = min(ability_time + 1, ability_timer)
 
 func handle_death(): #Legends never die, they just respawn
-	if active:
-		active = false
-		resp_time = 0
-	resp_time = min(resp_time + 1, resp_timer)
-	if $Animate.is_playing() == false:
-		visible = false
-		global_position = start.global_position
-	if resp_time == resp_timer:
-		mode = "hover"
-		visible = true
-		active = true
+	worldspace.effect("player_bee_lead_leave", global_position, 0.0)
+	current_target.target = null
+	queue_free()
 
 func change_enemy(): #for Commanders
 	if len(can_see) > 0 and len(squad) > 0:

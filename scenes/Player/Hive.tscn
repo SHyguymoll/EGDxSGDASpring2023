@@ -1,15 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqew1hp1svhnl"]
+[gd_scene load_steps=13 format=3 uid="uid://sacw76ems26f"]
 
-[ext_resource type="Texture2D" uid="uid://dhtit5eqgk5w7" path="res://art/YourTeam/BeeBuildings/HomeBase.png" id="1_3mg38"]
-[ext_resource type="Script" path="res://scripts/GameState/building_base.gd" id="1_au5p4"]
-[ext_resource type="PackedScene" uid="uid://c53pblehghkug" path="res://scenes/Player/commander/bee_leader_base.tscn" id="2_qppne"]
-[ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="3_5y5ex"]
-[ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="4_e0k3p"]
-[ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="5_e8274"]
-[ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="7_tgs2a"]
-[ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="8_s4swr"]
-[ext_resource type="AudioStream" uid="uid://c325cwso2xmhy" path="res://sound/level_up.mp3" id="9_8vhja"]
-[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="10_gx5xv"]
+[ext_resource type="Script" path="res://scripts/GameState/building_base.gd" id="1_khsfx"]
+[ext_resource type="PackedScene" uid="uid://c53pblehghkug" path="res://scenes/Player/bee_leader_base.tscn" id="2_pw1sy"]
+[ext_resource type="Texture2D" uid="uid://dhtit5eqgk5w7" path="res://art/YourTeam/BeeBuildings/HomeBase.png" id="3_lc4fj"]
+[ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="4_dixuf"]
+[ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="5_yljkn"]
+[ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="6_wsgd5"]
+[ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="7_u15yl"]
+[ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="8_0e7wb"]
+[ext_resource type="AudioStream" uid="uid://c325cwso2xmhy" path="res://sound/level_up.mp3" id="9_vdx4s"]
+[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="10_2urif"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_psmdc"]
 size = Vector2(128, 129)
@@ -20,22 +20,22 @@ height = 186.0
 
 [node name="Base" type="StaticBody2D"]
 input_pickable = true
-script = ExtResource("1_au5p4")
+script = ExtResource("1_khsfx")
 spawn_time = 300
 spawn_timer = 300
 health = 10.0
 health_max = 10.0
 building_name = "Hive"
 team = "Player"
-create = ExtResource("2_qppne")
+create = ExtResource("2_pw1sy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_3mg38")
+texture = ExtResource("3_lc4fj")
 hframes = 3
 
 [node name="SelectLight" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
-texture = ExtResource("3_5y5ex")
+texture = ExtResource("4_dixuf")
 
 [node name="ActionBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8
@@ -51,8 +51,8 @@ grow_horizontal = 2
 grow_vertical = 2
 value = 41.0
 fill_mode = 4
-texture_under = ExtResource("4_e0k3p")
-texture_progress = ExtResource("5_e8274")
+texture_under = ExtResource("5_yljkn")
+texture_progress = ExtResource("6_wsgd5")
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8
@@ -68,8 +68,8 @@ grow_horizontal = 2
 grow_vertical = 2
 value = 41.0
 fill_mode = 4
-texture_under = ExtResource("7_tgs2a")
-texture_progress = ExtResource("8_s4swr")
+texture_under = ExtResource("7_u15yl")
+texture_progress = ExtResource("8_0e7wb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
@@ -85,11 +85,11 @@ shape = SubResource("CapsuleShape2D_5b5of")
 [node name="Sounds" type="Node2D" parent="."]
 
 [node name="LevelUp" type="AudioStreamPlayer2D" parent="Sounds"]
-stream = ExtResource("9_8vhja")
+stream = ExtResource("9_vdx4s")
 volume_db = -14.857
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
-stream = ExtResource("10_gx5xv")
+stream = ExtResource("10_2urif")
 volume_db = -14.857
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
