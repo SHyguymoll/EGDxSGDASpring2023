@@ -11,6 +11,7 @@ script = ExtResource("1_cthxf")
 
 [node name="Menu" type="CanvasLayer" parent="."]
 layer = 6
+follow_viewport_enabled = true
 
 [node name="Node2D" type="Control" parent="Menu"]
 layout_mode = 3

@@ -24,7 +24,7 @@ health = 0.1
 health_max = 0.1
 atk_timer = 1000.0
 accuracy = 0.01
-score_gain = 50
+score_gain = 1
 formation_closeness = 100.0
 team = "Evil"
 
@@ -38,7 +38,7 @@ script = ExtResource("3_wb78r")
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 8
-collision_mask = 4
+collision_mask = 0
 
 [node name="EffectArea" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CapsuleShape2D_qwus8")
