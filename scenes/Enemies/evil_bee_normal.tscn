@@ -14,8 +14,8 @@ height = 38.0
 size = Vector2(20, 24)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3cn51"]
-radius = 129.0
-height = 258.0
+radius = 22.0
+height = 44.0
 
 [node name="Bee_Evil" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
 script = ExtResource("1_1lsrh")
@@ -23,7 +23,7 @@ health = 1.0
 health_max = 1.0
 atk = 0.2
 atk_timer = 40.0
-speed = 0.5
+speed = 1.0
 accuracy = 0.2
 leader = NodePath("")
 score_gain = 3

@@ -3,7 +3,7 @@ class_name Building
 extends StaticBody2D
 
 @onready var level = 0
-const level_costs = [50, 100, 9223372036854775807] #lmao
+const level_costs = [10, 30, 9223372036854775807] #lmao
 var level_cost
 @export var spawn_time : int
 @export var spawn_timer : int
@@ -26,7 +26,7 @@ func random_pos():
 
 func tick_timers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
-	health = min(health + 0.1*(level+1), health_max)
+	health = min(health + 0.001*(level), health_max)
 
 func _on_mouse_entered():
 	hovered = true and placed
@@ -58,9 +58,15 @@ func handle_destroy():
 func pain(dmg: float, _accuracy: float):
 	health -= dmg
 
+func ability_available():
+	return (len(commanders) <= level) and (spawn_time == spawn_timer)
+
 func use_ability():
-	if len(commanders) <= level:
-		worldspace.spawn_player_bee(create, null, self, global_position)
+	worldspace.spawn_player_bee(create, null, self, global_position)
+	spawn_time = 0
+
+func use_passive():
+	pass
 
 func level_building(new_val : int):
 	level = new_val

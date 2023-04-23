@@ -6,6 +6,7 @@ class_name Bee_Leader extends Bee
 @export var spawn_timer : int
 @export var ability_time : int
 @export var ability_timer : int
+@export var ability_desc : String
 @export var resp_time : int
 @export var resp_timer : int
 @export var encounter_move : String
@@ -42,7 +43,7 @@ func handle_death(): #Legends never die, they just respawn
 		active = true
 
 func change_enemy(): #for Commanders
-	if len(can_see) > 0:
+	if len(can_see) > 0 and len(squad) > 0:
 		match encounter_move:
 			"rushdown": #just pick a new one without any thought
 				current_enemy = can_see.pick_random()
@@ -55,8 +56,16 @@ func change_enemy(): #for Commanders
 func leader_on_attack(): #ditto
 	pass
 
+func ability_available():
+	return (ability_time == ability_timer)
+
 func use_ability(): #ditthree
-	pass
+	ability_time = 0
+	speed *= 1.5
+	health /= 1.5
+	for bee in squad:
+		bee.speed *= 2
+		bee.health /= 1.5
 
 func _on_mouse_entered():
 	hovered = true
@@ -75,6 +84,8 @@ func _process(_delta):
 	@warning_ignore("integer_division")
 	$BeeCreateBar.value = (float(spawn_time)/spawn_timer) * 100
 	$BeeCreateBar.visible = ($BeeCreateBar.value < 100)
+	$BeeAbilityBar.value = (float(ability_time)/ability_timer) * 100
+	$BeeAbilityBar.visible = ($BeeAbilityBar.value < 100)
 	
 	$HurtBox.monitorable = active
 	$HurtBox.monitoring = active

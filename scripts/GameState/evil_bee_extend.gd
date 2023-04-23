@@ -8,11 +8,6 @@ func handle_death():
 	worldspace.honey_points += score_gain
 	queue_free()
 
-func post_attack():
-	if (atk_time > ((atk_timer / 5) - 1)):
-		if $Animate.is_playing() == false:
-			$Animate.anim_state = "Idle"
-
 func pick_location(): #no logic to change target based on mode, no need to change target
 	target_position = target_position
 

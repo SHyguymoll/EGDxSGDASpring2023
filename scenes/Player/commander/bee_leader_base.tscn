@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c53pblehghkug"]
+[gd_scene load_steps=30 format=3 uid="uid://c53pblehghkug"]
 
 [ext_resource type="Script" path="res://scripts/GameState/bee_leader_base.gd" id="1_tqcfy"]
 [ext_resource type="Texture2D" uid="uid://o64lctrty1yi" path="res://art/YourTeam/BeeCommander/Attack/Attack_0.png" id="3_dkddi"]
@@ -19,8 +19,11 @@
 [ext_resource type="Texture2D" uid="uid://cpcw88qrfws71" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Progress.png" id="14_2uj2u"]
 [ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="15_3n1e0"]
 [ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="16_wc7hc"]
+[ext_resource type="Texture2D" uid="uid://etvfejfmcfe6" path="res://art/GUI/BeeBars/Commander/GenericAbility/GenericAbility_Under.png" id="21_lt0fp"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="21_pv4yx"]
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="22_6wgvs"]
+[ext_resource type="Texture2D" uid="uid://chjd3c7474a8s" path="res://art/GUI/BeeBars/Commander/GenericAbility/GenericAbility_Progress.png" id="22_kpxgc"]
+[ext_resource type="Texture2D" uid="uid://hbwunywr1eaj" path="res://art/YourTeam/BeeCommander/DetectCircle.png" id="24_1o2b0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ggquk"]
 animations = [{
@@ -114,6 +117,7 @@ spawn_time = 45
 spawn_timer = 125
 ability_time = 150
 ability_timer = 300
+ability_desc = "Speed Up, Health Down"
 resp_timer = 300
 encounter_move = "rushdown"
 health = 5.0
@@ -126,11 +130,8 @@ formation_closeness = 100.0
 team = "Player"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_ggquk")
-animation = &"Attack"
-frame = 3
-frame_progress = 1.0
+animation = &"Idle"
 script = ExtResource("12_g00ef")
 
 [node name="HurtBox" type="Area2D" parent="."]
@@ -200,8 +201,21 @@ texture_under = ExtResource("13_o8g2g")
 texture_progress = ExtResource("14_2uj2u")
 metadata/_edit_use_anchors_ = true
 
+[node name="BeeAbilityBar" type="TextureProgressBar" parent="."]
+offset_left = -64.0
+offset_top = 53.0
+offset_right = 64.0
+offset_bottom = 69.0
+value = 29.0
+texture_under = ExtResource("21_lt0fp")
+texture_progress = ExtResource("22_kpxgc")
+metadata/_edit_use_anchors_ = true
+
 [node name="SelectLight" type="Sprite2D" parent="."]
 texture = ExtResource("11_a6jey")
+
+[node name="DetectionCircle" type="Sprite2D" parent="."]
+texture = ExtResource("24_1o2b0")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

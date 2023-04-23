@@ -41,20 +41,24 @@ var mode = "View"
 
 var tutorial : int = 0
 var message_bank = [
-	"First place a hive.",
+	"First, place the hive.
+	You must protect this building as long as possible.",
 	
 	"Next, click on the hive.",
 	
 	"Now click 'Do Building Action' to spawn your first Commander Bee.",
 	
-	"Each hive can only have one Commander Bee per levelup, but each Commander Bee generates a number of Soldier bees to lead.
+	"Each hive can only have one Commander Bee per levelup,
+	but each Commander Bee generates a number of Soldier bees to lead.
 	Click on the Commander Bee.",
 	
-	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears to spawn a Soldier Bee on the Commander.",
+	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears
+	to spawn a Soldier Bee on the Commander.",
 	
 	"Now you have a Soldier Bee. Commander Bees automatically use these to fight.
-	Winning fights gets you Honey Points which can be used to level up your Hive and Commander Bee.
-	Soldier Bees can perish, but Commander Bees teleport back to their Hive when their health is depleted for a small Honey Point fee.
+	Winning fights gets you Honey Points which can be used to level up your Hive.
+	Soldier Bees can perish, but Commander Bees teleport back to their Hive
+	when their health is depleted for a small Honey Point fee.
 	Now click 'Move Commander'.",
 	
 	"Move the Commander Bee however you want.
@@ -68,6 +72,7 @@ func _ready():
 	enemy_bees.append($GameplayContainer/Target)
 	$Camera.position = get_viewport_rect().size / 2
 	selected_building = player_hive.instantiate()
+	player_builds.append(selected_building)
 	$GameplayContainer.add_child(selected_building)
 	mode = "Building Place"
 	Position_Controls.get_node("Label").text = "Press Mouse1 to place."
@@ -75,8 +80,6 @@ func _ready():
 
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
-
-#leader could be Bee_Leader, Building
 
 func spawn_player_bee(bee_scene : PackedScene, leader : Bee_Leader, building : Building, pos : Vector2):
 	var new_bee : Bee = bee_scene.instantiate()
@@ -110,7 +113,7 @@ func try_attach_target(to_target : Node2D, from_source : Node2D, texture : Strin
 	for tar in targets:
 		if tar.target == to_target:
 			return
-	attach_target(to_target, from_source, texture)
+	return attach_target(to_target, from_source, texture)
 
 func attach_target(to_target : Node2D, from_source : Node2D, texture : String):
 	var new_target : Target = target_ret.instantiate()
@@ -231,12 +234,16 @@ func destroys(builds : Array[Building]):
 
 func buildings(builds : Array[Building]):
 	for build in builds:
-		if build.ability_queued:
-			build.use_ability()
+		build.use_passive()
+		build.tick_timers()
 
 func passives(bees):
 	for bee in bees:
 		bee.tick_timers()
+		if bee is Bee_Leader:
+			if bee.spawn_time == bee.spawn_timer and len(bee.squad) <= bee.soldier_limit:
+				bee.spawn_time = 0
+				spawn_player_bee(load(bee.spawn), bee, null, bee.global_position)
 
 func player_turn():
 	movement(player_bees)
@@ -265,7 +272,13 @@ func handle_targets():
 			tar.global_position = get_global_mouse_position()
 			continue
 		else:
-			tar.global_position = tar.target.global_position
+			if is_instance_valid(tar.target):
+				tar.source.mode = "directed"
+				tar.global_position = tar.target.global_position
+			else:
+				ref_list.erase(tar)
+				tar.queue_free()
+				continue
 		if tar.source is Bee and !(tar.source is Bee_Leader):
 			tar.source.mode = "directed"
 			tar.source.current_target = tar
@@ -300,6 +313,7 @@ func _process(_delta):
 		mode = "View"
 	$GUI/Score.text = "Score: " + str(honey_points)
 	Bee_Controls.visible = (selected_leader != null) and (mode == "View")
+	Bee_Controls.get_node("UseAbility").text = ("Use Ability: " + selected_leader.ability_desc) if selected_leader != null else "Use Ability"
 	Hive_Controls.visible = (selected_building != null) and (mode == "View")
 	if selected_building != null:
 		Hive_Controls.get_node("LevelBuilding").text = "Level Up Building (cost: {0})".format([selected_building.level_cost])
@@ -309,6 +323,8 @@ func _process(_delta):
 	
 	match mode:
 		"Movement Marker":
+			if !is_instance_valid(current_target):
+				current_target = null
 			if current_target.used:
 				current_target = null
 				mode = "View"
@@ -330,36 +346,23 @@ func _process(_delta):
 
 func _on_move_commander_pressed():
 	mode = "Movement Marker"
+	if selected_leader.current_target != null:
+		targets.erase(selected_leader.current_target)
+		selected_leader.current_target.queue_free()
 	current_target = target_ret.instantiate()
 	current_target.texture = "move"
 	current_target.used = false
 	targets.append(current_target)
 	$GameplayContainer.add_child(current_target)
-	if selected_leader.current_target != null:
-		targets.erase(selected_leader.current_target)
-		selected_leader.current_target.queue_free()
 	selected_leader.current_target = current_target
-	selected_leader.mode = "directed"
+	selected_leader.mode = "hover"
 
-func _on_try_to_spawn_pressed():
-	if selected_leader.spawn_time == selected_leader.spawn_timer:
-		if len(selected_leader.squad) <= selected_leader.soldier_limit:
-			selected_leader.spawn_time = 0
-			spawn_player_bee(load(selected_leader.spawn), selected_leader, null, selected_leader.global_position)
-		else:
-			Message.message("Commander reached bee limit", 1.0)
-	else:
-		Message.message("Commander can't create a bee yet", 1.0)
-		
-	
 func _on_use_ability_pressed():
-	if selected_leader.ability_time == selected_leader.ability_timer:
-		selected_leader.ability_time = 0
+	if selected_leader.ability_available():
 		selected_leader.use_ability()
 
 func _on_building_action_pressed():
-	if selected_building.spawn_time == selected_building.spawn_timer:
-		selected_building.spawn_time = 0
+	if selected_building.ability_available():
 		selected_building.use_ability()
 
 func _on_destroy_building_pressed():
@@ -370,4 +373,3 @@ func _on_level_building_pressed():
 	if honey_points >= selected_building.level_cost:
 		honey_points -= selected_building.level_cost
 		selected_building.level_building(selected_building.level + 1)
-		

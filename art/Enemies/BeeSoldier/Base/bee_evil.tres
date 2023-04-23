@@ -1,30 +1,30 @@
 [gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://cxnh7aaba7f58"]
 
-[ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_0.png" id="1_fxf7q"]
-[ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_1.png" id="2_me7i5"]
-[ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_2.png" id="3_g8obu"]
-[ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_3.png" id="4_0whwf"]
-[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/Enemies/BeeSoldier/Base/Death/Death_0.png" id="5_kpyjk"]
-[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/Enemies/BeeSoldier/Base/Death/Death_1.png" id="6_x5p0p"]
-[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/Enemies/BeeSoldier/Base/Death/Death_2.png" id="7_fkck8"]
-[ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/Enemies/BeeSoldier/Base/Idle/Idle_0.png" id="8_yb0ar"]
-[ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/Enemies/BeeSoldier/Base/Idle/Idle_1.png" id="9_52xs6"]
-[ext_resource type="Texture2D" uid="uid://byphyt14fgj4o" path="res://art/Enemies/BeeSoldier/Base/Idle/Idle_2.png" id="10_luecn"]
+[ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_0.png" id="1_b75gt"]
+[ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_1.png" id="2_70x37"]
+[ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_2.png" id="3_ll8b8"]
+[ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/Enemies/BeeSoldier/Base/Attack/Attack_3.png" id="4_nosww"]
+[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/Enemies/BeeSoldier/Base/Death/Death_0.png" id="5_t22u1"]
+[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/Enemies/BeeSoldier/Base/Death/Death_1.png" id="6_hr0fx"]
+[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/Enemies/BeeSoldier/Base/Death/Death_2.png" id="7_louer"]
+[ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/Enemies/BeeSoldier/Base/Idle/Idle_0.png" id="8_t71gm"]
+[ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/Enemies/BeeSoldier/Base/Idle/Idle_1.png" id="9_dj3nm"]
+[ext_resource type="Texture2D" uid="uid://byphyt14fgj4o" path="res://art/Enemies/BeeSoldier/Base/Idle/Idle_2.png" id="10_orrjw"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_fxf7q")
+"texture": ExtResource("1_b75gt")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_me7i5")
+"texture": ExtResource("2_70x37")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_g8obu")
+"texture": ExtResource("3_ll8b8")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_0whwf")
+"texture": ExtResource("4_nosww")
 }],
 "loop": true,
 "name": &"Attack",
@@ -32,13 +32,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_kpyjk")
+"texture": ExtResource("5_t22u1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_x5p0p")
+"texture": ExtResource("6_hr0fx")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_fkck8")
+"texture": ExtResource("7_louer")
 }],
 "loop": false,
 "name": &"Death",
@@ -46,16 +46,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_yb0ar")
+"texture": ExtResource("8_t71gm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_52xs6")
+"texture": ExtResource("9_dj3nm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_luecn")
+"texture": ExtResource("10_orrjw")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_52xs6")
+"texture": ExtResource("9_dj3nm")
 }],
 "loop": true,
 "name": &"Idle",

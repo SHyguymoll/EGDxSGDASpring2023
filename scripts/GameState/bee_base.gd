@@ -44,6 +44,7 @@ func _process(_delta):
 	$AttackBar.visible = ($AttackBar.value < 100)
 	$HealthBar.value = (health/health_max) * 100
 	$HealthBar.visible = ($HealthBar.value < 100)
+	
 
 func pick_location():
 	match mode:
@@ -96,7 +97,6 @@ func reset_mode():
 
 func attack_enemy():
 	atk_time = 0
-	$Animate.anim_state = "Attack"
 	can_hurt.pick_random().pain(atk, accuracy)
 
 func tick_timers():
@@ -104,10 +104,8 @@ func tick_timers():
 	check_attack()
 
 func check_attack():
-	if (atk_time > ((atk_timer / 5) - 1)):
+	if atk_time == atk_timer:
 		reset_mode()
-		if $Animate.is_playing() == false:
-			$Animate.anim_state = "Idle"
 
 func pain(dmg: float, dmg_accuracy: float):
 	if randf() > (accuracy - dmg_accuracy)/accuracy:
