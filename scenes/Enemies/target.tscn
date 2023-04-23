@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dpbf8d77055t5"]
 
-[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_dy01n"]
+[ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_281rf"]
 [ext_resource type="SpriteFrames" uid="uid://bpa1xm08er4fh" path="res://art/Enemies/Target/target.tres" id="2_fddc6"]
 [ext_resource type="Script" path="res://scripts/Animate/Target_Animate.gd" id="3_wb78r"]
 
@@ -15,15 +15,14 @@ size = Vector2(20, 24)
 radius = 129.0
 height = 258.0
 
-[node name="Target" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
+[node name="Target" type="CharacterBody2D"]
 collision_mask = 0
-script = ExtResource("1_dy01n")
+script = ExtResource("1_281rf")
 health = 0.1
 health_max = 0.1
-atk_timer = 1.0
+atk_timer = 1000.0
 accuracy = 0.01
-leader = NodePath("")
-formation_closeness = 50.0
+formation_closeness = 100.0
 team = "Evil"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]

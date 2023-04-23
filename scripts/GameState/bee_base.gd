@@ -24,7 +24,8 @@ class_name Bee extends CharacterBody2D
 var can_see = []
 var can_hurt = []
 
-var current_target #must be a Bee or Building
+var current_enemy #refers to a Bee or Building
+var current_target #refers to a Target
 
 func try_sfx(node_name : String):
 	if sfx.get_node_or_null(node_name) != null:
@@ -50,14 +51,18 @@ func pick_location():
 			target_position = global_position
 		"follow":
 			target_position = leader.global_position + random_pos() + target_position_randomize
-		"directed": #target_position is decided elsewhere, make no changes
-			pass
+		"directed":
+			if current_target != null:
+				if current_target.used:
+					target_position = current_target.global_position
+			else:
+				target_position = global_position
 
 func move_bee_towards_target():
 	global_position += global_position.direction_to(target_position) * speed
 
-func reduce_candidates(candidates : Array[Area2D]):
-	var new_list : Array[Area2D] = []
+func reduce_candidates(candidates):
+	var new_list = []
 	for cand in candidates:
 		if cand.get_parent() is Bee or cand.get_parent() is Building:
 			if cand.get_parent().team != team:
@@ -68,24 +73,24 @@ func detect_enemies():
 	can_see = reduce_candidates(detect.get_overlapping_areas())
 	can_hurt = reduce_candidates(throw_hands.get_overlapping_areas())
 
-func change_target():
+func change_enemy():
 	if len(can_see) > 0:
-		current_target = can_see.pick_random()
+		current_enemy = can_see.pick_random()
 
-func order(new_order : String, new_target : Vector2):
+func order(new_order : String, new_target : Target):
 	match new_order:
 		"hold":
 			mode = "hover"
 		"push":
-			target_position = new_target
+			current_target = new_target
 			mode = "directed"
 
 func reset_mode():
-	if leader != null:
-		mode = "follow"
+	if current_target != null:
+		mode = "directed"
 	else:
-		if current_target != null:
-			mode = "directed"
+		if leader != null:
+			mode = "follow"
 		else:
 			mode = "hover"
 
@@ -112,6 +117,4 @@ func handle_death():
 	if leader != null:
 		leader.squad.erase(self)
 		leader = null
-	if $Animate.is_playing() == false:
-		worldspace.explosion(global_position + random_pos(), 0.0)
-		queue_free()
+	queue_free()

@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://c40ca1atp833e"]
+[gd_scene load_steps=12 format=3 uid="uid://cutd1exuf0dd6"]
 
-[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_kisbr"]
+[ext_resource type="Script" path="res://scripts/GameState/bee_base.gd" id="1_ye7mx"]
 [ext_resource type="SpriteFrames" uid="uid://d2wvxjoaedrd8" path="res://art/YourTeam/BeeSoldier/Base/bee_normal.tres" id="2_46hi2"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="6_tuxmh"]
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="7_jua85"]
@@ -27,7 +27,7 @@ orbit_velocity_max = 0.0
 
 [node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
 collision_mask = 0
-script = ExtResource("1_kisbr")
+script = ExtResource("1_ye7mx")
 health = 1.0
 health_max = 1.0
 atk = 0.35

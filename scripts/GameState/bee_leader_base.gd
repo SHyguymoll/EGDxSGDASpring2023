@@ -1,4 +1,4 @@
-class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
+class_name Bee_Leader extends Bee
 
 @export var start : Building
 @export var spawn : String
@@ -11,6 +11,7 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 @export var encounter_move : String
 @export var soldier_limit : int
 
+var active : bool = true
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
 var squad : Array[Bee] = []
@@ -28,25 +29,28 @@ func tick_timers():
 	ability_time = min(ability_time + 1, ability_timer)
 
 func handle_death(): #Legends never die, they just respawn
+	if active:
+		active = false
+		resp_time = 0
+	resp_time = min(resp_time + 1, resp_timer)
 	if $Animate.is_playing() == false:
 		visible = false
 		global_position = start.global_position
-		resp_time = 0
 	if resp_time == resp_timer:
 		mode = "hover"
 		visible = true
-	resp_time = min(resp_time + 1, resp_timer)
+		active = true
 
-func change_target(): #for Commanders
+func change_enemy(): #for Commanders
 	if len(can_see) > 0:
 		match encounter_move:
 			"rushdown": #just pick a new one without any thought
-				current_target = can_see.pick_random()
-				worldspace.attach_target(current_target, "bee_lead_attack")
+				current_enemy = can_see.pick_random()
+				var new_target = worldspace.try_attach_target(current_enemy, self, "bee_lead_attack")
 				for bee in squad:
-					bee.order("push", current_target.global_position)
+					bee.order("push", new_target)
 	else: #no enemies in sight
-		current_target = null
+		current_enemy = null
 
 func leader_on_attack(): #ditto
 	pass
@@ -71,6 +75,12 @@ func _process(_delta):
 	@warning_ignore("integer_division")
 	$BeeCreateBar.value = (float(spawn_time)/spawn_timer) * 100
 	$BeeCreateBar.visible = ($BeeCreateBar.value < 100)
+	
+	$HurtBox.monitorable = active
+	$HurtBox.monitoring = active
+	$DetectBox.monitorable = active
+	$DetectBox.monitoring = active
+	input_pickable = active
 
 func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and hovered:

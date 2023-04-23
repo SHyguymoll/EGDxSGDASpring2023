@@ -23,13 +23,15 @@ var enemy_bees : Array[Bee] = []
 var enemy_builds : Array[Building] = []
 var enemy_total : int = 0
 
+var targets : Array[Target] = [] #All of the targets on the screen
+
 var game_portion = "Tutorial"
 var wave : int = 0
 var time_till_next_wave : int = -1
 
-var selected_leader : Bee_Leader
-var current_target : Target
-var selected_building : Building
+var selected_leader : Bee_Leader #A leader that the player has selected, mutually exclusive with selected_building
+var selected_building : Building #A building that the player has selected, mutually exclusive with selected_leader
+var current_target : Target #A target that the player is manipulating
 var honey_points : int = 0
 var hive_placed : Vector2 = Vector2.ZERO
 var modes = ["View", "Movement Marker", "Building Place", "Game Over"]
@@ -63,6 +65,7 @@ var message_bank = [
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	enemy_bees.append($GameplayContainer/Target)
 	$Camera.position = get_viewport_rect().size / 2
 	selected_building = player_hive.instantiate()
 	$GameplayContainer.add_child(selected_building)
@@ -103,11 +106,19 @@ func spawn_player_build(build_scene : PackedScene, pos : Vector2):
 	player_builds.append(new_build)
 	$GameplayContainer.add_child(new_build)
 
-func attach_target(thing : Node2D, texture : String):
+func try_attach_target(to_target : Node2D, from_source : Node2D, texture : String):
+	for tar in targets:
+		if tar.target == to_target:
+			return
+	attach_target(to_target, from_source, texture)
+
+func attach_target(to_target : Node2D, from_source : Node2D, texture : String):
 	var new_target : Target = target_ret.instantiate()
 	new_target.texture = texture
-	new_target.target = thing
+	new_target.target = to_target
+	new_target.source = from_source
 	new_target.used = true
+	targets.append(new_target)
 	$GameplayContainer.add_child(new_target)
 	return new_target
 
@@ -182,12 +193,12 @@ func movement(bees : Array[Bee]):
 		if bee.global_position.distance_to(bee.target_position) > COMPLETION_RANGE: #time to move these
 			bee.move_bee_towards_target()
 			if bee.global_position.distance_to(bee.target_position) < COMPLETION_RANGE:
+				if bee.mode == "directed":
+					bee.current_target.movement_completed = true
 				bee.mode = "hover"
 		bee.detect_enemies()
-		if bee.mode == "directed": #only do the next step if current_target refers to an enemy
-			continue
-		if !(bee.current_target in bee.can_see): #detecting new enemy
-			bee.change_target()
+		if !(bee.current_enemy in bee.can_see): #detecting new enemy
+			bee.change_enemy()
 
 func attacks(bees):
 	for bee in bees:
@@ -205,6 +216,7 @@ func deaths(bees : Array[Bee]):
 		if bee.health > 0:
 			new_bees.append(bee)
 			continue
+		explosion(bee.global_position, 0.0)
 		bee.handle_death()
 	return new_bees
 
@@ -242,10 +254,28 @@ func enemy_turn():
 	buildings(enemy_builds)
 	passives(enemy_bees)
 
+func handle_targets():
+	var ref_list : Array[Target] = []
+	for tar in targets:
+		if tar.movement_completed:
+			tar.queue_free()
+			continue
+		ref_list.append(tar)
+		if !tar.used:
+			tar.global_position = get_global_mouse_position()
+			continue
+		else:
+			tar.global_position = tar.target.global_position
+		if tar.source is Bee and !(tar.source is Bee_Leader):
+			tar.source.mode = "directed"
+			tar.source.current_target = tar
+	targets = ref_list
+
 func _physics_process(_delta):
 	handle_game_portion()
 	player_turn()
 	enemy_turn()
+	handle_targets()
 
 func handle_tutorial():
 	Message.message(message_bank[tutorial], -1.0)
@@ -284,6 +314,7 @@ func _process(_delta):
 				mode = "View"
 			if Input.is_action_pressed("Cancel"):
 				selected_leader.mode = "hover"
+				targets.erase(current_target)
 				current_target.queue_free()
 				mode = "View"
 		"Building Place":
@@ -301,8 +332,11 @@ func _on_move_commander_pressed():
 	mode = "Movement Marker"
 	current_target = target_ret.instantiate()
 	current_target.texture = "move"
+	current_target.used = false
+	targets.append(current_target)
 	$GameplayContainer.add_child(current_target)
 	if selected_leader.current_target != null:
+		targets.erase(selected_leader.current_target)
 		selected_leader.current_target.queue_free()
 	selected_leader.current_target = current_target
 	selected_leader.mode = "directed"

@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cujyawvn7vwcu"]
+[gd_scene load_steps=10 format=3 uid="uid://cqew1hp1svhnl"]
 
 [ext_resource type="Texture2D" uid="uid://dhtit5eqgk5w7" path="res://art/YourTeam/BeeBuildings/HomeBase.png" id="1_3mg38"]
-[ext_resource type="Script" path="res://scripts/GameState/Player/building_base.gd" id="1_mop8b"]
-[ext_resource type="PackedScene" uid="uid://bp8g40lewk4mc" path="res://scenes/Player/commander/bee_leader_base.tscn" id="2_qppne"]
+[ext_resource type="Script" path="res://scripts/GameState/building_base.gd" id="1_au5p4"]
+[ext_resource type="PackedScene" uid="uid://c53pblehghkug" path="res://scenes/Player/commander/bee_leader_base.tscn" id="2_qppne"]
 [ext_resource type="Texture2D" uid="uid://bxb3xnhtuii66" path="res://art/SelectLight.png" id="3_5y5ex"]
 [ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="4_e0k3p"]
 [ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="5_e8274"]
@@ -14,7 +14,7 @@ size = Vector2(128, 129)
 
 [node name="Base" type="StaticBody2D"]
 input_pickable = true
-script = ExtResource("1_mop8b")
+script = ExtResource("1_au5p4")
 spawn_time = 100
 spawn_timer = 100
 health = 10.0
