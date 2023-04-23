@@ -54,8 +54,8 @@ emitting = false
 one_shot = true
 
 [node name="DetectBox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 8
+collision_layer = 32
+collision_mask = 16
 
 [node name="EffectArea" type="CollisionShape2D" parent="DetectBox"]
 shape = SubResource("CapsuleShape2D_3cn51")

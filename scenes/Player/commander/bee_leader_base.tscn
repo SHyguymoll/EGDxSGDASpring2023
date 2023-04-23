@@ -107,8 +107,6 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
-collision_layer = 7
-collision_mask = 7
 input_pickable = true
 script = ExtResource("1_x1qtq")
 spawn = "res://scenes/Player/solder/bee_normal.tscn"

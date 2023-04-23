@@ -28,6 +28,7 @@ var can_see = []
 var can_hurt = []
 
 var target : Target
+var current_target
 
 func try_sfx(node_name : String):
 	if sfx.get_node_or_null(node_name) != null:
@@ -49,18 +50,35 @@ func reduce_candidates(candidates):
 				new_list.append(cand.get_parent())
 	return new_list
 
-func leader_action(): #for Commanders
-	pass
+func sight_decision():
+	if !is_instance_valid(current_target):
+		current_target = can_see[max(randi_range(0, len(can_see) - 1), 0)]
+		target = worldspace.attach_target(current_target, "bee_solder_attack")
+		mode = "directed"
 
-func leader_on_attack(): #ditto
+func leader_on_attack():
 	pass
 
 func attack():
 	leader_on_attack()
 	atk_time = 0
 	$Animate.anim_state = "Attack"
-	can_hurt[max(randi_range(0, len(can_hurt) - 1), 0)].pain(atk, accuracy)
+	var pick_enemy = can_hurt[max(randi_range(0, len(can_hurt) - 1), 0)]
+	if is_instance_valid(pick_enemy):
+		pick_enemy.pain(atk, accuracy)
 	mode = "post_attack"
+
+func clean_invalid_entries():
+	var new_can_see := []
+	for entry in can_see:
+		if is_instance_valid(entry):
+			new_can_see.append(entry)
+	var new_can_hurt := []
+	for entry in can_hurt:
+		if is_instance_valid(entry):
+			new_can_hurt.append(entry)
+	can_see = new_can_see
+	can_hurt = new_can_hurt
 
 func post_attack():
 	if (atk_time > ((atk_timer / 5) - 1)):
@@ -103,7 +121,20 @@ func pick_location():
 		"follow":
 			target_position = leader.global_position + random_pos() + target_position_randomize
 		"directed":
-			target_position = target.global_position + target_position_randomize if target.used else global_position
+			if is_instance_valid(target):
+				target_position = target.global_position + target_position_randomize if target.used else global_position
+			else:
+				if is_instance_valid(leader):
+					mode = "follow"
+				else:
+					mode = "hover"
+
+func post_movement():
+	if is_instance_valid(target):
+		if mode == "directed" and target.used:
+			if position.distance_to(target_position) < COMPLETION_RANGE:
+				target.movement_completed = true
+				mode = "hover"
 
 func _physics_process(_delta):
 	match mode:
@@ -112,17 +143,14 @@ func _physics_process(_delta):
 			$Animate.play()
 			can_see = reduce_candidates(detect.get_overlapping_areas())
 			if len(can_see) > 0:
-				leader_action()
+				sight_decision()
 			can_hurt = reduce_candidates(throw_hands.get_overlapping_areas())
 			if len(can_hurt) > 0:
 				mode = "attack"
 			#yo dog I heard you liked match statements
 			pick_location()
 			global_position += global_position.direction_to(target_position) * speed
-			if mode == "directed" and target.used:
-				if position.distance_to(target_position) < COMPLETION_RANGE:
-					target.movement_completed = true
-					mode = "hover"
+			post_movement()
 		"attack":
 			if atk_time == atk_timer:
 				attack()
@@ -132,3 +160,4 @@ func _physics_process(_delta):
 			$Animate.anim_state = "Death"
 			handle_death()
 	tickTimers()
+	clean_invalid_entries()

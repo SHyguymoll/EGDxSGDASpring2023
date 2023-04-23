@@ -26,6 +26,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 
 [node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
+collision_mask = 0
 script = ExtResource("1_kisbr")
 health = 1.0
 health_max = 1.0
@@ -60,6 +61,7 @@ shape = SubResource("CapsuleShape2D_48aif")
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_3gs5l")
+disabled = true
 
 [node name="AttackBar" type="TextureProgressBar" parent="."]
 anchors_preset = 8

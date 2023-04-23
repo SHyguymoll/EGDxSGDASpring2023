@@ -6,7 +6,7 @@ func handle_death():
 		leader = null
 	if $Animate.is_playing() == false:
 		worldspace.explosion(global_position + random_pos(), 0.0)
-		worldspace.enemies_here.remove(self)
+		worldspace.enemies_here.erase(self)
 		worldspace.honey_points += score_gain
 		queue_free()
 
@@ -17,6 +17,9 @@ func post_attack():
 			$Animate.anim_state = "Idle"
 
 func pick_location(): #no logic to change target based on mode, no need to change target
+	target_position = target_position
+
+func post_movement(): #ditto
 	target_position = target_position
 
 func _process(_delta): #don't use bars

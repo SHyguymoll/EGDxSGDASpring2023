@@ -110,22 +110,24 @@ func game_over():
 func pick_coord_outside_view():
 	if randf() >= 0.5: #top
 		if randf() >= 0.5: #left
-			return get_viewport_rect().get_center() - Vector2(randi_range(1280, 1500), randi_range(760, 1000))
+			return get_viewport_rect().get_center() - Vector2(randi_range(1280, 1300), randi_range(760, 780))
 		else: #right
-			return get_viewport_rect().get_center() - Vector2(randi_range(-1280, -1500), randi_range(760, 1000))
+			return get_viewport_rect().get_center() - Vector2(randi_range(-1280, -1300), randi_range(760, 780))
 	else: #bottom
 		if randf() >= 0.5: #left
-			return get_viewport_rect().get_center() - Vector2(randi_range(1280, 1500), randi_range(-760, -1000))
+			return get_viewport_rect().get_center() - Vector2(randi_range(1280, 1300), randi_range(-760, -780))
 		else: #right
-			return get_viewport_rect().get_center() - Vector2(randi_range(-1280, -1500), randi_range(-760, -1000))
+			return get_viewport_rect().get_center() - Vector2(randi_range(-1280, -1300), randi_range(-760, -780))
 
 func spawn_enemies():
-	for n in range(3*(wave)): #basic bee
+	for n in range(3*(wave + 1)): #basic bee
 		enemies_here.append(create(enemy_base, null, pick_coord_outside_view()))
+		enemies_to_spawn += 1
 	if wave > 5: #pesticider
 		for n in range((wave - 4) * 1.2):
 			pass
 #			enemies_here.append()
+#			enemies_to_spawn += 1
 
 func _physics_process(_delta):
 	match game_portion:
@@ -148,6 +150,7 @@ func _physics_process(_delta):
 			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemies_here)) + "/" + str(enemies_to_spawn)
 			if len(enemies_here) == 0:
 				wave += 1
+				@warning_ignore("narrowing_conversion")
 				time_till_next_wave = 600/(wave * 0.75)
 				game_portion = "Pre Wave"
 		"Game Over":
@@ -199,6 +202,7 @@ func _process(_delta):
 			6: if $GameplayContainer.get_node_or_null("Target") == null:
 				tutorial = -1
 				Message.message("", 0)
+				time_till_next_wave = 0
 				game_portion = "Pre Wave"
 
 func _on_move_commander_pressed():

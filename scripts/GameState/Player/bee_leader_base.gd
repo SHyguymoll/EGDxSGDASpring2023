@@ -13,8 +13,6 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
-var current_target
-
 var leader_data : Dictionary = {
 	"bee": [],
 	"other": []
@@ -40,15 +38,18 @@ func handle_death(): #Legends never die, they just respawn
 		visible = true
 	resp_time = min(resp_time + 1, resp_timer)
 
-func leader_action(): #for Commanders
+func sight_decision(): #for Commanders
 	match encounter_move:
-		"rushdown":
+		"rushdown": #all of the bees at one threat
 			if (current_target == null or current_target.is_queued_for_deletion()) and len(leader_data.bee) > 0:
 				var pick_enemy = can_see[max(randi_range(0, len(can_see) - 1), 0)]
 				current_target = worldspace.attach_target(pick_enemy, "bee_lead_attack")
+				print("created target " + str(current_target) + " on " + str(pick_enemy))
 				for bee in leader_data.bee:
 					bee.target = current_target
 					bee.mode = "directed"
+		"divide and conquer": #proportion bees to number of threats
+			pass
 
 func leader_on_attack(): #ditto
 	pass
@@ -63,6 +64,7 @@ func _on_mouse_exited():
 	hovered = false
 
 func _process(_delta):
+	soldier_limit = (start.level + 1) * 3
 	@warning_ignore("integer_division")
 	$AttackBar.value = (atk_time/atk_timer) * 100
 	$AttackBar.visible = ($AttackBar.value < 100)
