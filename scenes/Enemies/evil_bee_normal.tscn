@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_1lsrh"]
 [ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_avcdq"]
-[ext_resource type="PackedScene" uid="uid://curqexktubt43" path="res://scenes/Effects/enemy_bee_death.tscn" id="2_c2knt"]
 [ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_es08p"]
 [ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_4n04y"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="4_vbsev"]
@@ -14,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_0.png" id="9_7dejx"]
 [ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_1.png" id="10_qrc1t"]
 [ext_resource type="Texture2D" uid="uid://byphyt14fgj4o" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_2.png" id="11_2656g"]
+[ext_resource type="Script" path="res://scripts/Animate/SpriteEffect.gd" id="12_svrt1"]
 [ext_resource type="AudioStream" uid="uid://da0u1mc3ovvuo" path="res://sound/poof_bee_spawn.mp3" id="13_2oak6"]
 [ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="14_eodcg"]
 [ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="15_wfpag"]
@@ -105,11 +105,12 @@ score_gain = 3
 formation_closeness = 75.0
 team = "Evil"
 
-[node name="Animate" parent="." instance=ExtResource("2_c2knt")]
+[node name="Animate" type="AnimatedSprite2D" parent="."]
+modulate = Color(0, 0.639216, 0.0156863, 1)
+position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_savga")
 animation = &"Idle"
-frame = 0
-frame_progress = 0.0
+script = ExtResource("12_svrt1")
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 8
