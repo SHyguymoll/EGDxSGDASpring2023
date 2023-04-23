@@ -184,7 +184,7 @@ func handle_game_portion():
 			Wave_HUD.hide()
 		"Pre Wave":
 			Wave_HUD.show()
-			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave + 1)
+			Wave_HUD.get_node("CurrentWave").text = "Next Wave: " + str(wave + 1)
 			Wave_HUD.get_node("EnemiesLeft").text = "No Enemies, prepare for next wave."
 			time_till_next_wave = max(time_till_next_wave - 1, 0)
 			if time_till_next_wave == 0:
