@@ -50,12 +50,10 @@ var message_bank = [
 	
 	"Each hive can only have one Commander Bee per levelup,
 	but each Commander Bee generates a number of Soldier bees to lead.
+	This number increases with the level of the hive.
 	Click on the Commander Bee.",
 	
-	"Click on 'Spawn Bee' once the 'Bee Create' bar disappears
-	to spawn a Soldier Bee on the Commander.",
-	
-	"Now you have a Soldier Bee. Commander Bees automatically use these to fight.
+	"Commander Bees automatically use Solder Bees to fight.
 	Winning fights gets you Honey Points which can be used to level up your Hive.
 	Soldier Bees can perish, but Commander Bees teleport back to their Hive
 	when their health is depleted for a small Honey Point fee.
@@ -297,9 +295,8 @@ func handle_tutorial():
 		1: if selected_building != null: tutorial = 2
 		2: if len(selected_building.commanders) != 0: tutorial = 3
 		3: if selected_leader != null: tutorial = 4
-		4: if selected_leader != null and len(selected_leader.squad) > 0: tutorial = 5
-		5: if mode == "Movement Marker": tutorial = 6
-		6: if $GameplayContainer.get_node_or_null("Target") == null:
+		4: if mode == "Movement Marker": tutorial = 5
+		5: if $GameplayContainer.get_node_or_null("Target") == null:
 			tutorial = -1
 			Message.message("", 0)
 			time_till_next_wave = 0
