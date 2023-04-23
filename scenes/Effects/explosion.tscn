@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cavhuuhfj8lg4"]
+[gd_scene load_steps=21 format=3 uid="uid://cavhuuhfj8lg4"]
 
 [ext_resource type="Texture2D" uid="uid://ysdurofqu55e" path="res://art/Enemies/Target/Death/frame_07_delay-0.01s.png" id="1_n1row"]
 [ext_resource type="Texture2D" uid="uid://i2jvtph61ob5" path="res://art/Enemies/Target/Death/frame_08_delay-0.01s.png" id="2_lcysa"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://b2bjtojikx38q" path="res://art/Enemies/Target/Death/frame_05_delay-0.01s.png" id="16_cg2m2"]
 [ext_resource type="Texture2D" uid="uid://ciop8nmepm01f" path="res://art/Enemies/Target/Death/frame_06_delay-0.01s.png" id="17_vjg8j"]
 [ext_resource type="Script" path="res://scripts/Animate/SpriteEffect.gd" id="18_wq3dp"]
+[ext_resource type="AudioStream" uid="uid://c0joeijv2fxxn" path="res://sound/explosion_delta.mp3" id="19_vlp5q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hb5ce"]
 animations = [{
@@ -83,3 +84,7 @@ sprite_frames = SubResource("SpriteFrames_hb5ce")
 frame = 16
 frame_progress = 1.0
 script = ExtResource("18_wq3dp")
+
+[node name="Boom" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("19_vlp5q")
+volume_db = -14.857

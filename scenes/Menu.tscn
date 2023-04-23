@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfcfad3clvrqo"]
+
+[ext_resource type="Texture2D" uid="uid://c3wx78o53pisx" path="res://art/Main Menu.png" id="1_tr6oj"]
+
+[node name="Node2D" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 380)
+scale = Vector2(0.666667, 0.703704)
+texture = ExtResource("1_tr6oj")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+offset_left = 943.0
+offset_top = 640.0
+offset_right = 1256.0
+offset_bottom = 725.0
+theme_override_font_sizes/font_size = 56
+text = "Start Game"

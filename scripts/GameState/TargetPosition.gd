@@ -17,6 +17,7 @@ var target #assume that this either a Bee, Bee-like, or a Building
 var source
 
 func _ready():
+	if used: $Bwoop.play()
 	$Sprite2D.texture = load(textures[texture])
 
 func _input(event):
@@ -26,3 +27,4 @@ func _input(event):
 				used = true
 				source = worldspace.selected_leader
 				target = self
+				$Bwoop.play()

@@ -1,10 +1,74 @@
-[gd_scene load_steps=9 format=3 uid="uid://c40ca1atp833e"]
+[gd_scene load_steps=23 format=3 uid="uid://c40ca1atp833e"]
 
 [ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_1lsrh"]
-[ext_resource type="SpriteFrames" uid="uid://cxnh7aaba7f58" path="res://art/Enemies/BeeSoldier/Base/bee_evil.tres" id="2_scf8n"]
+[ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_avcdq"]
+[ext_resource type="Texture2D" uid="uid://b6whlfn7b23jl" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_1.png" id="3_es08p"]
+[ext_resource type="Texture2D" uid="uid://dqa5r8fdspwo" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_2.png" id="4_4n04y"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="4_vbsev"]
+[ext_resource type="Texture2D" uid="uid://0vdi3rp7h84x" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_3.png" id="5_bpeed"]
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="5_qkmff"]
+[ext_resource type="Texture2D" uid="uid://b8swests30xo6" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_0.png" id="6_ncqfp"]
+[ext_resource type="Texture2D" uid="uid://bi4nujcnp8lxn" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_1.png" id="7_thdoa"]
 [ext_resource type="Script" path="res://scripts/Animate/Bee_Base_Animate.gd" id="8_4ydvr"]
+[ext_resource type="Texture2D" uid="uid://dwxeobpjjm3xq" path="res://art/YourTeam/BeeSoldier/Base/Death/Death_2.png" id="8_slf1o"]
+[ext_resource type="Texture2D" uid="uid://b5xuufrjt8wq4" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_0.png" id="9_7dejx"]
+[ext_resource type="Texture2D" uid="uid://bikwhjjimbaiq" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_1.png" id="10_qrc1t"]
+[ext_resource type="Texture2D" uid="uid://byphyt14fgj4o" path="res://art/YourTeam/BeeSoldier/Base/Idle/Idle_2.png" id="11_2656g"]
+[ext_resource type="AudioStream" uid="uid://da0u1mc3ovvuo" path="res://sound/poof_bee_spawn.mp3" id="13_2oak6"]
+[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="14_eodcg"]
+[ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="15_wfpag"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o8kac"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_avcdq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_es08p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4n04y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bpeed")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ncqfp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_thdoa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_slf1o")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_7dejx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qrc1t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_2656g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_qrc1t")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 24.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwus8"]
 radius = 17.0
@@ -12,6 +76,17 @@ height = 38.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(20, 24)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7pguf"]
+emission_shape = 1
+emission_sphere_radius = 13.32
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 16.04
+scale_max = 32.39
+color = Color(0, 0.647059, 0.129412, 0.152941)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3cn51"]
 radius = 22.0
@@ -32,7 +107,7 @@ team = "Evil"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -2)
-sprite_frames = ExtResource("2_scf8n")
+sprite_frames = SubResource("SpriteFrames_o8kac")
 animation = &"Attack"
 script = ExtResource("8_4ydvr")
 
@@ -50,8 +125,21 @@ shape = SubResource("RectangleShape2D_3gs5l")
 [node name="Effects" type="Node2D" parent="."]
 
 [node name="Spawn" type="GPUParticles2D" parent="Effects"]
-emitting = false
-one_shot = true
+process_material = SubResource("ParticleProcessMaterial_7pguf")
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Spawn" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("13_2oak6")
+volume_db = -14.857
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("14_eodcg")
+volume_db = -14.857
+
+[node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("15_wfpag")
+volume_db = -14.857
 
 [node name="DetectBox" type="Area2D" parent="."]
 collision_layer = 32

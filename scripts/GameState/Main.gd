@@ -10,6 +10,8 @@ var enemy_base : PackedScene = preload("res://scenes/Enemies/evil_bee_normal.tsc
 var target_ret = preload("res://scenes/TargetPosition.tscn")
 var explosion_effect = preload("res://scenes/Effects/explosion.tscn")
 
+var game_started = false
+
 @onready var Message = $GUI/Message
 @onready var Bee_Controls = $GUI/Bee_Controls
 @onready var Hive_Controls = $GUI/Hive_Controls
@@ -64,17 +66,21 @@ var message_bank = [
 	Destroy the target to finish this tutorial and start the game."
 ]
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	randomize()
+func _on_start_game_pressed():
+	game_started = true
+	$Menu.queue_free()
 	enemy_bees.append($GameplayContainer/Target)
-	$Camera.position = get_viewport_rect().size / 2
 	selected_building = player_hive.instantiate()
 	player_builds.append(selected_building)
 	$GameplayContainer.add_child(selected_building)
 	mode = "Building Place"
 	Position_Controls.get_node("Label").text = "Press Mouse1 to place."
-	#create(player_hive, null, get_viewport_rect().position + get_viewport_rect().size / 2)
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	randomize()
+	$Camera.position = get_viewport_rect().size / 2
 
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
@@ -283,6 +289,7 @@ func handle_targets():
 	targets = ref_list
 
 func _physics_process(_delta):
+	if !game_started: return
 	handle_game_portion()
 	player_turn()
 	enemy_turn()
@@ -304,6 +311,7 @@ func handle_tutorial():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if !game_started: return
 	if mode == "Start Game":
 		tutorial = 1
 		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."

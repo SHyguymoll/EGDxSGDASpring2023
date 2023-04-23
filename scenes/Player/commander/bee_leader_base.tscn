@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c53pblehghkug"]
+[gd_scene load_steps=33 format=3 uid="uid://c53pblehghkug"]
 
 [ext_resource type="Script" path="res://scripts/GameState/bee_leader_base.gd" id="1_tqcfy"]
 [ext_resource type="Texture2D" uid="uid://o64lctrty1yi" path="res://art/YourTeam/BeeCommander/Attack/Attack_0.png" id="3_dkddi"]
@@ -19,6 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://cpcw88qrfws71" path="res://art/GUI/BeeBars/Commander/SpawnBee/SpawnBee_Progress.png" id="14_2uj2u"]
 [ext_resource type="Texture2D" uid="uid://vollrn8221ca" path="res://art/GUI/BeeBars/Solder/Attack_Under.png" id="15_3n1e0"]
 [ext_resource type="Texture2D" uid="uid://ck2nc2oy2oxj5" path="res://art/GUI/BeeBars/Solder/Attack_Progress.png" id="16_wc7hc"]
+[ext_resource type="AudioStream" uid="uid://da0u1mc3ovvuo" path="res://sound/poof_bee_spawn.mp3" id="19_q3i1g"]
+[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="20_h6mi0"]
+[ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="21_dpevq"]
 [ext_resource type="Texture2D" uid="uid://etvfejfmcfe6" path="res://art/GUI/BeeBars/Commander/GenericAbility/GenericAbility_Under.png" id="21_lt0fp"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="21_pv4yx"]
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="22_6wgvs"]
@@ -103,11 +106,14 @@ height = 260.0
 size = Vector2(53, 55)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qqxdp"]
-particle_flag_disable_z = true
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 42.75
 direction = Vector3(1, 1, 0)
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, -98, 0)
+scale_min = 11.69
+scale_max = 11.69
+color = Color(1, 1, 0.254902, 0.627451)
 
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
 input_pickable = true
@@ -188,8 +194,25 @@ texture_progress = ExtResource("22_6wgvs")
 
 [node name="Spawn" type="GPUParticles2D" parent="Effects"]
 emitting = false
+amount = 32
 process_material = SubResource("ParticleProcessMaterial_qqxdp")
+lifetime = 0.25
 one_shot = true
+explosiveness = 1.0
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Spawn" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("19_q3i1g")
+volume_db = -14.857
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("20_h6mi0")
+volume_db = -14.857
+
+[node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("21_dpevq")
+volume_db = -14.857
 
 [node name="BeeCreateBar" type="TextureProgressBar" parent="."]
 offset_left = -64.0

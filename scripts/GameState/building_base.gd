@@ -28,6 +28,10 @@ func tick_timers():
 	spawn_time = min(spawn_time + 1, spawn_timer)
 	health = min(health + 0.001*(level), health_max)
 
+func try_sound(node_name : String):
+	if $Sounds.get_node_or_null(node_name) != null:
+		$Sounds.get_node(node_name).play()
+
 func _on_mouse_entered():
 	hovered = true and placed
 
@@ -56,6 +60,7 @@ func handle_destroy():
 	worldspace.game_over()
 
 func pain(dmg: float, _accuracy: float):
+	try_sound("Hit")
 	health -= dmg
 
 func ability_available():
@@ -69,6 +74,7 @@ func use_passive():
 	pass
 
 func level_building(new_val : int):
+	try_sound("LevelUp")
 	level = new_val
 	$Sprite2D.frame = new_val
 

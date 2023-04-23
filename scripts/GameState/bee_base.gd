@@ -16,6 +16,7 @@ class_name Bee extends CharacterBody2D
 @onready var target_position_randomize : Vector2 = random_pos()
 @onready var atk_time = atk_timer
 @onready var sfx = $Effects
+@onready var sound = $Sounds
 @onready var throw_hands = $HurtBox
 @onready var detect = $DetectBox
 @onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
@@ -31,9 +32,14 @@ func try_sfx(node_name : String):
 	if sfx.get_node_or_null(node_name) != null:
 		sfx.get_node(node_name).emitting = true
 
+func try_sound(node_name : String):
+	if sound.get_node_or_null(node_name) != null:
+		sound.get_node(node_name).play()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	try_sfx("Spawn")
+	try_sound("Spawn")
 	pass # Replace with function body.
 
 func random_pos():
@@ -109,7 +115,10 @@ func check_attack():
 
 func pain(dmg: float, dmg_accuracy: float):
 	if randf() > (accuracy - dmg_accuracy)/accuracy:
+		try_sound("Hit")
 		health -= dmg
+	else:
+		try_sound("Miss")
 
 func handle_death():
 	if leader != null:

@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://conxw3pt5paff"]
+[gd_scene load_steps=4 format=3 uid="uid://conxw3pt5paff"]
 
 [ext_resource type="Script" path="res://scripts/GameState/TargetPosition.gd" id="1_ipkvh"]
 [ext_resource type="Texture2D" uid="uid://cv17u7blhk7m4" path="res://art/GUI/Reticles/SelectionReticle.png" id="2_nweyg"]
+[ext_resource type="AudioStream" uid="uid://cy5ph2c0orm22" path="res://sound/target_enemy.mp3" id="3_dkxvr"]
 
 [node name="TargetPosition" type="Node2D"]
 script = ExtResource("1_ipkvh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_nweyg")
+
+[node name="Bwoop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_dkxvr")

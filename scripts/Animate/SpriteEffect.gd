@@ -9,6 +9,7 @@ func _process(delta):
 			timer += delta
 			if timer >= start:
 				play()
+				$Boom.play()
 				part = 1
 		1:
 			if !is_playing(): queue_free()

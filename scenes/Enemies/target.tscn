@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpbf8d77055t5"]
+[gd_scene load_steps=9 format=3 uid="uid://dpbf8d77055t5"]
 
 [ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_281rf"]
 [ext_resource type="SpriteFrames" uid="uid://bpa1xm08er4fh" path="res://art/Enemies/Target/target.tres" id="2_fddc6"]
 [ext_resource type="Script" path="res://scripts/Animate/Target_Animate.gd" id="3_wb78r"]
+[ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="4_onyc4"]
+[ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="5_5n64c"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qwus8"]
 radius = 17.0
@@ -50,6 +52,16 @@ shape = SubResource("RectangleShape2D_3gs5l")
 [node name="Spawn" type="GPUParticles2D" parent="Effects"]
 emitting = false
 one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("4_onyc4")
+volume_db = -14.857
+
+[node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("5_5n64c")
+volume_db = -14.857
 
 [node name="DetectBox" type="Area2D" parent="."]
 collision_layer = 32
