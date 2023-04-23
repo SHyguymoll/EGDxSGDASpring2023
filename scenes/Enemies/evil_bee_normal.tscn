@@ -136,11 +136,11 @@ volume_db = -14.857
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("14_eodcg")
-volume_db = -14.857
+volume_db = -35.0
 
 [node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("15_wfpag")
-volume_db = -14.857
+volume_db = -35.0
 
 [node name="DetectBox" type="Area2D" parent="."]
 collision_layer = 32

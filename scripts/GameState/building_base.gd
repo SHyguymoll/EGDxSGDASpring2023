@@ -63,9 +63,10 @@ func pain(dmg: float, _accuracy: float):
 	health -= dmg
 
 func ability_available():
-	return (len(commanders) <= level) and (spawn_time == spawn_timer)
+	return (len(commanders) <= level) and (spawn_time == spawn_timer) and (worldspace.honey_points >= 5)
 
 func use_ability():
+	worldspace.honey_points -= 5
 	worldspace.spawn_player_bee(create, null, self, global_position)
 	spawn_time = 0
 

@@ -206,11 +206,11 @@ volume_db = -14.857
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("20_ka0rm")
-volume_db = -14.857
+volume_db = -35.0
 
 [node name="Miss" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("21_qb4xy")
-volume_db = -14.857
+volume_db = -35.0
 
 [node name="BeeCreateBar" type="TextureProgressBar" parent="."]
 offset_left = -64.0

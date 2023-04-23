@@ -40,7 +40,7 @@ var time_till_next_wave : int = -1
 var selected_leader : Bee_Leader #A leader that the player has selected, mutually exclusive with selected_building
 var selected_building : Building #A building that the player has selected, mutually exclusive with selected_leader
 var current_target : Target #A target that the player is manipulating
-var honey_points : int = 0
+var honey_points : int = 5
 var hive_placed : Vector2 = Vector2.ZERO
 var modes = ["View", "Movement Marker", "Building Place", "Game Over"]
 var game_portions = ["Tutorial", "Pre Wave", "Incoming Enemies", "During Wave", "Game Over"]
@@ -323,6 +323,7 @@ func handle_tutorial():
 			tutorial = -1
 			Message.message("", 0)
 			time_till_next_wave = 0
+			$BackgroundMusic.play()
 			game_portion = "Pre Wave"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

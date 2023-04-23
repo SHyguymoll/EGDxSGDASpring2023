@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfortnc847ow4"]
+[gd_scene load_steps=9 format=3 uid="uid://bfortnc847ow4"]
 
 [ext_resource type="Script" path="res://scripts/GameState/Main.gd" id="1_cthxf"]
 [ext_resource type="Texture2D" uid="uid://c3wx78o53pisx" path="res://art/Main Menu.png" id="2_a4bg3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/GameState/Message.gd" id="3_vjut1"]
 [ext_resource type="AudioStream" uid="uid://s2cdym2lhluv" path="res://sound/denied.mp3" id="4_02r1f"]
 [ext_resource type="AudioStream" uid="uid://eo5gqjbvs6w4" path="res://sound/power_up.mp3" id="5_qopw0"]
+[ext_resource type="AudioStream" uid="uid://cpwcfp62o2hdt" path="res://sound/music/Punch Deck - Neon Underworld.mp3" id="8_tkpi2"]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_cthxf")
@@ -173,12 +174,14 @@ layout_mode = 3
 anchors_preset = 0
 offset_top = -1.0
 offset_right = 213.0
-offset_bottom = 122.0
+offset_bottom = 84.0
 
 [node name="CurrentWave" type="Label" parent="GUI/Wave_HUD"]
 layout_mode = 1
 offset_right = 40.0
 offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "Current Wave"
 
 [node name="EnemiesLeft" type="Label" parent="GUI/Wave_HUD"]
 layout_mode = 1
@@ -188,15 +191,18 @@ anchor_bottom = 1.0
 offset_top = -23.0
 offset_right = 40.0
 grow_vertical = 0
+theme_override_font_sizes/font_size = 28
+text = "Enemies Left"
 
 [node name="Score" type="Label" parent="GUI"]
 anchors_preset = -1
 anchor_top = 0.178
 anchor_bottom = 0.178
-offset_top = -13.28
-offset_right = 52.0
-offset_bottom = 12.72
+offset_top = -42.16
+offset_right = 77.0
+offset_bottom = -5.16
 grow_vertical = 2
+theme_override_font_sizes/font_size = 24
 text = "Score: "
 
 [node name="GameplayContainer" type="CanvasLayer" parent="."]
@@ -204,6 +210,10 @@ follow_viewport_enabled = true
 
 [node name="Target" parent="GameplayContainer" instance=ExtResource("3_1b7p5")]
 position = Vector2(636, 600)
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_tkpi2")
+volume_db = -30.497
 
 [connection signal="pressed" from="Menu/Node2D/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="GUI/Bee_Controls/MoveCommander" to="." method="_on_move_commander_pressed"]
