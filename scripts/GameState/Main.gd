@@ -365,10 +365,14 @@ func _on_move_commander_pressed():
 func _on_use_ability_pressed():
 	if selected_leader.ability_available():
 		selected_leader.use_ability()
+	else:
+		Bee_Controls.get_node("UseAbility/Denied").play()
 
 func _on_building_action_pressed():
 	if selected_building.ability_available():
 		selected_building.use_ability()
+	else:
+		Hive_Controls.get_node("BuildingAction/Denied").play()
 
 func _on_destroy_building_pressed():
 	if selected_building.building_name != "Hive":
@@ -378,3 +382,5 @@ func _on_level_building_pressed():
 	if honey_points >= selected_building.level_cost:
 		honey_points -= selected_building.level_cost
 		selected_building.level_building(selected_building.level + 1)
+	else:
+		Hive_Controls.get_node("LevelBuilding/Denied").play()
