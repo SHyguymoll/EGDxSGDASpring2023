@@ -20,6 +20,7 @@ spawn_timer = 100
 health = 10.0
 health_max = 10.0
 building_name = "Hive"
+team = "Player"
 create = ExtResource("2_qppne")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -13,17 +13,16 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
-var leader_data : Dictionary = {
-	"bee": [],
-	"other": []
-}
+var squad : Array[Bee] = []
+var other_data : Array = []
+
 var hovered = false
 var selected = false
 
 func debug():
 	pass
 
-func tickTimers():
+func tick_timers():
 	atk_time = min(atk_time + 1, atk_timer)
 	spawn_time = min(spawn_time + 1, spawn_timer)
 	ability_time = min(ability_time + 1, ability_timer)
@@ -38,18 +37,16 @@ func handle_death(): #Legends never die, they just respawn
 		visible = true
 	resp_time = min(resp_time + 1, resp_timer)
 
-func sight_decision(): #for Commanders
-	match encounter_move:
-		"rushdown": #all of the bees at one threat
-			if (current_target == null or current_target.is_queued_for_deletion()) and len(leader_data.bee) > 0:
-				var pick_enemy = can_see[max(randi_range(0, len(can_see) - 1), 0)]
-				current_target = worldspace.attach_target(pick_enemy, "bee_lead_attack")
-				print("created target " + str(current_target) + " on " + str(pick_enemy))
-				for bee in leader_data.bee:
-					bee.target = current_target
-					bee.mode = "directed"
-		"divide and conquer": #proportion bees to number of threats
-			pass
+func change_target(): #for Commanders
+	if len(can_see) > 0:
+		match encounter_move:
+			"rushdown": #just pick a new one without any thought
+				current_target = can_see.pick_random()
+				worldspace.attach_target(current_target, "bee_lead_attack")
+				for bee in squad:
+					bee.order("push", current_target.global_position)
+	else: #no enemies in sight
+		current_target = null
 
 func leader_on_attack(): #ditto
 	pass
