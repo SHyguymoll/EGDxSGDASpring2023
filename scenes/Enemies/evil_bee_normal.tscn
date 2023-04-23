@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://c40ca1atp833e"]
 
-[ext_resource type="Script" path="res://scripts/GameState/Player/bee_base.gd" id="1_xdqvc"]
+[ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_1lsrh"]
 [ext_resource type="SpriteFrames" uid="uid://cxnh7aaba7f58" path="res://art/Enemies/BeeSoldier/Base/bee_evil.tres" id="2_scf8n"]
 [ext_resource type="Texture2D" uid="uid://ddb2b1bcxdp3p" path="res://art/GUI/BeeBars/Health_Under.png" id="4_vbsev"]
 [ext_resource type="Texture2D" uid="uid://dqkpru27xaq4t" path="res://art/GUI/BeeBars/Health_Progress.png" id="5_qkmff"]
@@ -18,15 +18,16 @@ radius = 129.0
 height = 258.0
 
 [node name="Bee_Evil" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
-script = ExtResource("1_xdqvc")
+script = ExtResource("1_1lsrh")
 health = 1.0
 health_max = 1.0
-atk = 0.25
+atk = 0.2
 atk_timer = 40.0
 speed = 0.5
 accuracy = 0.2
 leader = NodePath("")
-formation_closeness = 50.0
+score_gain = 3
+formation_closeness = 75.0
 team = "Evil"
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
@@ -35,11 +36,11 @@ sprite_frames = ExtResource("2_scf8n")
 animation = &"Attack"
 script = ExtResource("8_4ydvr")
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 6
 
-[node name="EffectArea" type="CollisionShape2D" parent="Hurtbox"]
+[node name="EffectArea" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CapsuleShape2D_qwus8")
 
 [node name="PhysicsBox" type="CollisionShape2D" parent="."]

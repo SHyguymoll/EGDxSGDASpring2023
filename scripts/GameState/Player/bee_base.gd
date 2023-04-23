@@ -22,7 +22,7 @@ const COMPLETION_RANGE = 10
 @onready var throw_hands = $HurtBox
 @onready var detect = $DetectBox
 @onready var modes = ["hover", "follow", "directed", "attack", "post_attack", "death"]
-@onready var worldspace = get_tree().get_root().get_node("Stage")
+@onready var worldspace : world = get_tree().get_root().get_node("Stage")
 
 var can_see = []
 var can_hurt = []
@@ -96,6 +96,15 @@ func debug():
 	pass
 	#print(target.global_position)
 
+func pick_location():
+	match mode:
+		"hover":
+			target_position = global_position
+		"follow":
+			target_position = leader.global_position + random_pos() + target_position_randomize
+		"directed":
+			target_position = target.global_position + target_position_randomize if target.used else global_position
+
 func _physics_process(_delta):
 	match mode:
 		"hover", "follow", "directed":
@@ -108,13 +117,7 @@ func _physics_process(_delta):
 			if len(can_hurt) > 0:
 				mode = "attack"
 			#yo dog I heard you liked match statements
-			match mode:
-				"hover":
-					target_position = global_position
-				"follow":
-					target_position = leader.global_position + random_pos() + target_position_randomize
-				"directed":
-					target_position = target.global_position + target_position_randomize if target.used else global_position
+			pick_location()
 			global_position += global_position.direction_to(target_position) * speed
 			if mode == "directed" and target.used:
 				if position.distance_to(target_position) < COMPLETION_RANGE:

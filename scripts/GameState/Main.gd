@@ -4,9 +4,11 @@ extends Node2D
 
 var player_bee_lead_base : PackedScene = preload("res://scenes/Player/commander/bee_leader_base.tscn")
 var player_hive : PackedScene = preload("res://scenes/Player/building/Hive.tscn")
+
+var enemy_base : PackedScene = preload("res://scenes/Enemies/evil_bee_normal.tscn")
+
 var target_ret = preload("res://scenes/TargetPosition.tscn")
 var explosion_effect = preload("res://scenes/Effects/explosion.tscn")
-#@export var player_bee_base : CharacterBody2D
 
 @onready var Message = $GUI/Message
 @onready var Bee_Controls = $GUI/Bee_Controls
@@ -18,13 +20,14 @@ var selected_leader : Bee_Leader
 var current_target : Target
 var selected_building : Building
 var honey_points : int = 0
-var hive_placed : bool = false
+var hive_placed : Vector2 = Vector2.ZERO
 var modes = ["View", "Movement Marker", "Building Place", "Game Over"]
 var game_portions = ["Tutorial", "Pre Wave", "Incoming Enemies", "During Wave", "Game Over"]
 var game_portion = "Tutorial"
 var wave : int = 0
 var enemies_to_spawn : int = 0
 var enemies_here = []
+var time_till_next_wave : int = -1
 var mode = "View"
 
 var tutorial : int = 0
@@ -63,7 +66,7 @@ func _ready():
 func random_pos():
 	return Vector2(randf() - 0.5, randf() - 0.5) * 100
 
-#leader could be Bee_Leader or Building
+#leader could be Bee_Leader, Building
 func create(new_thing : PackedScene, leader, pos : Vector2):
 	var new_thing_inst = new_thing.instantiate()
 	if new_thing_inst is Bee_Leader:
@@ -71,9 +74,14 @@ func create(new_thing : PackedScene, leader, pos : Vector2):
 		new_thing_inst.position = pos
 		new_thing_inst.mode = "hover"
 	elif new_thing_inst is Bee:
-		new_thing_inst.leader = leader
-		new_thing_inst.position = leader.position + random_pos()
-		new_thing_inst.mode = "follow"
+		if leader != null:
+			new_thing_inst.leader = leader
+			new_thing_inst.position = leader.position + random_pos()
+			new_thing_inst.mode = "follow"
+		else:
+			new_thing_inst.position = pos
+			new_thing_inst.target_position = hive_placed
+			new_thing_inst.mode = "directed"
 	elif new_thing_inst is Building:
 		new_thing_inst.position = pos
 		new_thing_inst.level = 0
@@ -99,6 +107,26 @@ func game_over():
 	Message.message("Your Hive was destroyed. Game Over.", 5)
 	pass
 
+func pick_coord_outside_view():
+	if randf() >= 0.5: #top
+		if randf() >= 0.5: #left
+			return get_viewport_rect().get_center() - Vector2(randi_range(1280, 1500), randi_range(760, 1000))
+		else: #right
+			return get_viewport_rect().get_center() - Vector2(randi_range(-1280, -1500), randi_range(760, 1000))
+	else: #bottom
+		if randf() >= 0.5: #left
+			return get_viewport_rect().get_center() - Vector2(randi_range(1280, 1500), randi_range(-760, -1000))
+		else: #right
+			return get_viewport_rect().get_center() - Vector2(randi_range(-1280, -1500), randi_range(-760, -1000))
+
+func spawn_enemies():
+	for n in range(3*(wave)): #basic bee
+		enemies_here.append(create(enemy_base, null, pick_coord_outside_view()))
+	if wave > 5: #pesticider
+		for n in range((wave - 4) * 1.2):
+			pass
+#			enemies_here.append()
+
 func _physics_process(_delta):
 	match game_portion:
 		"Tutorial":
@@ -107,9 +135,21 @@ func _physics_process(_delta):
 			Wave_HUD.show()
 			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
 			Wave_HUD.get_node("EnemiesLeft").text = "No Enemies, prepare for next wave."
-		"Incoming Enemies", "During Wave":
+			time_till_next_wave = max(time_till_next_wave - 1, 0)
+			if time_till_next_wave == 0:
+				game_portion = "Incoming Enemies"
+		"Incoming Enemies":
+			spawn_enemies()
 			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
 			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemies_here)) + "/" + str(enemies_to_spawn)
+			game_portion = "During Wave"
+		"During Wave":
+			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
+			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemies_here)) + "/" + str(enemies_to_spawn)
+			if len(enemies_here) == 0:
+				wave += 1
+				time_till_next_wave = 600/(wave * 0.75)
+				game_portion = "Pre Wave"
 		"Game Over":
 			Wave_HUD.get_node("CurrentWave").text = "Final Wave: " + str(wave)
 			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemies_here)) + "/" + str(enemies_to_spawn)
@@ -120,6 +160,7 @@ func _process(_delta):
 		tutorial = 1
 		$GUI/Position_Controls/Label.text = "Press Mouse1 to place, or press Backspace to cancel."
 		mode = "View"
+	$GUI/Score.text = "Score: " + str(honey_points)
 	Bee_Controls.visible = (selected_leader != null) and (mode == "View")
 	Hive_Controls.visible = (selected_building != null) and (mode == "View")
 	if selected_building != null:
@@ -155,7 +196,10 @@ func _process(_delta):
 			3: if selected_leader != null: tutorial = 4
 			4: if selected_leader != null and len(selected_leader.leader_data.bee) > 0: tutorial = 5
 			5: if mode == "Movement Marker": tutorial = 6
-			6: if $GameplayContainer.get_node_or_null("Target") == null: tutorial = -1; Message.message("", 0)
+			6: if $GameplayContainer.get_node_or_null("Target") == null:
+				tutorial = -1
+				Message.message("", 0)
+				game_portion = "Pre Wave"
 
 func _on_move_commander_pressed():
 	mode = "Movement Marker"
@@ -173,9 +217,9 @@ func _on_try_to_spawn_pressed():
 			selected_leader.spawn_time = 0
 			selected_leader.leader_data.bee.append(create(load(selected_leader.spawn), selected_leader, Vector2.ZERO))
 		else:
-			Message.text = "Commander reached bee limit"
+			Message.message("Commander reached bee limit", 1.0)
 	else:
-		Message.text = "Commander can't create a bee yet"
+		Message.message("Commander can't create a bee yet", 1.0)
 		
 	
 func _on_use_ability_pressed():

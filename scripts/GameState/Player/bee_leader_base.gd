@@ -10,6 +10,7 @@ class_name Bee_Leader extends "res://scripts/GameState/Player/bee_base.gd"
 @export var resp_timer : int
 @export var encounter_move : String
 @export var soldier_limit : int
+
 var target_icon = preload("res://scenes/TargetPosition.tscn")
 
 var current_target
@@ -42,7 +43,7 @@ func handle_death(): #Legends never die, they just respawn
 func leader_action(): #for Commanders
 	match encounter_move:
 		"rushdown":
-			if current_target == null or current_target.is_queued_for_deletion():
+			if (current_target == null or current_target.is_queued_for_deletion()) and len(leader_data.bee) > 0:
 				var pick_enemy = can_see[max(randi_range(0, len(can_see) - 1), 0)]
 				current_target = worldspace.attach_target(pick_enemy, "bee_lead_attack")
 				for bee in leader_data.bee:

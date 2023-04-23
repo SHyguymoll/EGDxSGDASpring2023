@@ -72,7 +72,7 @@ func level_building(new_val : int):
 	$Sprite2D.frame = new_val
 
 func placed_action():
-	worldspace.hive_placed = true
+	worldspace.hive_placed = global_position
 	worldspace.mode = "Start Game"
 
 func _input(event):
