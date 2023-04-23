@@ -47,9 +47,11 @@ shape = SubResource("RectangleShape2D_3gs5l")
 
 [node name="Effects" type="Node2D" parent="."]
 
-[node name="Spawn" type="GPUParticles2D" parent="Effects"]
+[node name="Spawn" type="CPUParticles2D" parent="Effects"]
 emitting = false
 one_shot = true
+fixed_fps = 30
+draw_order = 1
 
 [node name="Sounds" type="Node2D" parent="."]
 

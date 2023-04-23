@@ -51,6 +51,8 @@ func _process(_delta):
 func handle_destroy():
 	for n in range(3): worldspace.effect("explosion", global_position + random_pos(), 0.15 * n)
 	for lead in commanders:
+		if !is_instance_valid(lead):
+			continue
 		for bee in lead.squad:
 			bee.health = -10
 		lead.health = -10

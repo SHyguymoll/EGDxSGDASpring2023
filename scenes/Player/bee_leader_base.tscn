@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://c53pblehghkug"]
+[gd_scene load_steps=32 format=3 uid="uid://c53pblehghkug"]
 
 [ext_resource type="Script" path="res://scripts/GameState/bee_leader_base.gd" id="1_bwlkk"]
 [ext_resource type="PackedScene" uid="uid://degfpqi3kwn47" path="res://scenes/Effects/leader_bee_base_knockout.tscn" id="2_w5xwc"]
@@ -105,16 +105,6 @@ height = 260.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(53, 55)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qqxdp"]
-lifetime_randomness = 1.0
-emission_shape = 1
-emission_sphere_radius = 42.75
-direction = Vector3(1, 1, 0)
-gravity = Vector3(0, -98, 0)
-scale_min = 11.69
-scale_max = 11.69
-color = Color(1, 1, 0.254902, 0.627451)
-
 [node name="Bee_Lead_Normal" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_bwlkk")
@@ -190,13 +180,22 @@ texture_progress = ExtResource("18_e8pb4")
 
 [node name="Effects" type="Node2D" parent="."]
 
-[node name="Spawn" type="GPUParticles2D" parent="Effects"]
+[node name="Spawn" type="CPUParticles2D" parent="Effects"]
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_qqxdp")
 lifetime = 0.25
 one_shot = true
 explosiveness = 1.0
+lifetime_randomness = 1.0
+fixed_fps = 30
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 42.75
+direction = Vector2(1, 1)
+gravity = Vector2(0, -98)
+scale_amount_min = 11.69
+scale_amount_max = 11.69
+color = Color(1, 1, 0.254902, 0.627451)
 
 [node name="Sounds" type="Node2D" parent="."]
 

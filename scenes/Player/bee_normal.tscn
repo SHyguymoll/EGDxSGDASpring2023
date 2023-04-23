@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cutd1exuf0dd6"]
+[gd_scene load_steps=24 format=3 uid="uid://cutd1exuf0dd6"]
 
 [ext_resource type="Script" path="res://scripts/GameState/bee_base.gd" id="1_hgam2"]
 [ext_resource type="PackedScene" uid="uid://dnt181m45c005" path="res://scenes/Effects/player_bee_death.tscn" id="2_pgvwc"]
@@ -82,17 +82,6 @@ height = 74.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(20, 24)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q0y2o"]
-emission_shape = 1
-emission_sphere_radius = 13.32
-particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-scale_min = 11.68
-scale_max = 11.68
-color = Color(1, 1, 0, 0.4)
-
 [node name="Bee_Normal" type="CharacterBody2D" node_paths=PackedStringArray("leader")]
 script = ExtResource("1_hgam2")
 health = 1.0
@@ -162,12 +151,19 @@ texture_progress = ExtResource("16_ojytt")
 
 [node name="Effects" type="Node2D" parent="."]
 
-[node name="Spawn" type="GPUParticles2D" parent="Effects"]
+[node name="Spawn" type="CPUParticles2D" parent="Effects"]
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_q0y2o")
 lifetime = 0.25
 one_shot = true
+fixed_fps = 30
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 13.32
+gravity = Vector2(0, 0)
+scale_amount_min = 11.68
+scale_amount_max = 11.68
+color = Color(1, 1, 0, 0.4)
 
 [node name="Sounds" type="Node2D" parent="."]
 

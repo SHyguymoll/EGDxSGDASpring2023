@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c40ca1atp833e"]
+[gd_scene load_steps=22 format=3 uid="uid://c40ca1atp833e"]
 
 [ext_resource type="Script" path="res://scripts/GameState/evil_bee_extend.gd" id="1_0bqa1"]
 [ext_resource type="Texture2D" uid="uid://b03cq4pvy8hsn" path="res://art/YourTeam/BeeSoldier/Base/Attack/Attack_0.png" id="2_avcdq"]
@@ -77,17 +77,6 @@ height = 38.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gs5l"]
 size = Vector2(20, 24)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7pguf"]
-emission_shape = 1
-emission_sphere_radius = 13.32
-particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-scale_min = 16.04
-scale_max = 32.39
-color = Color(0, 0.647059, 0.129412, 0.419608)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3cn51"]
 radius = 22.0
 height = 44.0
@@ -124,8 +113,15 @@ shape = SubResource("RectangleShape2D_3gs5l")
 
 [node name="Effects" type="Node2D" parent="."]
 
-[node name="Spawn" type="GPUParticles2D" parent="Effects"]
-process_material = SubResource("ParticleProcessMaterial_7pguf")
+[node name="Spawn" type="CPUParticles2D" parent="Effects"]
+fixed_fps = 30
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 13.32
+gravity = Vector2(0, 0)
+scale_amount_min = 16.04
+scale_amount_max = 32.39
+color = Color(0, 0.647059, 0.129412, 0.419608)
 
 [node name="Sounds" type="Node2D" parent="."]
 

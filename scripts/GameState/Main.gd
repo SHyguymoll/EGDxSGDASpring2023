@@ -292,7 +292,7 @@ func handle_targets():
 			tar.global_position = get_global_mouse_position()
 			continue
 		else:
-			if is_instance_valid(tar.target) and tar.target != null:
+			if is_instance_valid(tar.target) and is_instance_valid(tar.source) and tar.target != null:
 				tar.source.mode = "directed"
 				tar.global_position = tar.target.global_position
 			else:
