@@ -18,7 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://cy7kbd8160gnq" path="res://sound/bee_hit.mp3" id="14_eodcg"]
 [ext_resource type="AudioStream" uid="uid://dgrxq2iv3upac" path="res://sound/bee_miss.mp3" id="15_wfpag"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_vfosr"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_savga"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -86,7 +86,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 scale_min = 16.04
 scale_max = 32.39
-color = Color(0, 0.647059, 0.129412, 0.152941)
+color = Color(0, 0.647059, 0.129412, 0.419608)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3cn51"]
 radius = 22.0
@@ -106,7 +106,7 @@ formation_closeness = 75.0
 team = "Evil"
 
 [node name="Animate" parent="." instance=ExtResource("2_c2knt")]
-sprite_frames = SubResource("SpriteFrames_vfosr")
+sprite_frames = SubResource("SpriteFrames_savga")
 animation = &"Idle"
 frame = 0
 frame_progress = 0.0

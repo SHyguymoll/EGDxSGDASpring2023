@@ -118,7 +118,7 @@ func spawn_enemy_bee(bee_scene : PackedScene, pos : Vector2):
 	new_bee.atk_timer /= 1 + (float(wave)/10)
 	new_bee.speed *= 1 + (float(wave)/3)
 	new_bee.accuracy *= 1 + (float(wave)/2)
-	new_bee.point_gain *= 1 + (float(wave)/5)
+	new_bee.score_gain *= 1 + (float(wave)/5)
 	
 	enemy_bees.append(new_bee)
 	$GameplayContainer.add_child(new_bee)
