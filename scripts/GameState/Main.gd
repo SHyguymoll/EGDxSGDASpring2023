@@ -184,18 +184,18 @@ func handle_game_portion():
 			Wave_HUD.hide()
 		"Pre Wave":
 			Wave_HUD.show()
-			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
+			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave + 1)
 			Wave_HUD.get_node("EnemiesLeft").text = "No Enemies, prepare for next wave."
 			time_till_next_wave = max(time_till_next_wave - 1, 0)
 			if time_till_next_wave == 0:
 				game_portion = "Incoming Enemies"
 		"Incoming Enemies":
 			spawn_enemies()
-			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
+			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave + 1)
 			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemy_bees)) + "/" + str(enemy_total)
 			game_portion = "During Wave"
 		"During Wave":
-			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave)
+			Wave_HUD.get_node("CurrentWave").text = "Current Wave: " + str(wave + 1)
 			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemy_bees)) + "/" + str(enemy_total)
 			if len(enemy_bees) + len(enemy_builds) == 0:
 				wave += 1
@@ -203,7 +203,7 @@ func handle_game_portion():
 				time_till_next_wave = 600/(wave * 0.75)
 				game_portion = "Pre Wave"
 		"Game Over":
-			Wave_HUD.get_node("CurrentWave").text = "Final Wave: " + str(wave)
+			Wave_HUD.get_node("CurrentWave").text = "Final Wave: " + str(wave + 1)
 			Wave_HUD.get_node("EnemiesLeft").text = str(len(enemy_bees)) + "/" + str(enemy_total)
 
 const COMPLETION_RANGE = 10
