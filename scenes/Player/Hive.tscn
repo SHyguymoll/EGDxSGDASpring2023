@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://sacw76ems26f"]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/GameState/building_base.gd" id="1_w4rcu"]
 [ext_resource type="PackedScene" uid="uid://c53pblehghkug" path="res://scenes/Player/bee_leader_base.tscn" id="2_ol0qe"]
