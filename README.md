@@ -1,7 +1,7 @@
 # RBeeS
 Made for the EGD x SGDA Spring 2023 48H Game Jam
 
-Won "Best Gameplay Potential"
+Won "Gameplay Direction" award
 
 ![](success.png)
 
